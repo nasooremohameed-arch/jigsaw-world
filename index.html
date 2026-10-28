@@ -1,1 +1,477 @@
-و
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="theme-color" content="#101323">
+
+<title>Jigsaw World</title>
+
+<style>
+
+:root{--bg:#101323;--panel:#1b2035;--line:#343a54;--text:#f7f7ff;--muted:#b7bdd2;--accent:#a99aff}
+
+*{box-sizing:border-box}
+
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Arial,sans-serif}
+
+button,select,input{font:inherit}
+
+button{cursor:pointer;border:0;border-radius:13px;padding:14px 18px;font-weight:750}
+
+header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}
+
+.logo{font-size:21px;font-weight:850}.logo span{color:var(--accent)}
+
+main{max-width:800px;margin:auto;padding:18px 15px 45px}
+
+.screen{display:none}.screen.active{display:block}
+
+.hero{text-align:center;padding:12px 0 25px}
+
+.art{height:210px;border-radius:24px;overflow:hidden;position:relative;margin-bottom:24px;background:linear-gradient(160deg,#151a37,#6056a0,#e3a7b4,#f6c18b)}
+
+.art:before{content:"";position:absolute;width:70px;height:70px;right:18%;top:24px;border-radius:50%;background:#fff0c7;box-shadow:0 0 35px #fff0c7}
+
+.art:after{content:"";position:absolute;bottom:-80px;left:-10%;width:120%;height:150px;background:#252d50;border-radius:50% 50% 0 0}
+
+.art span{position:relative;z-index:1;display:block;padding-top:55px;font-size:65px}
+
+h1{font-size:clamp(35px,9vw,56px);line-height:1.05;margin:12px 0}
+
+h1 span{color:var(--accent)}
+
+p{color:var(--muted);line-height:1.65}
+
+.eyebrow{color:var(--accent);font-size:12px;letter-spacing:3px;font-weight:800}
+
+.menu{display:grid;gap:11px;max-width:420px;margin:24px auto}
+
+.primary{background:var(--accent);color:#171329;width:100%}
+
+.secondary{background:#303751;color:white}
+
+.menu button{min-height:53px}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:19px;padding:19px;margin:15px 0}
+
+h2{margin:0 0 15px;font-size:21px}
+
+label{display:block;color:var(--muted);margin:14px 0 7px}
+
+select{width:100%;padding:13px;border-radius:11px;border:1px solid var(--line);background:#292f47;color:white}
+
+.toggle{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+
+.toggle:last-child{border:0}
+
+input[type=checkbox]{width:22px;height:22px;accent-color:#a99aff}
+
+#board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;max-width:580px;margin:20px auto}
+
+.piece{position:relative;overflow:hidden;aspect-ratio:1;min-width:0;padding:0;background:#292f47;border:2px solid var(--accent);border-radius:7px;color:white;font-size:25px}
+
+.piece.selected{outline:4px solid #ffe08a;z-index:1}
+
+.piece img{position:absolute;max-width:none}
+
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+
+.actions button{flex:1}
+
+.status{min-height:25px;color:#c8ffda}
+
+.hidden{display:none!important}
+
+footer{text-align:center;color:#9299b4;font-size:12px;padding:22px}
+
+.light{--bg:#f0f1fa;--panel:#fff;--line:#d6d8e7;--text:#191b2e;--muted:#5f647b;--accent:#8570e8}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">🧩 JIGSAW <span>WORLD</span></div>
+
+  <button class="secondary" id="quickSettings" aria-label="Settings">⚙️</button>
+
+</header>
+
+<main>
+
+<section id="home" class="screen active">
+
+  <div class="hero">
+
+    <div class="art"><span>🧩</span></div>
+
+    <div class="eyebrow">PLAY · RELAX · DISCOVER</div>
+
+    <h1>JIGSAW <span>WORLD</span></h1>
+
+    <p>Your peaceful little universe. Find your pieces, find your calm.</p>
+
+    <div class="menu">
+
+      <button class="primary" id="play">▶ &nbsp; PLAY NOW</button>
+
+      <button class="secondary" id="continue">↻ &nbsp; CONTINUE GAME</button>
+
+      <button class="secondary" id="together">👥 &nbsp; PLAY TOGETHER</button>
+
+      <button class="secondary" id="openSettings">⚙️ &nbsp; SETTINGS</button>
+
+    </div>
+
+    <p>A little piece of happiness.</p>
+
+  </div>
+
+</section>
+
+<section id="setup" class="screen">
+
+  <button class="secondary backHome">← Back</button>
+
+  <div class="panel">
+
+    <h2>🎮 Start a puzzle</h2>
+
+    <label for="difficulty">Difficulty</label>
+
+    <select id="difficulty">
+
+      <option value="3">Easy — 9 pieces</option>
+
+      <option value="4">Medium — 16 pieces</option>
+
+      <option value="5">Hard — 25 pieces</option>
+
+    </select>
+
+    <label for="picture">Choose your own picture</label>
+
+    <input id="picture" type="file" accept="image/*">
+
+    <p id="pictureName">Using the emoji puzzle.</p>
+
+    <button class="primary" id="startGame">START PUZZLE →</button>
+
+  </div>
+
+</section>
+
+<section id="settings" class="screen">
+
+  <button class="secondary backHome">← Main menu</button>
+
+  <div class="panel">
+
+    <h2>⚙️ Settings</h2>
+
+    <div class="toggle"><div><strong>Sound effects</strong><p>Tap and move sounds</p></div><input id="sound" type="checkbox" checked></div>
+
+    <div class="toggle"><div><strong>Background music</strong><p>Music will be added in a future update</p></div><input type="checkbox" disabled></div>
+
+    <div class="toggle"><div><strong>Light theme</strong><p>Change the game's appearance</p></div><input id="light" type="checkbox"></div>
+
+    <label for="language">Language</label>
+
+    <select id="language"><option>English</option><option>Arabic (coming soon)</option><option>Lithuanian (coming soon)</option><option>Russian (coming soon)</option></select>
+
+  </div>
+
+</section>
+
+<section id="togetherScreen" class="screen">
+
+  <button class="secondary backHome">← Main menu</button>
+
+  <div class="panel">
+
+    <h2>👥 Play Together</h2>
+
+    <p>Online rooms, invitation codes, shared puzzles and chat are planned for a future update.</p>
+
+    <p>This option is not connected to online multiplayer yet.</p>
+
+  </div>
+
+</section>
+
+<section id="game" class="screen">
+
+  <div class="actions">
+
+    <button class="secondary" id="pause">Ⅱ Pause</button>
+
+    <button class="secondary" id="gameHome">⌂ Main menu</button>
+
+  </div>
+
+  <div class="panel">
+
+    <h2>🧩 Your puzzle</h2>
+
+    <p id="status" class="status">Choose two tiles to swap them.</p>
+
+    <div id="board"></div>
+
+    <p>Tap one tile, then another to swap them. This starter version uses square tiles; curved interlocking pieces are not implemented yet.</p>
+
+    <div class="actions"><button class="secondary" id="restart">Restart puzzle</button></div>
+
+  </div>
+
+</section>
+
+<section id="paused" class="screen">
+
+  <div class="hero">
+
+    <h1>GAME <span>PAUSED</span></h1>
+
+    <p>Your current progress is saved on this device.</p>
+
+    <div class="menu">
+
+      <button class="primary" id="resume">▶ RESUME</button>
+
+      <button class="secondary" id="pauseHome">⌂ MAIN MENU</button>
+
+      <button class="secondary" id="pauseSettings">⚙️ SETTINGS</button>
+
+    </div>
+
+  </div>
+
+</section>
+
+</main>
+
+<footer>Jigsaw World · Play at your own pace</footer>
+
+<script>
+
+(() => {
+
+const $ = id => document.getElementById(id);
+
+let size=3,pieces=[],selected=null,imageURL='',moves=0,lastScreen='game';
+
+let audio=null;
+
+function screen(id){
+
+  document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));
+
+}
+
+function sound(freq=520){
+
+  if(!$('sound').checked)return;
+
+  try{
+
+    audio=audio||new(window.AudioContext||window.webkitAudioContext)();
+
+    if(audio.state==='suspended')audio.resume();
+
+    const o=audio.createOscillator(),g=audio.createGain();
+
+    o.frequency.value=freq;g.gain.value=.045;
+
+    g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+.09);
+
+    o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+.09);
+
+  }catch(e){}
+
+}
+
+function save(){
+
+  try{localStorage.setItem('jw-game',JSON.stringify({size,pieces,imageURL,moves}));}catch(e){}
+
+}
+
+function shuffle(a){
+
+  for(let i=a.length-1;i>0;i--){
+
+    const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];
+
+  }
+
+  if(a.length>1&&a.every((v,i)=>v===i))[a[0],a[1]]=[a[1],a[0]];
+
+}
+
+function stats(){
+
+  $('status').textContent=pieces.every((p,i)=>p===i)
+
+    ?`🎉 Puzzle solved in ${moves} moves!`
+
+    :'Tap one tile, then another to swap them.';
+
+}
+
+function draw(){
+
+  const board=$('board');board.replaceChildren();
+
+  board.style.gridTemplateColumns=`repeat(${size},minmax(0,1fr))`;
+
+  pieces.forEach((p,pos)=>{
+
+    const b=document.createElement('button');
+
+    b.className='piece'+(selected===pos?' selected':'');
+
+    if(imageURL){
+
+      const img=document.createElement('img');
+
+      img.src=imageURL;img.alt='';
+
+      img.style.width=(size*100)+'%';img.style.height=(size*100)+'%';
+
+      img.style.left=(-(p%size)*100)+'%';
+
+      img.style.top=(-Math.floor(p/size)*100)+'%';
+
+      b.appendChild(img);
+
+    }else{
+
+      const icons=['🌅','🌊','🌴','🌸','🏔️','🌌','🦋','🌳','🌺','🌻','☁️','🍀','🌷','🌈','🌿','🌼','🌎','✨','🌞','🌵','🐚','🍁','🌲','🌠','🌾'];
+
+      b.textContent=icons[p%icons.length];
+
+    }
+
+    b.onclick=()=>{
+
+      sound();
+
+      if(selected===null){selected=pos;}
+
+      else if(selected===pos){selected=null;}
+
+      else{
+
+        [pieces[selected],pieces[pos]]=[pieces[pos],pieces[selected]];
+
+        selected=null;moves++;sound(680);save();
+
+      }
+
+      draw();
+
+      if(pieces.every((v,i)=>v===i))$('status').textContent=`🎉 Puzzle solved in ${moves} moves!`;
+
+    };
+
+    board.appendChild(b);
+
+  });
+
+}
+
+function newGame(){
+
+  size=Number($('difficulty').value);pieces=Array.from({length:size*size},(_,i)=>i);
+
+  shuffle(pieces);selected=null;moves=0;draw();save();screen('game');sound(620);
+
+}
+
+function loadGame(){
+
+  try{
+
+    const s=JSON.parse(localStorage.getItem('jw-game')||'null');
+
+    if(s&&Array.isArray(s.pieces)&&s.pieces.length===s.size*s.size){
+
+      size=s.size;pieces=s.pieces;imageURL=s.imageURL||'';moves=s.moves||0;selected=null;draw();return true;
+
+    }
+
+  }catch(e){}
+
+  return false;
+
+}
+
+document.querySelectorAll('.backHome').forEach(b=>b.onclick=()=>screen('home'));
+
+$('play').onclick=()=>screen('setup');
+
+$('continue').onclick=()=>{if(loadGame())screen('game');else screen('setup');};
+
+$('openSettings').onclick=$('quickSettings').onclick=()=>screen('settings');
+
+$('together').onclick=()=>screen('togetherScreen');
+
+$('startGame').onclick=newGame;
+
+$('restart').onclick=newGame;
+
+$('pause').onclick=()=>{lastScreen='game';screen('paused');};
+
+$('resume').onclick=()=>screen(lastScreen);
+
+$('gameHome').onclick=$('pauseHome').onclick=()=>screen('home');
+
+$('pauseSettings').onclick=()=>{lastScreen='paused';screen('settings');};
+
+$('light').onchange=()=>document.body.classList.toggle('light',$('light').checked);
+
+$('sound').onchange=()=>{try{localStorage.setItem('jw-sound',$('sound').checked?'1':'0');}catch(e){}};
+
+$('picture').onchange=()=>{
+
+  const f=$('picture').files[0];if(!f)return;
+
+  if(!f.type.startsWith('image/')||f.size>2*1024*1024){
+
+    $('pictureName').textContent='Choose an image smaller than 2 MB.';return;
+
+  }
+
+  const r=new FileReader();r.onload=()=>{
+
+    imageURL=r.result;$('pictureName').textContent='Picture selected!';
+
+  };r.readAsDataURL(f);
+
+};
+
+try{
+
+  $('sound').checked=localStorage.getItem('jw-sound')!=='0';
+
+  const s=JSON.parse(localStorage.getItem('jw-game')||'null');
+
+  if(s&&s.imageURL){imageURL=s.imageURL;}
+
+}catch(e){}
+
+})();
+
+</script>
+
+</body>
+
+</html>
