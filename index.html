@@ -6,7 +6,7 @@
 
 <head>
 
-<meta charset="utf-8">
+<meta charset="UTF-8">
 
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 
@@ -22,13 +22,19 @@
 
 html,body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
 
+body{min-height:100dvh}
+
 button,input,select{font:inherit}
 
-button{color:inherit;cursor:pointer}
+button{color:inherit;cursor:pointer;touch-action:manipulation}
 
-.top{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#211728;border-bottom:1px solid #ffffff18}
+button:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
 
-.logo{border:0;background:none;font-weight:950;font-size:19px}
+.hidden{display:none!important}
+
+.top{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 12px;background:#211728;border-bottom:1px solid #ffffff18;gap:8px}
+
+.logo{border:0;background:none;font-weight:950;font-size:19px;white-space:nowrap}
 
 .logo span{color:var(--pink)}
 
@@ -38,13 +44,15 @@ button{color:inherit;cursor:pointer}
 
 .wrap{max-width:1100px;margin:auto;padding:18px 14px 40px}
 
-.hero{min-height:300px;border:1px solid #ffffff20;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px;background:linear-gradient(#17101e99,#17101ecc),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=85') center/cover}
+.hero{min-height:330px;border:1px solid #ffffff20;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:25px;background:linear-gradient(#17101e66,#17101ecc),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1400&q=85') center/cover}
 
 .hero h1{font-size:clamp(40px,9vw,78px);line-height:.95;margin:14px 0;letter-spacing:-.05em}
 
 .hero h1 span{color:var(--pink)}
 
-.hero p{color:#ddd1e6;max-width:580px;line-height:1.6}
+.hero p{color:#eee4f2;max-width:580px;line-height:1.6}
+
+.muted{color:var(--muted)}
 
 .cards,.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:16px}
 
@@ -54,17 +62,15 @@ button{color:inherit;cursor:pointer}
 
 .card b{display:block;font-size:19px;margin:8px 0}
 
-.muted{color:var(--muted)}
-
 .section{display:none}
 
 .section.active{display:block}
 
 .heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:4px 0 15px}
 
-.heading h2{margin:0}
+.heading h2{margin:0 0 5px}
 
-.photo{padding:0;text-align:left;border:2px solid transparent}
+.photo{padding:0;text-align:left;border:2px solid transparent;min-width:0}
 
 .photo.selected{border-color:var(--pink)}
 
@@ -76,11 +82,11 @@ button{color:inherit;cursor:pointer}
 
 .controls select{background:var(--panel);color:white;border:1px solid var(--line);padding:10px;border-radius:8px}
 
-.modal-bg{position:fixed;inset:0;background:#08060bdd;backdrop-filter:blur(5px);z-index:10;display:none;align-items:center;justify-content:center;padding:12px}
+.modal-bg{position:fixed;inset:0;background:#08060bdd;backdrop-filter:blur(5px);z-index:50;display:none;align-items:center;justify-content:center;padding:10px}
 
 .modal-bg.open{display:flex}
 
-.modal{width:min(680px,100%);max-height:92dvh;overflow:auto;background:var(--panel);padding:17px;border-radius:10px}
+.modal{width:min(680px,100%);max-height:94dvh;overflow:auto;background:var(--panel);padding:17px;border-radius:10px}
 
 .modal-head{display:flex;justify-content:space-between;align-items:center;font-size:20px;margin-bottom:15px}
 
@@ -88,9 +94,9 @@ button{color:inherit;cursor:pointer}
 
 .block{background:#1a121f;padding:15px;border-radius:8px;margin-bottom:12px}
 
-.block h3{text-align:center;font-weight:500;color:#b7aabe;margin:0 0 15px}
+.block h3{text-align:center;font-weight:500;color:var(--muted);margin:0 0 15px}
 
-.row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 
 .row input[type=range]{flex:1;min-width:130px;accent-color:var(--pink)}
 
@@ -98,21 +104,21 @@ button{color:inherit;cursor:pointer}
 
 .check input{accent-color:var(--pink)}
 
-.preview{display:block;max-width:100%;max-height:230px;margin:10px auto;border-radius:8px}
+.preview{display:block;max-width:100%;max-height:210px;margin:10px auto;border-radius:8px;object-fit:contain}
 
-.arena-wrap{height:calc(100dvh - 108px);min-height:430px;overflow:hidden;position:relative;background:#100b17;touch-action:none;cursor:grab}
+.arena-wrap{height:calc(100dvh - 105px);min-height:400px;overflow:hidden;position:relative;background:#100b17;touch-action:none;cursor:grab}
 
 .arena-wrap.panning{cursor:grabbing}
 
-.arena{position:absolute;width:1800px;height:1800px;left:50%;top:50%;margin-left:-900px;margin-top:-900px;transform-origin:0 0;touch-action:none;will-change:transform}
+.arena{position:absolute;width:1800px;height:1800px;left:0;top:0;transform-origin:0 0;touch-action:none;will-change:transform}
 
-.board{position:absolute;left:900px;top:900px;transform:translate(-50%,-50%);background:#17101e;border:2px solid #49394f;box-shadow:0 0 0 1px #08050c;z-index:1}
+.board{position:absolute;left:620px;top:620px;width:560px;height:560px;background:#100b17;border:2px solid #302536;z-index:1}
 
 .piece{position:absolute;z-index:3;touch-action:none;user-select:none;-webkit-user-select:none;filter:drop-shadow(0 2px 3px #0009);cursor:grab;overflow:visible}
 
-.piece.dragging{z-index:20;cursor:grabbing;filter:drop-shadow(0 5px 7px #000b)}
+.piece.dragging{z-index:30;cursor:grabbing;filter:drop-shadow(0 5px 7px #000b)}
 
-.piece svg{display:block;width:100%;height:100%;overflow:visible}
+.piece svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
 
 .piece.placed{z-index:2;filter:none;pointer-events:none}
 
@@ -122,7 +128,7 @@ button{color:inherit;cursor:pointer}
 
 .status{margin-left:auto;color:#c4b7d0;font-size:12px}
 
-.bottom{position:absolute;bottom:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:end;pointer-events:none;z-index:25}
+.bottom{position:absolute;bottom:8px;left:8px;right:8px;display:flex;justify-content:space-between;align-items:end;pointer-events:none;z-index:35}
 
 .pill{pointer-events:auto;background:#211728ed;border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12px}
 
@@ -130,17 +136,15 @@ button{color:inherit;cursor:pointer}
 
 .track div{height:100%;width:0;background:var(--pink)}
 
-.win{display:none;position:absolute;z-index:30;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--panel);border:1px solid var(--pink);border-radius:14px;padding:22px;text-align:center;width:min(90%,320px)}
+.win{display:none;position:absolute;z-index:40;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--panel);border:1px solid var(--pink);border-radius:14px;padding:22px;text-align:center;width:min(90%,320px)}
 
 .win.show{display:block}
 
-.reference{display:none;position:absolute;inset:0;background:#100b17ee;z-index:22;align-items:center;justify-content:center;padding:20px}
+.reference{display:none;position:absolute;inset:0;background:#100b17ee;z-index:32;align-items:center;justify-content:center;padding:20px}
 
 .reference.show{display:flex}
 
 .reference img{max-width:100%;max-height:100%;object-fit:contain}
-
-.hidden{display:none!important}
 
 .footer{text-align:center;color:#998ba5;font-size:12px;margin-top:24px}
 
@@ -152,9 +156,9 @@ button{color:inherit;cursor:pointer}
 
 .gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 
-.arena-wrap{height:calc(100dvh - 99px)}
+.arena-wrap{height:calc(100dvh - 95px)}
 
-.gamebar{gap:3px;padding:5px}.tool{width:32px;height:33px}.status{display:none}
+.gamebar{gap:3px;padding:5px}.tool{width:33px;height:34px}.status{display:none}
 
 .track{width:70px}.modal-bg{padding:5px;align-items:flex-start}
 
@@ -176,7 +180,7 @@ button{color:inherit;cursor:pointer}
 
     <button class="btn" onclick="page('gallery')">Pictures</button>
 
-    <button class="btn" onclick="openSettings()">New puzzle +</button>
+    <button class="btn primary" onclick="openSettings()">New puzzle +</button>
 
   </div>
 
@@ -200,11 +204,11 @@ button{color:inherit;cursor:pointer}
 
     <div class="cards">
 
-      <button class="card" onclick="page('gallery')">🖼️<b>Explore pictures</b><span class="muted">Pick a picture or upload your own.</span></button>
+      <button class="card" onclick="page('gallery')">🖼️<b>Explore pictures</b><span class="muted">Pick a photo or upload your own.</span></button>
 
-      <button class="card" onclick="openSettings()">🧩<b>New puzzle</b><span class="muted">Choose difficulty and create a puzzle.</span></button>
+      <button class="card" onclick="openSettings()">🧩<b>New puzzle</b><span class="muted">Choose the difficulty and play.</span></button>
 
-      <button class="card" onclick="page('gallery')">🌍<b>More pictures</b><span class="muted">Browse the photo collection.</span></button>
+      <button class="card" onclick="page('gallery')">🌍<b>Discover photos</b><span class="muted">Find a new picture to solve.</span></button>
 
     </div>
 
@@ -214,13 +218,13 @@ button{color:inherit;cursor:pointer}
 
     <div class="heading">
 
-      <div><h2>Choose a picture</h2><div class="muted">Pick a photo to set up your puzzle.</div></div>
+      <div><h2>Choose a picture</h2><div class="muted">Select a photo to start your puzzle.</div></div>
 
       <button class="btn" onclick="page('home')">Home</button>
 
     </div>
 
-    <div class="gallery" id="gallery"></div>
+    <div class="gallery" id="galleryGrid"></div>
 
     <div class="controls">
 
@@ -258,7 +262,7 @@ button{color:inherit;cursor:pointer}
 
       </div>
 
-      <p class="muted">Pieces: <b id="countText">36</b></p>
+      <p class="muted">Total pieces: <b id="countText">36</b></p>
 
       <div class="row">
 
@@ -268,9 +272,9 @@ button{color:inherit;cursor:pointer}
 
       </div>
 
-      <small class="muted">Choose a square grid from 9 to 144 pieces.</small>
+      <small class="muted">Choose from 9 to 144 pieces in Normal mode, or up to 225 in Hardmode.</small>
 
-      <img id="preview" class="preview" alt="Picture preview">
+      <img id="preview" class="preview" alt="Puzzle preview">
 
       <button class="btn" onclick="togglePreview()" id="previewBtn">Hide preview</button>
 
@@ -284,7 +288,7 @@ button{color:inherit;cursor:pointer}
 
       <label class="check"><input id="largeBoard" type="checkbox" checked> Large puzzle board</label>
 
-      <p class="muted">Drag pieces with one finger. Drag empty space to move the world. Pinch to zoom.</p>
+      <p class="muted">Drag pieces with one finger. Drag empty space to move the world. Pinch with two fingers to zoom.</p>
 
     </div>
 
@@ -302,11 +306,11 @@ button{color:inherit;cursor:pointer}
 
   <div class="gamebar">
 
-    <button class="tool" title="Home" onclick="exitGame()">🍓</button>
+    <button class="tool" title="Back" onclick="exitGame()">🏠</button>
 
-    <button class="tool" title="Reference" onclick="reference()">🖼️</button>
+    <button class="tool" title="Reference picture" onclick="reference()">🖼️</button>
 
-    <button class="tool" title="Shuffle loose pieces" onclick="shufflePieces()">🔀</button>
+    <button class="tool" title="Scatter loose pieces" onclick="shufflePieces()">🔀</button>
 
     <button class="tool" title="Zoom out" onclick="zoomBy(.85)">−</button>
 
@@ -328,7 +332,11 @@ button{color:inherit;cursor:pointer}
 
     </div>
 
-    <div class="reference" id="referenceLayer" onclick="this.classList.remove('show')"><img id="referenceImg" alt="Puzzle reference"></div>
+    <div class="reference" id="referenceLayer" onclick="this.classList.remove('show')">
+
+      <img id="referenceImg" alt="Puzzle reference">
+
+    </div>
 
     <div class="win" id="win">
 
@@ -342,7 +350,13 @@ button{color:inherit;cursor:pointer}
 
     <div class="bottom">
 
-      <div class="pill"><span id="progressText">0% complete</span><div class="track"><div id="progress"></div></div></div>
+      <div class="pill">
+
+        <span id="progressText">0% complete</span>
+
+        <div class="track"><div id="progress"></div></div>
+
+      </div>
 
       <button class="btn pill" onclick="reference()">View picture</button>
 
@@ -356,43 +370,75 @@ button{color:inherit;cursor:pointer}
 
 const photos=[
 
-['Mountain lake','https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=85'],
+['Mountain lake','photo-1470770841072-f978cf4d019e'],
 
-['Blue ocean','https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=85'],
+['Blue ocean','photo-1500375592092-40eb2168fd21'],
 
-['Forest path','https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=85'],
+['Forest path','photo-1448375240586-882707db888b'],
 
-['Curious cat','https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=85'],
+['Curious cat','photo-1514888286974-6c03e2ca1dba'],
 
-['Wild fox','https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1200&q=85'],
+['Wild fox','photo-1474511320723-9a56873867b5'],
 
-['City lights','https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1200&q=85'],
+['City lights','photo-1519608487953-e999c86e7455'],
 
-['Mountain peaks','https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85'],
+['Mountain peaks','photo-1464822759023-fed622ff2c3b'],
 
-['Desert dunes','https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1200&q=85'],
+['Desert dunes','photo-1509316785289-025f5b846b35'],
 
-['Pink flowers','https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=85'],
+['Pink flowers','photo-1490750967868-88aa4486c946'],
 
-['Green hills','https://images.unsplash.com/photo-1464278533981-50106e6176b1?auto=format&fit=crop&w=1200&q=85'],
+['Green hills','photo-1464278533981-50106e6176b1'],
 
-['Snow forest','https://images.unsplash.com/photo-1517299321609-52687d1bc55a?auto=format&fit=crop&w=1200&q=85'],
+['Snow forest','photo-1517299321609-52687d1bc55a'],
 
-['Tropical coast','https://images.unsplash.com/photo-1519046904884-53103b34b206?auto=format&fit=crop&w=1200&q=85']
+['Tropical coast','photo-1519046904884-53103b34b206'],
+
+['Waterfall','photo-1432405972618-c60b0225b8f9'],
+
+['Autumn forest','photo-1473448912268-2022ce9509d8'],
+
+['Beautiful lake','photo-1439066615861-d1af74d74000'],
+
+['Elephant','photo-1561731216-c3a4d99437d5'],
+
+['Birds','photo-1444464666168-49d633b86797'],
+
+['Beach sunset','photo-1507525428034-b723cf961d3e'],
+
+['Green valley','photo-1464278533981-50106e6176b1'],
+
+['Starry sky','photo-1475274047050-1d0c0975c63e'],
+
+['Red flowers','photo-1490750967868-88aa4486c946'],
+
+['Snow mountains','photo-1454496522488-7a8e488e8606'],
+
+['Ocean waves','photo-1518837695005-2083093ee35b'],
+
+['Forest trees','photo-1511497584788-876760111969']
 
 ];
 
-let selected=0,customURL='',customName='',modeHard=false,game=null,zoom=1,pan={x:0,y:0},drag=null,panDrag=null,pointers=new Map(),pinch=null,previewShown=true;
-
 const $=id=>document.getElementById(id);
+
+const photoURL=id=>`https://images.unsplash.com/${id}?auto=format&fit=crop&w=1400&q=85`;
+
+let selected=0,customURL='',customName='',modeHard=false,game=null;
+
+let zoom=1,pan={x:0,y:0},drag=null,panDrag=null,pointers=new Map(),pinch=null,previewShown=true;
+
+let photoCount=0;
 
 function page(id){
 
   document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));
 
-  $('homeWrap').classList.toggle('hidden',id==='gamePage');
+  $('homeWrap').classList.remove('hidden');
 
-  $('top').classList.toggle('hidden',id==='gamePage');
+  $('gamePage').classList.add('hidden');
+
+  $('top').classList.remove('hidden');
 
   if(id==='gallery')renderGallery();
 
@@ -402,15 +448,17 @@ function page(id){
 
 function pic(){
 
-  return customURL?{name:customName||'Your picture',url:customURL}:{name:photos[selected][0],url:photos[selected][1]};
+  return customURL
+
+    ?{name:customName||'Your picture',url:customURL}
+
+    :{name:photos[selected][0],url:photoURL(photos[selected][1])};
 
 }
 
 function renderGallery(){
 
-  const g=$('gallery');
-
-  g.innerHTML='';
+  const g=$('galleryGrid');g.innerHTML='';
 
   photos.forEach((p,i)=>{
 
@@ -418,17 +466,15 @@ function renderGallery(){
 
     b.className='photo'+(!customURL&&i===selected?' selected':'');
 
-    b.innerHTML='<img loading="lazy" src="'+p[1]+'" alt=""><span>'+p[0]+'</span>';
+    const img=document.createElement('img');
 
-    b.onclick=()=>{
+    img.loading='lazy';img.src=photoURL(p[1]);img.alt=p[0];
 
-      selected=i;customURL='';
+    const label=document.createElement('span');label.textContent=p[0];
 
-      renderGallery();
+    b.append(img,label);
 
-      $('preview').src=pic().url;
-
-    };
+    b.onclick=()=>{selected=i;customURL='';renderGallery();$('preview').src=pic().url};
 
     g.appendChild(b);
 
@@ -436,13 +482,13 @@ function renderGallery(){
 
   if(customURL){
 
-    const b=document.createElement('button');
+    const b=document.createElement('button');b.className='photo selected';
 
-    b.className='photo selected';
+    const img=document.createElement('img');img.src=customURL;img.alt=customName;
 
-    b.innerHTML='<img src="'+customURL+'" alt=""><span>'+customName+'</span>';
+    const label=document.createElement('span');label.textContent=customName||'Your picture';
 
-    g.prepend(b);
+    b.append(img,label);g.prepend(b);
 
   }
 
@@ -450,37 +496,41 @@ function renderGallery(){
 
 function loadMore(){
 
-  const g=$('gallery');
+  const g=$('galleryGrid');
 
-  photos.forEach((p,i)=>{
+  const start=photos.length;
 
-    const b=document.createElement('button');
+  for(let i=0;i<8;i++){
 
-    b.className='photo';
+    const p=photos[(photoCount+i)%photos.length];
 
-    b.innerHTML='<img loading="lazy" src="'+p[1]+'" alt=""><span>'+p[0]+' · extra</span>';
+    const b=document.createElement('button');b.className='photo';
+
+    const img=document.createElement('img');img.loading='lazy';img.src=photoURL(p[1]);img.alt=p[0];
+
+    const label=document.createElement('span');label.textContent=p[0]+' · '+(start+photoCount+i+1);
+
+    b.append(img,label);
 
     b.onclick=()=>{
 
-      selected=i;customURL='';
+      selected=(photoCount+i)%photos.length;customURL='';
 
-      renderGallery();
-
-      $('preview').src=pic().url;
+      renderGallery();$('preview').src=pic().url;
 
     };
 
     g.appendChild(b);
 
-  });
+  }
+
+  photoCount+=8;
 
 }
 
 $('upload').addEventListener('change',e=>{
 
-  const f=e.target.files[0];
-
-  if(!f)return;
+  const f=e.target.files[0];if(!f)return;
 
   if(!f.type.startsWith('image/'))return alert('Please choose an image.');
 
@@ -502,9 +552,7 @@ function openSettings(){
 
   $('preview').src=pic().url;
 
-  updateCount();
-
-  $('settings').classList.add('open');
+  updateCount();$('settings').classList.add('open');
 
 }
 
@@ -574,9 +622,9 @@ function edgePath(x,y,dx,dy,nx,ny,len,sign,tab){
 
 }
 
-function piecePath(r,c,cellW,cellH,tab,rows,cols){
+function piecePath(r,c,w,h,tab,rows,cols){
 
-  const x=tab,y=tab,w=cellW,h=cellH;
+  const x=tab,y=tab;
 
   let d=`M ${x} ${y}`;
 
@@ -606,51 +654,51 @@ function createPuzzle(){
 
   $('referenceLayer').classList.remove('show');
 
-  zoom=1;pan={x:0,y:0};
+  zoom=1;
 
-  buildPuzzle();
+  const wrap=$('arenaWrap');
 
-  applyTransform();
+  pan={x:wrap.clientWidth/2-900,y:wrap.clientHeight/2-900};
+
+  buildPuzzle();applyTransform();
 
 }
 
 function buildPuzzle(){
 
-  const n=Number($('pieceRange').value),rows=n,cols=n,total=n*n;
+  const n=Number($('pieceRange').value);
+
+  const rows=n,cols=n,total=n*n;
 
   const arena=$('arena');
 
   arena.innerHTML='';
 
-  const board=$('board');
+  const board=document.createElement('div');
 
-  board.style.left='900px';board.style.top='900px';
+  board.className='board';board.id='board';
 
-  board.style.width='560px';board.style.height='560px';
+  const boardSize=$('largeBoard').checked?700:560;
 
-  board.style.background='#17101e';board.innerHTML='';
+  board.style.left=(900-boardSize/2)+'px';
+
+  board.style.top=(900-boardSize/2)+'px';
+
+  board.style.width=boardSize+'px';board.style.height=boardSize+'px';
 
   arena.appendChild(board);
 
-  const cellW=560/cols,cellH=560/rows,tab=Math.min(cellW,cellH)*.22;
+  const cellW=boardSize/cols,cellH=boardSize/rows;
 
-  const boardX=900-280,boardY=900-280;
+  const tab=Math.max(5,Math.min(cellW,cellH)*.22);
 
-  game={
+  const boardX=900-boardSize/2,boardY=900-boardSize/2;
 
-    rows,cols,total,cellW,cellH,tab,boardX,boardY,
-
-    boardW:560,boardH:560,pieces:[],placed:new Set(),
-
-    moves:0,mystery:$('mystery').checked,photo:pic()
-
-  };
+  game={rows,cols,total,cellW,cellH,tab,boardX,boardY,boardW:boardSize,boardH:boardSize,pieces:[],placed:new Set(),photo:pic(),mystery:$('mystery').checked};
 
   $('referenceImg').src=game.photo.url;
 
   $('referenceLayer').classList.remove('show');
-
-  const aw=1800,ah=1800;
 
   for(let r=0;r<rows;r++){
 
@@ -660,13 +708,11 @@ function buildPuzzle(){
 
       const el=document.createElement('div');
 
-      el.className='piece';
-
-      el.style.width=w+'px';el.style.height=h+'px';
+      el.className='piece';el.style.width=w+'px';el.style.height=h+'px';
 
       const path=piecePath(r,c,cellW,cellH,tab,rows,cols);
 
-      const id='clip'+idx,ns='http://www.w3.org/2000/svg';
+      const ns='http://www.w3.org/2000/svg';
 
       const svg=document.createElementNS(ns,'svg');
 
@@ -678,11 +724,9 @@ function buildPuzzle(){
 
       const clip=document.createElementNS(ns,'clipPath');
 
-      clip.setAttribute('id',id);
+      const id='clip'+idx;clip.setAttribute('id',id);
 
-      const shape=document.createElementNS(ns,'path');
-
-      shape.setAttribute('d',path);
+      const shape=document.createElementNS(ns,'path');shape.setAttribute('d',path);
 
       clip.appendChild(shape);defs.appendChild(clip);svg.appendChild(defs);
 
@@ -694,9 +738,9 @@ function buildPuzzle(){
 
       image.setAttribute('y',tab-r*cellH);
 
-      image.setAttribute('width',game.boardW);
+      image.setAttribute('width',boardSize);
 
-      image.setAttribute('height',game.boardH);
+      image.setAttribute('height',boardSize);
 
       image.setAttribute('preserveAspectRatio','none');
 
@@ -708,11 +752,11 @@ function buildPuzzle(){
 
       outline.setAttribute('d',path);
 
-      outline.setAttribute('fill','rgba(255,255,255,.02)');
+      outline.setAttribute('fill','rgba(255,255,255,.01)');
 
       outline.setAttribute('stroke','#f8eafa');
 
-      outline.setAttribute('stroke-width','1.2');
+      outline.setAttribute('stroke-width','1');
 
       svg.appendChild(outline);
 
@@ -730,15 +774,15 @@ function buildPuzzle(){
 
       let x,y;
 
-      if(side===0){x=Math.random()*(aw-w);y=Math.random()*Math.max(1,boardY-h-20)}
+      if(side===0){x=Math.random()*(1800-w);y=Math.random()*Math.max(1,boardY-h-20)}
 
-      else if(side===1){x=Math.random()*(aw-w);y=boardY+game.boardH+25+Math.random()*Math.max(1,ah-boardY-game.boardH-h-25)}
+      else if(side===1){x=Math.random()*(1800-w);y=boardY+boardSize+25+Math.random()*Math.max(1,1800-boardY-boardSize-h-25)}
 
-      else if(side===2){x=Math.random()*Math.max(1,boardX-w-20);y=boardY+Math.random()*Math.max(1,game.boardH-h)}
+      else if(side===2){x=Math.random()*Math.max(1,boardX-w-20);y=boardY+Math.random()*Math.max(1,boardSize-h)}
 
-      else{x=boardX+game.boardW+25+Math.random()*Math.max(1,aw-boardX-game.boardW-w-25);y=boardY+Math.random()*Math.max(1,game.boardH-h)}
+      else{x=boardX+boardSize+25+Math.random()*Math.max(1,1800-boardX-boardSize-w-25);y=boardY+Math.random()*Math.max(1,boardSize-h)}
 
-      x=Math.max(0,Math.min(aw-w,x));y=Math.max(0,Math.min(ah-h,y));
+      x=Math.max(0,Math.min(1800-w,x));y=Math.max(0,Math.min(1800-h,y));
 
       el.style.left=x+'px';el.style.top=y+'px';
 
@@ -760,17 +804,21 @@ function targetPos(p){
 
 function arenaPoint(x,y){
 
-  const rect=$('arena').getBoundingClientRect();
+  const rect=$('arenaWrap').getBoundingClientRect();
 
-  return{x:(x-rect.left)/zoom,y:(y-rect.top)/zoom};
+  return{x:(x-rect.left-pan.x)/zoom,y:(y-rect.top-pan.y)/zoom};
 
 }
 
-function members(g){return game.pieces.filter(p=>p.group===g&&!p.placed)}
+function members(group){
+
+  return game.pieces.filter(p=>p.group===group&&!p.placed);
+
+}
 
 function startPieceDrag(e){
 
-  if(!game)return;
+  if(!game||e.button!==undefined&&e.button!==0)return;
 
   const p=game.pieces.find(q=>q.el===e.currentTarget);
 
@@ -782,9 +830,7 @@ function startPieceDrag(e){
 
   const left=parseFloat(p.el.style.left)||0,top=parseFloat(p.el.style.top)||0;
 
-  const ms=members(p.group);
-
-  drag={p,id:e.pointerId,dx:pt.x-left,dy:pt.y-top,start:ms.map(q=>({q,x:parseFloat(q.el.style.left)||0,y:parseFloat(q.el.style.top)||0}))};
+  drag={p,id:e.pointerId,dx:pt.x-left,dy:pt.y-top,start:members(p.group).map(q=>({q,x:parseFloat(q.el.style.left)||0,y:parseFloat(q.el.style.top)||0}))};
 
   p.el.classList.add('dragging');
 
@@ -802,9 +848,13 @@ function movePieceDrag(e){
 
   if(!drag||e.pointerId!==drag.id)return;
 
+  e.preventDefault();
+
   const pt=arenaPoint(e.clientX,e.clientY);
 
   const start=drag.start.find(v=>v.q===drag.p);
+
+  if(!start)return;
 
   const dx=pt.x-drag.dx-start.x,dy=pt.y-drag.dy-start.y;
 
@@ -818,17 +868,17 @@ function movePieceDrag(e){
 
 }
 
-function mergeGroups(p,q){
+function mergeGroups(a,b){
 
-  const pl=parseFloat(p.el.style.left)||0,pt=parseFloat(p.el.style.top)||0;
+  const al=parseFloat(a.el.style.left)||0,at=parseFloat(a.el.style.top)||0;
 
-  const ql=parseFloat(q.el.style.left)||0,qt=parseFloat(q.el.style.top)||0;
+  const bl=parseFloat(b.el.style.left)||0,bt=parseFloat(b.el.style.top)||0;
 
-  const dx=(p.c-q.c)*game.cellW,dy=(p.r-q.r)*game.cellH;
+  const dx=(a.c-b.c)*game.cellW,dy=(a.r-b.r)*game.cellH;
 
-  const shiftX=ql+dx-pl,shiftY=qt+dy-pt;
+  const shiftX=bl+dx-al,shiftY=bt+dy-at;
 
-  const old=members(p.group),newGroup=q.group;
+  const old=members(a.group),newGroup=b.group;
 
   old.forEach(v=>{
 
@@ -839,8 +889,6 @@ function mergeGroups(p,q){
     v.group=newGroup;
 
   });
-
-  game.moves++;
 
 }
 
@@ -866,13 +914,17 @@ function snapNeighbors(p){
 
         const ex=(a.c-b.c)*game.cellW,ey=(a.r-b.r)*game.cellH;
 
-        if(Math.abs((al-bl)-ex)>Math.max(12,game.cellW*.38)||Math.abs((at-bt)-ey)>Math.max(12,game.cellH*.38))continue;
+        const threshold=Math.max(10,Math.min(game.cellW,game.cellH)*.32);
+
+        if(Math.abs((al-bl)-ex)>threshold||Math.abs((at-bt)-ey)>threshold)continue;
 
         if(b.placed){
 
           const t=targetPos(a),sx=t.x-al,sy=t.y-at;
 
           members(p.group).forEach(v=>{
+
+            const tt=targetPos(v);
 
             v.el.style.left=((parseFloat(v.el.style.left)||0)+sx)+'px';
 
@@ -904,23 +956,27 @@ function snapNeighbors(p){
 
 function snapBoard(p){
 
-  const ms=members(p.group);
+  const ms=members(p.group);if(!ms.length)return;
 
-  if(!ms.length)return;
+  const t=targetPos(p);
 
-  const t=targetPos(p),left=parseFloat(p.el.style.left)||0,top=parseFloat(p.el.style.top)||0;
+  const left=parseFloat(p.el.style.left)||0,top=parseFloat(p.el.style.top)||0;
 
   const dx=t.x-left,dy=t.y-top;
 
-  if(Math.abs(dx)>Math.max(16,game.cellW*.5)||Math.abs(dy)>Math.max(16,game.cellH*.5))return;
+  const threshold=Math.max(12,Math.min(game.cellW,game.cellH)*.42);
+
+  if(Math.abs(dx)>threshold||Math.abs(dy)>threshold)return;
 
   const aligned=ms.every(v=>{
 
     const tt=targetPos(v);
 
-    const x=(parseFloat(v.el.style.left)||0)+dx,y=(parseFloat(v.el.style.top)||0)+dy;
+    const x=(parseFloat(v.el.style.left)||0)+dx;
 
-    return Math.abs(x-tt.x)<Math.max(12,game.cellW*.28)&&Math.abs(y-tt.y)<Math.max(12,game.cellH*.28);
+    const y=(parseFloat(v.el.style.top)||0)+dy;
+
+    return Math.abs(x-tt.x)<threshold&&Math.abs(y-tt.y)<threshold;
 
   });
 
@@ -976,11 +1032,11 @@ function shufflePieces(){
 
   game.pieces.filter(p=>!p.placed).forEach(p=>{
 
-    if(p.group!==p.idx)return;
+    if(members(p.group).length>1)return;
 
-    p.el.style.left=(Math.random()*1500)+'px';
+    p.el.style.left=(Math.random()*1450)+'px';
 
-    p.el.style.top=(Math.random()*1500)+'px';
+    p.el.style.top=(Math.random()*1450)+'px';
 
   });
 
@@ -990,7 +1046,13 @@ function reference(){
 
   if(!game)return;
 
-  if(game.mystery){alert('Mystery puzzle is on. Turn it off in New puzzle settings to see the picture.');return}
+  if(game.mystery){
+
+    alert('Mystery puzzle is on. Start a new puzzle with Mystery turned off to view the reference.');
+
+    return;
+
+  }
 
   $('referenceLayer').classList.toggle('show');
 
@@ -1002,21 +1064,35 @@ function applyTransform(){
 
 }
 
-function zoomBy(f){
+function zoomAt(f,cx,cy){
 
-  const next=Math.max(.35,Math.min(3,zoom*f));
+  const next=Math.max(.3,Math.min(3,zoom*f));
 
-  const rect=$('arenaWrap').getBoundingClientRect(),cx=rect.width/2,cy=rect.height/2;
+  const wx=(cx-pan.x)/zoom,wy=(cy-pan.y)/zoom;
 
-  const ux=(cx-pan.x)/zoom,uy=(cy-pan.y)/zoom;
-
-  zoom=next;pan.x=cx-ux*zoom;pan.y=cy-uy*zoom;
+  zoom=next;pan.x=cx-wx*zoom;pan.y=cy-wy*zoom;
 
   applyTransform();
 
 }
 
-function resetView(){zoom=1;pan={x:0,y:0};applyTransform()}
+function zoomBy(f){
+
+  const r=$('arenaWrap').getBoundingClientRect();
+
+  zoomAt(f,r.width/2,r.height/2);
+
+}
+
+function resetView(){
+
+  const r=$('arenaWrap').getBoundingClientRect();
+
+  zoom=1;pan={x:r.width/2-900,y:r.height/2-900};
+
+  applyTransform();
+
+}
 
 function fullscreen(){
 
@@ -1030,7 +1106,7 @@ function fullscreen(){
 
 function exitGame(){
 
-  game=null;
+  game=null;drag=null;
 
   $('gamePage').classList.add('hidden');
 
@@ -1056,7 +1132,9 @@ $('arenaWrap').addEventListener('pointerdown',e=>{
 
     const a=[...pointers.values()];
 
-    pinch={distance:dist(a[0],a[1]),zoom};panDrag=null;e.preventDefault();return;
+    pinch={distance:dist(a[0],a[1]),zoom};
+
+    panDrag=null;e.preventDefault();return;
 
   }
 
@@ -1064,7 +1142,7 @@ $('arenaWrap').addEventListener('pointerdown',e=>{
 
   $('arenaWrap').classList.add('panning');
 
-  $('arenaWrap').setPointerCapture?.(e.pointerId);
+  try{$('arenaWrap').setPointerCapture(e.pointerId)}catch(err){}
 
   e.preventDefault();
 
@@ -1076,15 +1154,17 @@ $('arenaWrap').addEventListener('pointermove',e=>{
 
   if(pointers.size>=2&&pinch){
 
-    const a=[...pointers.values()],d=dist(a[0],a[1]),rect=$('arenaWrap').getBoundingClientRect();
+    const a=[...pointers.values()],d=dist(a[0],a[1]);
 
-    const cx=(a[0].x+a[1].x)/2-rect.left,cy=(a[0].y+a[1].y)/2-rect.top;
+    const rect=$('arenaWrap').getBoundingClientRect();
 
-    const worldX=(cx-pan.x)/zoom,worldY=(cy-pan.y)/zoom;
+    const cx=(a[0].x+a[1].x)/2-rect.left;
 
-    zoom=Math.max(.35,Math.min(3,pinch.zoom*d/Math.max(1,pinch.distance)));
+    const cy=(a[0].y+a[1].y)/2-rect.top;
 
-    pan.x=cx-worldX*zoom;pan.y=cy-worldY*zoom;applyTransform();return;
+    zoomAt(pinch.zoom*d/Math.max(1,pinch.distance),cx,cy);
+
+    return;
 
   }
 
@@ -1118,9 +1198,19 @@ $('arenaWrap').addEventListener('pointercancel',endPan);
 
 $('arenaWrap').addEventListener('wheel',e=>{
 
-  if(!game)return;e.preventDefault();zoomBy(e.deltaY<0?1.1:.9);
+  if(!game)return;e.preventDefault();
+
+  const rect=$('arenaWrap').getBoundingClientRect();
+
+  zoomAt(e.deltaY<0?1.1:.9,e.clientX-rect.left,e.clientY-rect.top);
 
 },{passive:false});
+
+window.addEventListener('resize',()=>{
+
+  if(game&&zoom===1)resetView();
+
+});
 
 renderGallery();
 
