@@ -1,176 +1,289 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><meta name="theme-color" content="#111426"><title>Jigsaw World</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#102437">
+<title>JIGSAW WORLD</title>
 <style>
-:root{--bg:#0b0e19;--panel:#151a2d;--panel2:#1b2238;--text:#f5f7ff;--muted:#9ba5c3;--accent:#9b7cff;--accent2:#62d8c7;--line:rgba(255,255,255,.1);--shadow:0 18px 55px rgba(0,0,0,.28)}
-body.light{--bg:#f3f5fb;--panel:#fff;--panel2:#edf0fa;--text:#182039;--muted:#65708d;--accent:#7656e8;--accent2:#148f85;--line:rgba(26,34,62,.12);--shadow:0 18px 45px rgba(44,52,90,.11)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 10% 0%,rgba(122,92,255,.14),transparent 35%),radial-gradient(ellipse at 95% 30%,rgba(59,214,194,.08),transparent 32%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;transition:background .25s,color .25s}button,select{font:inherit}button{cursor:pointer;border:0;color:inherit}button:focus-visible,select:focus-visible{outline:3px solid var(--accent2);outline-offset:3px}.app{max-width:1180px;margin:auto;padding:20px clamp(14px,4vw,42px) 44px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:34px}.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:.06em}.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#5943b7);box-shadow:0 8px 24px #7455e344;font-size:23px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:.18em;font-weight:700;margin-top:2px}.top-actions{display:flex;gap:8px;align-items:center}.nav-together{background:linear-gradient(120deg,var(--accent),#6652d8);color:#fff;border-radius:13px;padding:11px 14px;font-size:12px;font-weight:900;box-shadow:0 8px 22px #7459e733;white-space:nowrap}.icon-btn,.secondary{background:var(--panel);border:1px solid var(--line);border-radius:13px;padding:11px 13px;box-shadow:var(--shadow)}.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:26px;align-items:center;padding:clamp(22px,4vw,46px);border:1px solid var(--line);border-radius:30px;background:linear-gradient(135deg,var(--panel),color-mix(in srgb,var(--panel2) 76%,transparent));box-shadow:var(--shadow);overflow:hidden;position:relative}.eyebrow{display:inline-flex;gap:8px;align-items:center;color:var(--accent2);font-size:12px;font-weight:850;letter-spacing:.16em;text-transform:uppercase}.eyebrow:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;box-shadow:0 0 13px currentColor}h1{font-size:clamp(39px,6vw,70px);line-height:.98;letter-spacing:-.055em;margin:18px 0 16px;font-weight:950}h1 span{color:var(--accent)}.intro{color:var(--muted);font-size:16px;line-height:1.7;max-width:460px}.button-row{display:flex;flex-wrap:wrap;gap:11px;margin-top:25px}.primary{background:linear-gradient(120deg,var(--accent),#7459e7);color:#fff;border-radius:14px;padding:14px 20px;font-weight:850;box-shadow:0 9px 24px #7459e744;transition:transform .15s,filter .15s}.primary:hover{transform:translateY(-2px);filter:brightness(1.08)}.secondary{font-weight:750}.hero-art{min-height:270px;display:grid;place-items:center;position:relative}.orbit{width:min(100%,380px);aspect-ratio:1;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;background:radial-gradient(circle,rgba(151,119,255,.18),transparent 67%);position:relative}.puzzle-big{font-size:clamp(130px,22vw,230px);filter:drop-shadow(0 22px 24px #0005);transform:rotate(-12deg);animation:float 4s ease-in-out infinite}.float-tag{position:absolute;background:var(--panel);border:1px solid var(--line);padding:10px 13px;border-radius:13px;font-size:12px;font-weight:800;box-shadow:var(--shadow)}.tag1{top:12%;right:-1%}.tag2{bottom:13%;left:-2%}@keyframes float{0%,100%{transform:translateY(0) rotate(-12deg)}50%{transform:translateY(-10px) rotate(-8deg)}}.section-head{display:flex;align-items:end;justify-content:space-between;gap:14px;margin:34px 0 17px}.section-head h2{margin:0;font-size:22px;letter-spacing:-.03em}.section-head p{margin:6px 0 0;color:var(--muted);font-size:13px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.stat{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:15px}.stat strong{font-size:22px;display:block}.stat span{color:var(--muted);font-size:12px}.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.mode{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:19px;text-align:left;transition:transform .18s,border .18s}.mode:hover{transform:translateY(-3px);border-color:var(--accent)}.mode .emoji{font-size:27px;display:block;margin-bottom:14px}.mode b{display:block;font-size:15px;margin-bottom:7px}.mode p{margin:0;color:var(--muted);font-size:12px;line-height:1.55}.page{display:none}.page.active{display:block}.game-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:17px;flex-wrap:wrap}.game-title{font-weight:900;font-size:21px}.game-sub{color:var(--muted);font-size:12px;margin-top:4px}.game-controls{display:flex;gap:8px;flex-wrap:wrap}.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:16px;align-items:start}.board-wrap{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:clamp(9px,2vw,18px);box-shadow:var(--shadow);min-width:0}.board-shell{width:100%;max-width:720px;margin:auto;position:relative}.board-shell svg{width:100%;height:auto;display:block;border-radius:12px;touch-action:none;overflow:visible}.board-bg{fill:var(--panel2);stroke:var(--line);stroke-width:2}.piece{cursor:grab;touch-action:none;filter:drop-shadow(0 2px 2px #0005)}.piece:active{cursor:grabbing}.piece path{stroke:rgba(255,255,255,.82);stroke-width:1.5;stroke-linejoin:round;paint-order:stroke fill;vector-effect:non-scaling-stroke}.piece{filter:drop-shadow(0 3px 3px rgba(0,0,0,.38))}.piece.selected path{stroke:#fff;stroke-width:2.6;filter:drop-shadow(0 0 5px var(--accent))}.piece.selected path{stroke:#fff;stroke-width:2.5;filter:drop-shadow(0 0 5px var(--accent))}.side-panel{display:grid;gap:12px}.panel-card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px}.panel-card h3{font-size:13px;margin:0 0 12px}.metric{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}.metric:last-child{border:0}.metric span{color:var(--muted)}.progress{height:7px;border-radius:99px;background:var(--panel2);overflow:hidden;margin-top:10px}.progress div{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:width .25s}.thumb{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;background:var(--panel2);display:block}.select{width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);padding:12px;border-radius:12px;margin-top:7px}.hint{font-size:12px;line-height:1.6;color:var(--muted)}.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.setting{display:flex;align-items:center;justify-content:space-between;gap:15px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:17px}.setting small{display:block;color:var(--muted);margin-top:4px}.toggle{width:48px;height:28px;border-radius:99px;background:var(--panel2);border:1px solid var(--line);padding:3px;flex-shrink:0}.toggle i{display:block;width:20px;height:20px;background:var(--muted);border-radius:50%;transition:transform .2s}.toggle.on{background:var(--accent)}.toggle.on i{background:white;transform:translateX(19px)}.overlay{position:fixed;inset:0;background:#050713b8;backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:18px;z-index:20}.overlay.show{display:flex}.modal{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:25px;max-width:440px;width:100%;box-shadow:var(--shadow);text-align:center}.modal .big{font-size:52px}.modal h2{margin:10px 0}.modal p{color:var(--muted);line-height:1.6}.modal-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:20px}.toast{position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);background:var(--text);color:var(--bg);font-weight:800;font-size:13px;padding:12px 18px;border-radius:13px;opacity:0;pointer-events:none;transition:.25s;z-index:30;max-width:90vw;text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}footer{text-align:center;color:var(--muted);font-size:11px;padding:28px 0 0}.empty-note{color:var(--muted);font-size:12px;line-height:1.5}
-
-/* Multiplayer lobby */
-.together-hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:center;padding:clamp(22px,4vw,38px);border:1px solid var(--line);border-radius:26px;background:linear-gradient(130deg,var(--panel),color-mix(in srgb,var(--accent) 12%,var(--panel2)));box-shadow:var(--shadow);overflow:hidden;position:relative}
-.together-hero h1{font-size:clamp(34px,5vw,56px);margin:13px 0}.together-art{display:grid;place-items:center;min-height:190px;position:relative}.together-orb{width:190px;height:190px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 35% 30%,#a993ff,#6d55d9 43%,#27254e 76%);box-shadow:0 20px 55px #755be744;border:1px solid #ffffff38;font-size:84px;transform:rotate(-10deg)}.together-art:after{content:'â¦';position:absolute;font-size:32px;color:var(--accent2);top:15%;right:13%}.room-grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:18px}.room-card{background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow);min-width:0}.room-card h3{margin:0 0 8px;font-size:18px}.room-card>p{color:var(--muted);font-size:13px;line-height:1.6;margin:0 0 18px}.room-icon{width:45px;height:45px;display:grid;place-items:center;border-radius:15px;background:color-mix(in srgb,var(--accent) 16%,var(--panel2));font-size:23px;margin-bottom:16px}.field-label{display:block;font-size:12px;font-weight:800;color:var(--muted);margin:12px 0 7px}.room-input{width:100%;padding:13px 14px;border-radius:13px;border:1px solid var(--line);background:var(--panel2);color:var(--text);outline:none}.room-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 20%,transparent)}.room-note{display:flex;gap:10px;align-items:flex-start;margin-top:17px;padding:13px;border-radius:14px;background:var(--panel2);color:var(--muted);font-size:12px;line-height:1.5}.room-note b{color:var(--text)}.room-live{display:none;margin-top:17px;background:var(--panel);border:1px solid var(--line);border-radius:22px;padding:22px}.room-live.show{display:block}.room-live-top{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}.live-pill{font-size:11px;font-weight:850;color:var(--accent2);background:color-mix(in srgb,var(--accent2) 12%,var(--panel));border:1px solid color-mix(in srgb,var(--accent2) 30%,var(--line));border-radius:99px;padding:7px 10px}.room-code-row{display:flex;gap:8px;align-items:center;margin:14px 0}.room-code{font-size:clamp(22px,4vw,32px);font-weight:950;letter-spacing:.22em;background:var(--panel2);border:1px dashed var(--accent);border-radius:14px;padding:13px 16px;flex:1;text-align:center}.room-layout{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:16px}.room-subcard{background:var(--panel2);border-radius:16px;padding:15px}.room-subcard h4{margin:0 0 12px;font-size:13px}.player-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:13px}.player-row:last-child{border:0}.avatar{width:31px;height:31px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),#4cbdc2);color:white;font-weight:900}.player-row small{display:block;color:var(--muted);font-size:10px;margin-top:2px}.chat-log{height:112px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}.chat-bubble{align-self:flex-start;max-width:94%;padding:8px 11px;background:var(--panel);border:1px solid var(--line);border-radius:12px;font-size:12px;line-height:1.45}.chat-bubble.mine{align-self:flex-end;background:color-mix(in srgb,var(--accent) 20%,var(--panel));}.chat-compose{display:flex;gap:7px}.chat-compose .room-input{min-width:0}.chat-compose button{flex-shrink:0}.room-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:15px}.room-warning{font-size:11px;color:var(--muted);line-height:1.55;margin-top:12px}
-@media(max-width:800px){.together-hero{grid-template-columns:1fr}.together-art{min-height:140px;order:-1}.together-orb{width:130px;height:130px;font-size:60px}.room-grid,.room-layout{grid-template-columns:1fr}}
-
-
-/* Premium Play Together experience */
-.together-page-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 17px;flex-wrap:wrap}
-.together-hero{background:radial-gradient(ellipse at 85% 15%,color-mix(in srgb,var(--accent) 23%,transparent),transparent 38%),linear-gradient(130deg,var(--panel),color-mix(in srgb,var(--panel2) 82%,var(--accent)));min-height:270px}
-.together-hero:after{content:"";position:absolute;width:240px;height:240px;border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);border-radius:50%;right:7%;top:12%;pointer-events:none}
-.together-hero .intro{max-width:500px}
-.together-badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
-.together-badge{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 80%,transparent);padding:8px 11px;border-radius:99px;font-size:11px;font-weight:750;color:var(--muted)}
-.together-badge span{color:var(--accent2)}
-.together-orb{position:relative;z-index:1;box-shadow:0 20px 55px #755be744,inset 0 1px 1px #ffffff55}
-.together-orb:after{content:"â¦";position:absolute;font-size:27px;right:-13px;top:9px;color:#fff;filter:drop-shadow(0 0 8px #fff)}
-.room-grid{gap:16px;margin-top:20px}
-.room-card{padding:clamp(19px,3vw,26px);position:relative;overflow:hidden;transition:transform .2s,border-color .2s}
-.room-card:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--accent) 55%,var(--line))}
-.room-card.create-card{background:linear-gradient(145deg,color-mix(in srgb,var(--accent) 9%,var(--panel)),var(--panel))}
-.room-card.join-card{background:linear-gradient(145deg,color-mix(in srgb,var(--accent2) 8%,var(--panel)),var(--panel))}
-.room-card-head{display:flex;gap:13px;align-items:center;margin-bottom:13px}
-.room-card-head .room-icon{width:50px;height:50px;margin:0;flex-shrink:0}
-.room-kicker{font-size:10px;color:var(--accent2);letter-spacing:.13em;font-weight:900;text-transform:uppercase;margin-bottom:5px}
-.room-card h3{margin:0;font-size:19px;letter-spacing:-.03em}
-.room-card>p{margin:0 0 19px;min-height:40px}
-.room-card .primary{min-height:47px}
-.room-input{min-height:46px}
-.room-note{border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 70%,var(--panel2));padding:15px 17px;margin-top:17px}
-.room-note .note-icon{width:30px;height:30px;display:grid;place-items:center;flex-shrink:0;border-radius:10px;background:color-mix(in srgb,var(--accent2) 16%,var(--panel));color:var(--accent2);font-weight:900}
-.room-live{padding:clamp(17px,3vw,25px);box-shadow:var(--shadow)}
-.room-code{letter-spacing:.18em;background:linear-gradient(120deg,var(--panel2),color-mix(in srgb,var(--accent) 8%,var(--panel2)))}
-.room-subcard{border:1px solid var(--line)}
-.room-live-top h2{letter-spacing:-.04em}
-.room-warning{padding:9px 10px;background:color-mix(in srgb,var(--accent2) 8%,var(--panel2));border-radius:10px}
-.room-actions .primary,.room-actions .secondary{min-height:43px}
-@media(max-width:800px){.together-hero{grid-template-columns:1fr}.together-art{min-height:145px;order:-1}.together-orb{width:130px;height:130px;font-size:60px}.room-grid,.room-layout{grid-template-columns:1fr}.room-card>p{min-height:0}}
-@media(max-width:520px){.nav-together{padding:10px;font-size:11px}.top-actions{gap:5px}.together-hero{padding:20px}.together-hero:after{right:0}.together-page-head .secondary{padding:9px 10px}.room-code-row{align-items:stretch;flex-wrap:wrap}.room-code{min-width:100%;font-size:24px}.room-code-row .secondary{flex:1}}
-
-@media(max-width:800px){.hero{grid-template-columns:1fr}.hero-art{min-height:210px;order:-1}.orbit{width:240px}.puzzle-big{font-size:150px}.game-layout{grid-template-columns:1fr}.side-panel{grid-template-columns:repeat(2,minmax(0,1fr))}.side-panel .panel-card:first-child{grid-column:1/-1}.modes{grid-template-columns:1fr}.mode{display:flex;gap:15px;align-items:center}.mode .emoji{margin:0;font-size:30px}.mode p{display:none}}
-@media(max-width:520px){.app{padding-top:13px}.topbar{margin-bottom:19px}.brand{font-size:13px}.logo{width:38px;height:38px}.icon-btn{padding:10px}.hero{padding:22px;border-radius:23px}.hero-art{min-height:180px}.orbit{width:190px}.puzzle-big{font-size:125px}h1{font-size:46px}.intro{font-size:14px}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:19px}.stat span{font-size:10px}.section-head{margin-top:27px}.settings-grid{grid-template-columns:1fr}.side-panel{grid-template-columns:1fr 1fr}.game-title{font-size:18px}}
-
-.setup-modal{max-width:900px;text-align:left;max-height:90vh;overflow:auto}.setup-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.picture-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0}.picture-choice{background:var(--panel2);border:2px solid transparent;border-radius:14px;padding:7px;text-align:left;min-width:0}.picture-choice.chosen{border-color:var(--accent);box-shadow:0 0 0 2px color-mix(in srgb,var(--accent) 25%,transparent)}.picture-choice img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:9px;display:block}.picture-choice span{display:block;font-size:12px;font-weight:800;padding:8px 3px 3px}.setup-options{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0}.setup-options label{font-size:13px;color:var(--muted);font-weight:800}.setup-options select{background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:12px;padding:11px}.upload-label{display:inline-flex;align-items:center;gap:8px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:11px 14px;font-weight:800;cursor:pointer}.upload-label input{display:none}.game-layout{grid-template-columns:minmax(0,1fr)}.board-wrap{overflow-x:auto}.board-shell{max-width:none;width:100%;min-width:760px}.board-shell svg{width:100%;height:auto;touch-action:none}.tray-label{font-size:12px;font-weight:900;fill:var(--muted);letter-spacing:1px}.tray-bg{fill:var(--panel2);stroke:var(--line);stroke-width:2}.tray-piece{cursor:grab;touch-action:none}.tray-piece:active{cursor:grabbing}.game-layout .side-panel{grid-template-columns:repeat(3,minmax(0,1fr));margin-top:2px}.game-layout .side-panel .panel-card:first-child{grid-column:auto}@media(max-width:650px){.picture-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.setup-modal{padding:16px}.game-layout .side-panel{grid-template-columns:1fr 1fr}.game-layout .side-panel .panel-card:first-child{grid-column:1/-1}.board-shell{min-width:760px}}
-</style></head>
-<body>
-<div class="app">
-<header class="topbar"><button class="brand" onclick="showPage('home')" aria-label="Jigsaw World home"><span class="logo">ð§©</span><span>JIGSAW WORLD<small>PIECE BY PIECE, FIND YOUR CALM</small></span></button><div class="top-actions"><button class="nav-together" onclick="showPage('together')" title="Play Together">ð¥ Play Together</button><button class="icon-btn" id="themeTop" aria-label="Toggle theme" title="Toggle light/dark mode">âï¸</button><button class="icon-btn" onclick="showPage('settings')" title="Settings">âï¸</button></div></header>
-<main>
-<section class="page active" id="homePage"><div class="hero"><div><div class="eyebrow">Your little escape</div><h1>MAKE TIME<br>FOR <span>PUZZLES.</span></h1><p class="intro">Slow down, find your focus, and bring beautiful pictures to life one piece at a time.</p><div class="button-row"><button class="primary" onclick="openSetup(false)">â¶ &nbsp; PLAY NOW</button><button class="secondary" onclick="continueGame()">â &nbsp; CONTINUE</button></div><div class="stats"><div class="stat"><strong id="statSolved">0</strong><span>Puzzles solved</span></div><div class="stat"><strong id="statPieces">0</strong><span>Pieces placed</span></div><div class="stat"><strong id="statTime">00:00</strong><span>Last session</span></div></div></div><div class="hero-art"><div class="orbit"><div class="puzzle-big">ð§©</div><div class="float-tag tag1">â¦ Daily calm</div><div class="float-tag tag2">â¡ Made for you</div></div></div></div>
-<div class="section-head"><div><h2>Choose your journey</h2><p>A quiet moment or a challenge to remember.</p></div></div><div class="modes"><button class="mode" onclick="openSetup(false)"><span class="emoji">ð§©</span><span><b>Classic Puzzle</b><p>Piece together a beautiful picture at your own pace.</p></span></button><button class="mode" onclick="openSetup(true)"><span class="emoji">â±ï¸</span><span><b>Time Challenge</b><p>Race the clock and test your focus.</p></span></button><button class="mode" onclick="showPage('together')"><span class="emoji">ð¥</span><span><b>Play Together</b><p>Create a room, invite a friend, and solve puzzles side by side.</p></span></button><button class="mode" onclick="showPage('settings')"><span class="emoji">ð¨</span><span><b>Make it yours</b><p>Choose your look, sound, and puzzle difficulty.</p></span></button></div>
-</section>
-<section class="page" id="gamePage"><div class="game-top"><div><div class="game-title">Puzzle in progress</div><div class="game-sub" id="gameSubtitle">Take your time. Every piece matters.</div></div><div class="game-controls"><button class="secondary" onclick="pauseGame()">â¡ Pause</button><button class="secondary" onclick="showPage('home')">â Home</button></div></div><div class="game-layout"><div class="board-wrap"><div class="board-shell" id="boardShell"><svg id="puzzleSvg" viewBox="0 0 1000 470" role="img" aria-label="Drag real jigsaw pieces from the tray into the empty picture board"></svg></div><p class="empty-note" style="text-align:center;margin:12px 4px 2px">Drag each jigsaw piece from the tray on the right into its matching spot on the large empty board. Pieces snap into place when close enough.</p></div><aside class="side-panel"><div class="panel-card"><h3>YOUR PROGRESS</h3><div class="metric"><span>Placed</span><b id="placedCount">0 / 12</b></div><div class="progress"><div id="progressBar"></div></div><div class="metric"><span>Time</span><b id="timer">00:00</b></div><div class="metric"><span>Mode</span><b id="modeName">Classic</b></div></div><div class="panel-card"><h3>REFERENCE PICTURE</h3><img class="thumb" id="referenceImage" alt="Puzzle reference picture"><p class="hint">Use the picture to guide where each piece belongs.</p></div><div class="panel-card"><h3>PUZZLE SETTINGS</h3><label class="hint" for="difficulty">Number of pieces</label><select class="select" id="difficulty" onchange="changeDifficulty()"><option value="3">Easy Â· 9 pieces</option><option value="4" selected>Medium Â· 16 pieces</option><option value="5">Hard Â· 25 pieces</option><option value="6">Expert Â· 36 pieces</option></select><button class="secondary" style="width:100%;margin-top:10px" onclick="shufflePuzzle()">â¤¨ Shuffle again</button><button class="secondary" style="width:100%;margin-top:8px" onclick="toggleReference()">â Toggle reference</button></div></aside></div></section>
-<section class="page" id="togetherPage">
-<div class="together-page-head"><div><div class="eyebrow">Play with friends</div><h2 style="margin:8px 0 0;font-size:25px;letter-spacing:-.04em">Play Together</h2><p style="margin:6px 0 0;color:var(--muted);font-size:13px">Your own little puzzle room, made for sharing.</p></div><button class="secondary" onclick="showPage('home')">â Back home</button></div>
-<div class="together-hero"><div><div class="eyebrow">Better together Â· less scrolling, more solving</div><h1>GOOD PUZZLES.<br><span>GREAT COMPANY.</span></h1><p class="intro">Create a room, choose your challenge, and invite a friend with a room code. Your next favorite puzzle moment starts here.</p><div class="button-row"><button class="primary" onclick="document.getElementById('hostName').focus();document.getElementById('hostName').scrollIntoView({behavior:'smooth',block:'center'})">ï¼ Create a room</button><button class="secondary" onclick="document.getElementById('joinCode').focus();document.getElementById('joinCode').scrollIntoView({behavior:'smooth',block:'center'})">â I have a code</button></div><div class="together-badges"><span class="together-badge"><span>â¦</span> Private room codes</span><span class="together-badge"><span>â</span> Built-in chat preview</span><span class="together-badge"><span>ð§©</span> 9â36 pieces</span></div></div><div class="together-art"><div class="together-orb">ð§©</div></div></div>
-<div class="section-head"><div><h2>Start your session</h2><p>Host a new room or enter a friend's invite code.</p></div></div>
-<div class="room-grid"><div class="room-card create-card"><div class="room-card-head"><div class="room-icon">â¦</div><div><div class="room-kicker">You're the host</div><h3>Create a room</h3></div></div><p>Set up a private puzzle lounge and get a code you can copy and share.</p><label class="field-label" for="hostName">YOUR DISPLAY NAME</label><input class="room-input" id="hostName" maxlength="18" placeholder="e.g. Puzzle Master" value="Puzzle Master"><label class="field-label" for="roomDifficulty">CHOOSE YOUR CHALLENGE</label><select class="select" id="roomDifficulty" style="margin-top:0"><option value="3">Easy Â· 9 pieces</option><option value="4" selected>Medium Â· 16 pieces</option><option value="5">Hard Â· 25 pieces</option><option value="6">Expert Â· 36 pieces</option></select><button class="primary" style="width:100%;margin-top:16px" onclick="createRoom()">Create private room <span aria-hidden="true">â</span></button></div>
-<div class="room-card join-card"><div class="room-card-head"><div class="room-icon" style="background:color-mix(in srgb,var(--accent2) 16%,var(--panel2))">â</div><div><div class="room-kicker">Already invited?</div><h3>Join a room</h3></div></div><p>Enter the room code your friend sent you and get ready to play.</p><label class="field-label" for="guestName">YOUR DISPLAY NAME</label><input class="room-input" id="guestName" maxlength="18" placeholder="e.g. Alex" value="Guest"><label class="field-label" for="joinCode">6-CHARACTER ROOM CODE</label><input class="room-input" id="joinCode" maxlength="6" placeholder="ABC123" autocomplete="off" autocapitalize="characters" style="text-transform:uppercase;letter-spacing:.22em;font-weight:900"><button class="primary" style="width:100%;margin-top:16px;background:linear-gradient(120deg,var(--accent2),#198e91)" onclick="joinRoom()">Join friend's room <span aria-hidden="true">â</span></button></div></div>
-<div class="room-note"><div class="note-icon">i</div><div><b>Honest preview note</b><br>Room creation, codes, and chat preview work in this version on your device. For a friend to join from another phone and share live puzzle moves, we still need to connect an online database/backend.</div></div>
-<div class="room-live" id="roomLive"><div class="room-live-top"><div><div class="eyebrow">Your room is ready</div><h2 style="margin:8px 0 0">The puzzle lounge</h2></div><span class="live-pill">â ROOM CREATED</span></div><div class="room-code-row"><div class="room-code" id="activeRoomCode">JW-4821</div><button class="secondary" onclick="copyRoomCode()">â£ Copy invite code</button></div><p class="hint" id="roomStatus">Share this code with a friend to invite them.</p><div class="room-layout"><div class="room-subcard"><h4>PLAYERS <span id="playerCount" style="color:var(--muted)">1/2</span></h4><div id="playerList"></div><div class="room-warning">Your friend will appear here after real-time online sync is connected.</div></div><div class="room-subcard"><h4>ROOM CHAT <span style="color:var(--muted);font-weight:500">Â· local preview</span></h4><div class="chat-log" id="chatLog"><div class="chat-bubble">Welcome to your puzzle lounge! ð§©</div></div><form class="chat-compose" onsubmit="sendRoomMessage(event)"><input class="room-input" id="chatInput" maxlength="180" placeholder="Write a messageâ¦" aria-label="Chat message"><button class="primary" type="submit" style="padding:10px 12px">Send</button></form></div></div><div class="room-actions"><button class="primary" onclick="startRoomPuzzle()">Start puzzle â</button><button class="secondary" onclick="leaveRoom()">Leave room</button></div></div>
-</section>
-<section class="page" id="settingsPage"><div class="section-head"><div><h2>Settings</h2><p>Make Jigsaw World feel like your space.</p></div><button class="secondary" onclick="showPage('home')">â Back</button></div><div class="settings-grid"><div class="setting"><div><b>Appearance</b><small id="themeLabel">Dark mode</small></div><button class="toggle" id="themeToggle" onclick="toggleTheme()" aria-label="Toggle appearance"><i></i></button></div><div class="setting"><div><b>Sound effects</b><small>Soft feedback while playing</small></div><button class="toggle on" id="soundToggle" onclick="toggleSound()" aria-label="Toggle sound"><i></i></button></div><div class="setting"><div><b>Difficulty</b><small>Choose how many pieces</small></div><select class="select" style="width:120px;margin:0" id="settingsDifficulty" onchange="syncDifficulty(this.value)"><option value="3">Easy</option><option value="4" selected>Medium</option><option value="5">Hard</option><option value="6">Expert</option></select></div><div class="setting"><div><b>Saved progress</b><small>Your current puzzle is saved on this device.</small></div><button class="secondary" onclick="continueGame()">Resume</button></div></div><div class="section-head"><div><h2>About the game</h2><p>Relax, focus, and enjoy the little wins.</p></div></div><div class="panel-card"><b>ð§© Jigsaw World</b><p class="hint">A browser puzzle prototype. Your puzzle progress and preferences are stored locally on this device. Online rooms and accounts are not connected yet.</p></div></section>
-</main><footer>JIGSAW WORLD Â· A LITTLE SPACE TO SLOW DOWN</footer></div>
-<div class="overlay show" id="setupOverlay" style="display:none"><div class="modal setup-modal"><div class="setup-head"><div><div class="eyebrow">Make your own puzzle</div><h2 style="margin:8px 0">Choose a picture</h2><p style="margin:0">Pick a picture, upload any photo, and choose how many pieces you want.</p></div><button class="secondary" onclick="closeSetup()">â</button></div><div class="picture-grid" id="pictureGrid"></div><div class="setup-options"><label for="setupDifficulty">NUMBER OF PIECES</label><select id="setupDifficulty"><option value="3">9 pieces Â· Easy</option><option value="4" selected>16 pieces Â· Medium</option><option value="5">25 pieces Â· Hard</option><option value="6">36 pieces Â· Expert</option><option value="8">64 pieces Â· Master</option><option value="10">100 pieces Â· Extreme</option></select><label class="upload-label">ï¼ Upload your own photo<input type="file" id="photoUpload" accept="image/*" onchange="uploadPicture(event)"></label><button class="secondary" onclick="randomPicture()">â» Surprise me</button></div><div style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap"><button class="secondary" onclick="closeSetup()">Cancel</button><button class="primary" onclick="startChosenPuzzle()">Start puzzle â</button></div></div></div>
-<div class="overlay" id="modal"><div class="modal"><div class="big" id="modalIcon">â¸ï¸</div><h2 id="modalTitle">Take a breath</h2><p id="modalText">Your puzzle is paused. Ready when you are.</p><div class="modal-actions" id="modalActions"></div></div></div><div class="toast" id="toast"></div>
-<script>
-const $=id=>document.getElementById(id);let difficulty=4, pieces=[],drag=null,selected=null,startedAt=0,elapsed=0,timerLoop=null,challenge=false,paused=false,soundOn=true,referenceOn=true,solved=0,placedTotal=0,lastSession=0,toastTimer=null,audioCtx=null;
-const pictures=[
-{name:'Mountain peaks',url:'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1200&q=85'},
-{name:'Ocean waves',url:'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1200&q=85'},
-{name:'Forest path',url:'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1200&q=85'},
-{name:'Pink sunset',url:'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1200&q=85'},
-{name:'Cute cat',url:'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1200&q=85'},
-{name:'Flower garden',url:'https://images.unsplash.com/photo-1490750967868-88aa4486c946?auto=format&fit=crop&w=1200&q=85'},
-{name:'Snowy mountains',url:'https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=1200&q=85'},
-{name:'Desert dunes',url:'https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1200&q=85'},
-{name:'City at night',url:'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1200&q=85'},
-{name:'Green lake',url:'https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1200&q=85'},
-{name:'Golden retriever',url:'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=1200&q=85'},
-{name:'Butterfly',url:'https://images.unsplash.com/photo-1550747528-cdb45925b3f5?auto=format&fit=crop&w=1200&q=85'}
-];let pictureIndex=0,customPictures=[],selectedPicture=0,setupChallenge=false;
-function safeGet(k,d){try{return localStorage.getItem(k)??d}catch(e){return d}}function safeSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
-function init(){document.body.classList.toggle('light',safeGet('jw_theme','dark')==='light');soundOn=safeGet('jw_sound','on')==='on';difficulty=Number(safeGet('jw_difficulty','4'));solved=Number(safeGet('jw_solved','0'));placedTotal=Number(safeGet('jw_placed','0'));syncToggles();$('difficulty').value=String(difficulty);$('settingsDifficulty').value=String(difficulty);$('setupDifficulty').value=String(difficulty);updateStats();renderPictureChoices();}
-function showPage(name){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));$(name+'Page').classList.add('active');if(name!=='game')stopTimer(false);if(name==='home')updateStats();window.scrollTo({top:0,behavior:'smooth'});}
-function toggleTheme(){document.body.classList.toggle('light');safeSet('jw_theme',document.body.classList.contains('light')?'light':'dark');syncToggles();playTone(520,.05)}function syncToggles(){let light=document.body.classList.contains('light');$('themeTop').textContent=light?'ð':'âï¸';$('themeToggle').classList.toggle('on',light);$('themeLabel').textContent=light?'Light mode':'Dark mode';$('soundToggle').classList.toggle('on',soundOn)}function toggleSound(){soundOn=!soundOn;safeSet('jw_sound',soundOn?'on':'off');syncToggles();if(soundOn)playTone(650,.08);toast(soundOn?'Sound effects on':'Sound effects off')}
-function playTone(freq=620,duration=.06){if(!soundOn)return;try{audioCtx=audioCtx||new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.045,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.connect(g);g.connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration)}catch(e){}}
-function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),2200)}function fmt(sec){sec=Math.max(0,Math.floor(sec));return String(Math.floor(sec/60)).padStart(2,'0')+':'+String(sec%60).padStart(2,'0')}
-function updateStats(){$('statSolved').textContent=solved;$('statPieces').textContent=placedTotal;$('statTime').textContent=fmt(lastSession)}
-function allPictures(){return pictures.concat(customPictures)}
-function renderPictureChoices(){let list=allPictures();$('pictureGrid').innerHTML=list.map((p,i)=>`<button class="picture-choice ${i===selectedPicture?'chosen':''}" onclick="choosePicture(${i})"><img src="${p.url}" alt="" loading="lazy"><span>${escapeRoomText(p.name)}</span></button>`).join('')}
-function choosePicture(i){selectedPicture=i;renderPictureChoices()}
-function openSetup(timeChallenge=false){setupChallenge=timeChallenge;$('setupDifficulty').value=String(difficulty);$('setupOverlay').style.display='flex';$('setupOverlay').classList.add('show');renderPictureChoices()}
-function closeSetup(){$('setupOverlay').classList.remove('show');$('setupOverlay').style.display='none'}
-function uploadPicture(e){let file=e.target.files&&e.target.files[0];if(!file)return;if(!file.type.startsWith('image/')){toast('Please choose an image file');return}let url=URL.createObjectURL(file);customPictures.push({name:file.name.replace(/\.[^.]+$/,'').slice(0,24)||'My photo',url});selectedPicture=pictures.length+customPictures.length-1;renderPictureChoices();toast('Your photo is ready!')}
-function randomPicture(){selectedPicture=Math.floor(Math.random()*allPictures().length);renderPictureChoices()}
-function startChosenPuzzle(){difficulty=Number($('setupDifficulty').value)||4;safeSet('jw_difficulty',String(difficulty));$('difficulty').value=String(difficulty);$('settingsDifficulty').value=String(difficulty);challenge=setupChallenge;pictureIndex=selectedPicture;closeSetup();beginGame()}
-function startGame(timeChallenge=false){setupChallenge=timeChallenge;openSetup(timeChallenge)}
-function beginGame(){elapsed=0;startedAt=Date.now();paused=false;$('gameSubtitle').textContent=challenge?'Time challenge Â· Beat your best focus':'Take your time. Every piece matters.';$('modeName').textContent=challenge?'Challenge':'Classic';$('referenceImage').src=allPictures()[pictureIndex].url;$('referenceImage').style.display='block';buildPuzzle();showPage('game');startTimer()}
-function continueGame(){let saved;try{saved=JSON.parse(safeGet('jw_save','null'))}catch(e){}if(saved&&saved.pieces&&saved.pieces.length){difficulty=saved.difficulty||4;pictureIndex=saved.pictureIndex||0;challenge=!!saved.challenge;elapsed=saved.elapsed||0;pieces=saved.pieces;startedAt=Date.now()-elapsed*1000;$('referenceImage').src=allPictures()[pictureIndex].url;$('modeName').textContent=challenge?'Challenge':'Classic';$('difficulty').value=String(difficulty);renderPieces();updateProgress();showPage('game');startTimer();toast('Your saved puzzle is back!')}else startGame(false)}
-function stopTimer(save=true){if(timerLoop){clearInterval(timerLoop);timerLoop=null}if(save)saveGame()}function startTimer(){if(timerLoop)clearInterval(timerLoop);timerLoop=setInterval(()=>{if(!paused){elapsed=Math.floor((Date.now()-startedAt)/1000);$('timer').textContent=fmt(elapsed);saveGame(false)}},1000);$('timer').textContent=fmt(elapsed)}
-function saveGame(update=true){if(!pieces.length)return;let data={difficulty,pictureIndex,challenge,elapsed:paused?elapsed:Math.floor((Date.now()-startedAt)/1000),pieces:pieces.map(p=>({id:p.id,row:p.row,col:p.col,x:p.x,y:p.y,locked:p.locked,edges:p.edges}))};safeSet('jw_save',JSON.stringify(data));if(update)updateStats()}
-function changeDifficulty(){syncDifficulty($('difficulty').value)}function syncDifficulty(v){difficulty=Number(v);$('difficulty').value=String(v);$('settingsDifficulty').value=String(v);safeSet('jw_difficulty',v);if($('gamePage').classList.contains('active')){buildPuzzle();toast('Puzzle difficulty updated')} }
-function buildPuzzle(){let n=difficulty;pieces=[];let W=600,H=450,cw=W/n,ch=H/n;let vertical=[],horizontal=[];for(let r=0;r<n;r++){vertical[r]=[];for(let c=0;c<n-1;c++)vertical[r][c]=(Math.random()<.5?-1:1)}for(let r=0;r<n-1;r++){horizontal[r]=[];for(let c=0;c<n;c++)horizontal[r][c]=(Math.random()<.5?-1:1)}let id=0;for(let r=0;r<n;r++)for(let c=0;c<n;c++){let px=630+(c%4)*(Math.min(cw,85)+8),py=38+Math.floor((id)/4)*(Math.min(ch,72)+8);pieces.push({id:id++,row:r,col:c,x:px,y:Math.min(450-Math.min(ch,72),py),locked:false,edges:{top:r===0?0:-horizontal[r-1][c],right:c===n-1?0:vertical[r][c],bottom:r===n-1?0:horizontal[r][c],left:c===0?0:-vertical[r][c]}})}renderPieces();updateProgress();saveGame(false)}
-function edgePath(x,y,w,h,e){
-  // Each side is a real jigsaw edge: flat shoulder, narrow neck and rounded bulb.
-  // Matching neighbouring edges use opposite signs so tabs fit into sockets.
-  let d=`M ${x} ${y}`;
-  function top(){
-    if(!e.top){d+=` L ${x+w} ${y}`;return}
-    const s=e.top, cy=y-h*.17*s;
-    d+=` L ${x+w*.34} ${y}`;
-    d+=` C ${x+w*.385} ${y} ${x+w*.39} ${y-h*.055*s} ${x+w*.425} ${y-h*.055*s}`;
-    d+=` C ${x+w*.445} ${y-h*.055*s} ${x+w*.425} ${cy} ${x+w*.5} ${cy}`;
-    d+=` C ${x+w*.575} ${cy} ${x+w*.555} ${y-h*.055*s} ${x+w*.575} ${y-h*.055*s}`;
-    d+=` C ${x+w*.61} ${y-h*.055*s} ${x+w*.615} ${y} ${x+w*.66} ${y} L ${x+w} ${y}`;
-  }
-  function right(){
-    if(!e.right){d+=` L ${x+w} ${y+h}`;return}
-    const s=e.right,cx=x+w+w*.17*s;
-    d+=` L ${x+w} ${y+h*.34}`;
-    d+=` C ${x+w} ${y+h*.385} ${x+w+w*.055*s} ${y+h*.39} ${x+w+w*.055*s} ${y+h*.425}`;
-    d+=` C ${x+w+w*.055*s} ${y+h*.445} ${cx} ${y+h*.425} ${cx} ${y+h*.5}`;
-    d+=` C ${cx} ${y+h*.575} ${x+w+w*.055*s} ${y+h*.555} ${x+w+w*.055*s} ${y+h*.575}`;
-    d+=` C ${x+w+w*.055*s} ${y+h*.61} ${x+w} ${y+h*.615} ${x+w} ${y+h*.66} L ${x+w} ${y+h}`;
-  }
-  function bottom(){
-    if(!e.bottom){d+=` L ${x} ${y+h}`;return}
-    const s=e.bottom, cy=y+h+h*.17*s;
-    d+=` L ${x+w*.66} ${y+h}`;
-    d+=` C ${x+w*.615} ${y+h} ${x+w*.61} ${y+h+h*.055*s} ${x+w*.575} ${y+h+h*.055*s}`;
-    d+=` C ${x+w*.555} ${y+h+h*.055*s} ${x+w*.575} ${cy} ${x+w*.5} ${cy}`;
-    d+=` C ${x+w*.425} ${cy} ${x+w*.445} ${y+h+h*.055*s} ${x+w*.425} ${y+h+h*.055*s}`;
-    d+=` C ${x+w*.39} ${y+h+h*.055*s} ${x+w*.385} ${y+h} ${x+w*.34} ${y+h} L ${x} ${y+h}`;
-  }
-  function left(){
-    if(!e.left){d+=` L ${x} ${y}`;return}
-    const s=e.left,cx=x-w*.17*s;
-    d+=` L ${x} ${y+h*.66}`;
-    d+=` C ${x} ${y+h*.615} ${x-w*.055*s} ${y+h*.61} ${x-w*.055*s} ${y+h*.575}`;
-    d+=` C ${x-w*.055*s} ${y+h*.555} ${cx} ${y+h*.575} ${cx} ${y+h*.5}`;
-    d+=` C ${cx} ${y+h*.425} ${x-w*.055*s} ${y+h*.445} ${x-w*.055*s} ${y+h*.425}`;
-    d+=` C ${x-w*.055*s} ${y+h*.39} ${x} ${y+h*.385} ${x} ${y+h*.34} L ${x} ${y}`;
-  }
-  top();right();bottom();left();return d+' Z';
+:root{--bg:#102437;--panel:#19354a;--card:#21445a;--text:#f4fbff;--muted:#a8c1ce;--accent:#5ce0cf;--line:#365c70}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,sans-serif}
+button,select,input{font:inherit}
+button{cursor:pointer;color:inherit}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px  max(12px,calc((100% - 1100px)/2));gap:12px;border-bottom:1px solid #ffffff18;background:#102437;position:sticky;top:0;z-index:4}
+.brand{border:0;background:none;font-weight:950;font-size:clamp(16px,3vw,24px);letter-spacing:.04em}
+.brand span{color:var(--accent)}
+.nav{display:flex;gap:7px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--panel);padding:10px 13px;border-radius:11px;font-weight:750}
+.primary{background:var(--accent);color:#0d2634;border-color:transparent}
+.wrap{max-width:1100px;padding:22px 16px 55px;margin:auto}
+.hero{border:1px solid #ffffff20;border-radius:22px;padding:clamp(28px,7vw,70px) 18px;text-align:center;background:linear-gradient(120deg,#102437e8,#0c2935cc),url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80') center/cover}
+.eyebrow{color:var(--accent);font-weight:850;letter-spacing:.15em;font-size:12px}
+.hero h1{font-size:clamp(38px,8vw,78px);line-height:.98;margin:14px 0;letter-spacing:-.05em}
+.hero p{max-width:620px;margin:0 auto 24px;color:#d4e7ee;line-height:1.6}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
+.tile{background:var(--panel);border:1px solid #ffffff12;border-radius:16px;padding:22px;min-height:145px;text-align:left}
+.tile b{display:block;font-size:21px;margin:9px 0 5px}
+.tile p,.note{color:var(--muted);font-size:14px;line-height:1.5}
+.section{display:none}
+.section.active{display:block}
+.heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 18px}
+.heading h2{margin:0;font-size:28px}
+.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.photo{padding:0;overflow:hidden;text-align:left;border-radius:14px;background:var(--panel);border:2px solid transparent}
+.photo.selected{border-color:var(--accent)}
+.photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.photo span{display:block;padding:11px;font-weight:750}
+.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:15px 0}
+select,input[type=text]{background:var(--panel);border:1px solid var(--line);border-radius:9px;color:var(--text);padding:10px}
+.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:16px}
+.board{background:var(--panel);padding:12px;border-radius:16px;border:1px solid var(--line)}
+.board-grid{display:grid;gap:3px;aspect-ratio:1;background:#0b1b28}
+.piece{border:0;padding:0;min-width:0;position:relative;background:#244b60;overflow:hidden;aspect-ratio:1;outline:1px solid #ffffff30;touch-action:manipulation}
+.piece:focus-visible{outline:3px solid var(--accent);z-index:1}
+.side{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:15px 0}
+.stat{background:var(--card);padding:12px;border-radius:10px;text-align:center}
+.stat strong{display:block;font-size:22px}
+.stat small{color:var(--muted)}
+.bar{height:7px;background:#0d2030;border-radius:10px;overflow:hidden;margin:8px 0 15px}
+.bar div{height:100%;width:0;background:var(--accent);transition:width .2s}
+.room{max-width:600px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
+.room input{width:100%;margin:7px 0 12px}
+.status{color:var(--accent);min-height:22px}
+.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:26px}
+@media(max-width:700px){
+.tiles{grid-template-columns:1fr}
+.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
+.game-layout{grid-template-columns:1fr}
+.top{padding:12px}
+.wrap{padding:15px 12px 35px}
+.side{order:-1}
+.heading h2{font-size:23px}
+.btn{padding:9px 11px}
 }
-function renderPieces(){const svg=$('puzzleSvg');let n=difficulty,W=600,H=450,cw=W/n,ch=H/n;svg.setAttribute('viewBox','0 0 1000 470');let img=allPictures()[pictureIndex]||pictures[0];let defs=`<defs><pattern id="picture" patternUnits="userSpaceOnUse" width="${W}" height="${H}"><image href="${img.url}" width="${W}" height="${H}" preserveAspectRatio="xMidYMid slice"/></pattern></defs>`;let out=defs+`<rect class="board-bg" x="1" y="1" width="598" height="448" rx="12"/><text x="300" y="215" text-anchor="middle" fill="var(--muted)" font-size="20" font-weight="800">DROP THE PIECES HERE</text><text class="tray-label" x="810" y="20" text-anchor="middle">PUZZLE PIECES</text><rect class="tray-bg" x="615" y="28" width="375" height="440" rx="15"/>`;for(let r=0;r<n;r++)for(let c=0;c<n;c++){let tx=c*cw,ty=r*ch;out+=`<rect x="${tx}" y="${ty}" width="${cw}" height="${ch}" fill="none" stroke="var(--line)" stroke-width="1.2" stroke-dasharray="5 6"/>`}pieces.forEach(p=>{let tx=p.col*cw,ty=p.row*ch;let path=edgePath(tx,ty,cw,ch,p.edges);let dx=p.locked?0:p.x-tx,dy=p.locked?0:p.y-ty;out+=`<g class="piece ${p.id===selected?'selected':''}" data-id="${p.id}" transform="translate(${dx} ${dy})" ${p.locked?'opacity="1"':''}><path d="${path}" fill="url(#picture)"/></g>`});svg.innerHTML=out;svg.querySelectorAll('.piece:not([opacity="1"])').forEach(g=>g.addEventListener('pointerdown',onPieceDown));}
-function svgPoint(e){let svg=$('puzzleSvg'),pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt}
-function onPieceDown(e){if(paused)return;let g=e.currentTarget,id=Number(g.dataset.id),p=pieces.find(a=>a.id===id);if(!p||p.locked)return;e.preventDefault();selected=id;let point=svgPoint(e);drag={id,startX:point.x,startY:point.y,origX:p.x,origY:p.y,pointer:e.pointerId};try{g.setPointerCapture(e.pointerId)}catch(_){}let svg=$('puzzleSvg');svg.onpointermove=onPieceMove;svg.onpointerup=onPieceUp;svg.onpointercancel=onPieceUp;}
-function onPieceMove(e){if(!drag)return;let svg=$('puzzleSvg'),rect=svg.getBoundingClientRect(),vb=svg.viewBox.baseVal;let sx=vb.width/rect.width,sy=vb.height/rect.height;let p=pieces.find(a=>a.id===drag.id);p.x=drag.origX+(e.clientX-drag.startX)*sx;p.y=drag.origY+(e.clientY-drag.startY)*sy;let g=svg.querySelector(`[data-id="${p.id}"]`);if(g){let cw=600/difficulty,ch=450/difficulty;g.setAttribute('transform',`translate(${p.x-p.col*cw} ${p.y-p.row*ch})`)} }
-function onPieceUp(){if(!drag)return;let p=pieces.find(a=>a.id===drag.id),cw=600/difficulty,ch=450/difficulty,tx=p.col*cw,ty=p.row*ch;let dist=Math.hypot(p.x-tx,p.y-ty);if(p.x<600&&p.y<450&&dist<Math.min(cw,ch)*.48){p.x=tx;p.y=ty;p.locked=true;placedTotal++;safeSet('jw_placed',placedTotal);playTone(760,.08);toast('Perfect fit! ð§©')}drag=null;$('puzzleSvg').onpointermove=null;$('puzzleSvg').onpointerup=null;$('puzzleSvg').onpointercancel=null;selected=null;renderPieces();updateProgress();saveGame(false);if(pieces.every(a=>a.locked))completePuzzle()}
-function updateProgress(){let done=pieces.filter(p=>p.locked).length,total=pieces.length;$('placedCount').textContent=`${done} / ${total}`;$('progressBar').style.width=(total?done/total*100:0)+'%'}function shufflePuzzle(){pieces.forEach((p,i)=>{if(!p.locked){p.x=630+(i%4)*88;p.y=45+Math.floor(i/4)*60}});renderPieces();saveGame(false);toast('Pieces shuffled')}
-function toggleReference(){referenceOn=!referenceOn;$('referenceImage').style.display=referenceOn?'block':'none';toast(referenceOn?'Reference picture shown':'Reference picture hidden')}
-function pauseGame(){if(paused){return}paused=true;elapsed=Math.floor((Date.now()-startedAt)/1000);stopTimer();showModal('â¸ï¸','Puzzle paused','Take a breath. Your progress is saved on this device.',[['Resume',resumeGame,'primary'],['Restart',()=>{closeModal();beginGame()},'secondary'],['Home',()=>{closeModal();showPage('home')},'secondary']])}function resumeGame(){paused=false;startedAt=Date.now()-elapsed*1000;closeModal();startTimer()}
-function completePuzzle(){stopTimer();solved++;safeSet('jw_solved',solved);lastSession=elapsed;safeSet('jw_save','null');updateStats();playTone(880,.2);showModal('ð','Puzzle complete!',`Beautiful work! You placed all ${pieces.length} pieces in ${fmt(elapsed)}.`,[['Play again',()=>{closeModal();beginGame()},'primary'],['Home',()=>{closeModal();showPage('home')},'secondary']])}
-function showModal(icon,title,msg,actions){$('modalIcon').textContent=icon;$('modalTitle').textContent=title;$('modalText').textContent=msg;$('modalActions').innerHTML='';actions.forEach(([label,fn,kind])=>{let b=document.createElement('button');b.className=kind==='primary'?'primary':'secondary';b.textContent=label;b.onclick=fn;$('modalActions').appendChild(b)});$('modal').classList.add('show')}function closeModal(){$('modal').classList.remove('show')}
-let activeRoom=null;
-function makeRoomCode(){return Math.random().toString(36).slice(2,8).toUpperCase().replace(/[^A-Z0-9]/g,'X').padEnd(6,'7')}
-function createRoom(){let name=$('hostName').value.trim()||'Puzzle Master';activeRoom={code:makeRoomCode(),host:name,difficulty:Number($('roomDifficulty').value),players:[{name,role:'Host',avatar:name.slice(0,1).toUpperCase()}],messages:[{name:'Jigsaw World',text:'Welcome to your puzzle lounge! ð§©',mine:false}]};showRoom();toast('Your private room is ready')}
-function joinRoom(){let code=$('joinCode').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length<4){toast('Enter a valid room code first');$('joinCode').focus();return}let name=$('guestName').value.trim()||'Guest';activeRoom={code,host:'Room host',difficulty:Number($('roomDifficulty').value||4),players:[{name,role:'You',avatar:name.slice(0,1).toUpperCase()}],messages:[{name:'Jigsaw World',text:'You entered the room preview. Online host verification is not connected yet.',mine:false}]};showRoom();toast('Room preview opened')}
-function showRoom(){if(!activeRoom)return;$('activeRoomCode').textContent=activeRoom.code;$('roomStatus').textContent='Room code ready Â· Share it with your friend to invite them.';$('roomLive').classList.add('show');$('playerCount').textContent=activeRoom.players.length+'/2';$('playerList').innerHTML=activeRoom.players.map(p=>`<div class="player-row"><div class="avatar">${escapeRoomText(p.avatar)}</div><div><b>${escapeRoomText(p.name)}</b><small>${escapeRoomText(p.role)} Â· Ready</small></div></div>`).join('')+ (activeRoom.players.length<2?'<div class="player-row" style="opacity:.55"><div class="avatar">ï¼</div><div><b>Waiting for friend</b><small>Share the room code</small></div></div>':'');$('chatLog').innerHTML=activeRoom.messages.map(m=>`<div class="chat-bubble ${m.mine?'mine':''}"><b>${escapeRoomText(m.name)}:</b> ${escapeRoomText(m.text)}</div>`).join('');showPage('together');$('roomLive').scrollIntoView({behavior:'smooth',block:'nearest'})}
-function escapeRoomText(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
-function copyRoomCode(){if(!activeRoom)return;let txt=activeRoom.code;if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(()=>toast('Room code copied!')).catch(()=>fallbackCopy(txt))}else fallbackCopy(txt)}function fallbackCopy(txt){let el=document.createElement('textarea');el.value=txt;document.body.appendChild(el);el.select();try{document.execCommand('copy');toast('Room code copied!')}catch(e){toast('Your room code is '+txt)}el.remove()}
-function sendRoomMessage(e){e.preventDefault();let input=$('chatInput'),text=input.value.trim();if(!text||!activeRoom)return;let myName=activeRoom.players[0]?.name||'You';activeRoom.messages.push({name:myName,text,mine:true});input.value='';showRoom();$('chatInput').focus();let log=$('chatLog');log.scrollTop=log.scrollHeight}
-function leaveRoom(){activeRoom=null;$('roomLive').classList.remove('show');toast('You left the room preview')}
-function startRoomPuzzle(){if(!activeRoom)return;difficulty=activeRoom.difficulty;safeSet('jw_difficulty',String(difficulty));$('difficulty').value=String(difficulty);$('settingsDifficulty').value=String(difficulty);selectedPicture=0;challenge=false;beginGame();toast('Puzzle started â live online sync is not connected yet')}
-$('themeTop').addEventListener('click',toggleTheme);window.addEventListener('beforeunload',()=>saveGame(false));init();
-</script></body></html>
+</style>
+</head>
+<body>
+<header class="top">
+<button class="brand" onclick="page('home')">🧩 <span>JIGSAW</span> WORLD</button>
+<nav class="nav">
+<button class="btn" onclick="page('gallery')">Gallery</button>
+<button class="btn" onclick="page('game')">Puzzle</button>
+<button class="btn" onclick="page('together')">Play together</button>
+</nav>
+</header>
+<main class="wrap">
+
+<section id="home" class="section active">
+<div class="hero">
+<div class="eyebrow">YOUR LITTLE PUZZLE UNIVERSE</div>
+<h1>JIGSAW<br><span style="color:var(--accent)">WORLD</span></h1>
+<p>Slow down, find the right pieces, and turn a beautiful picture into your next little victory.</p>
+<button class="btn primary" onclick="page('gallery')">Choose a puzzle →</button>
+</div>
+<div class="tiles">
+<button class="tile" onclick="page('gallery')">
+<div style="font-size:28px">🖼️</div>
+<b>Explore pictures</b><p>Choose a picture and start a new puzzle.</p>
+</button>
+<button class="tile" onclick="page('game')">
+<div style="font-size:28px">🧩</div>
+<b>Continue playing</b><p>Jump into a puzzle on this device.</p>
+</button>
+<button class="tile" onclick="page('together')">
+<div style="font-size:28px">👥</div>
+<b>Play together</b><p>Make a room code to share with a friend.</p>
+</button>
+</div>
+</section>
+
+<section id="gallery" class="section">
+<div class="heading">
+<div><h2>Choose your picture</h2><div class="note">Pick a picture or upload your own.</div></div>
+<button class="btn" onclick="page('home')">Home</button>
+</div>
+<div class="gallery" id="galleryGrid"></div>
+<div class="controls">
+<label class="btn" for="upload">＋ Upload picture</label>
+<input id="upload" type="file" accept="image/*" hidden>
+<label for="size">Pieces:</label>
+<select id="size">
+<option value="3">9 (Easy)</option>
+<option value="4" selected>16 (Normal)</option>
+<option value="5">25 (Tricky)</option>
+<option value="6">36 (Hard)</option>
+</select>
+<button class="btn primary" onclick="startGame()">Start puzzle →</button>
+</div>
+</section>
+
+<section id="game" class="section">
+<div class="heading">
+<div><h2 id="gameTitle">Your puzzle</h2><div class="note">Tap one piece, then tap another to swap them.</div></div>
+<button class="btn" onclick="page('gallery')">Change picture</button>
+</div>
+<div class="game-layout">
+<div class="board"><div id="boardGrid" class="board-grid"></div></div>
+<aside class="side">
+<h3>Progress</h3><div class="bar"><div id="progress"></div></div>
+<div class="stats">
+<div class="stat"><strong id="placed">0%</strong><small>Correct</small></div>
+<div class="stat"><strong id="moves">0</strong><small>Moves</small></div>
+</div>
+<button class="btn primary" style="width:100%" onclick="shuffle()">Shuffle pieces</button>
+<button class="btn" style="width:100%;margin-top:8px" onclick="showPicture()">Show reference</button>
+<p class="note">Pictures need an internet connection unless you upload your own.</p>
+<div id="win" class="status"></div>
+</aside>
+</div>
+</section>
+
+<section id="together" class="section">
+<div class="heading">
+<div><h2>Play together</h2><div class="note">Room-code preview.</div></div>
+<button class="btn" onclick="page('home')">Home</button>
+</div>
+<div class="room">
+<h3>Create a room</h3>
+<label for="player">Your name</label>
+<input id="player" type="text" placeholder="Puzzle player">
+<button class="btn primary" onclick="createRoom()">Create room code</button>
+<hr style="border-color:var(--line);margin:22px 0">
+<h3>Join a room</h3>
+<input id="joinCode" type="text" placeholder="Enter room code">
+<button class="btn" onclick="joinRoom()">Join room</button>
+<p id="roomStatus" class="status"></p>
+<p class="note">This is a local preview. Real-time play across different devices requires an online server.</p>
+</div>
+</section>
+<div class="footer">JIGSAW WORLD · Made for curious minds</div>
+</main>
+
+<script>
+const pictures=[
+{name:'Mountain Escape',url:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=85'},
+{name:'Ocean Blue',url:'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1000&q=85'},
+{name:'Forest Path',url:'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=85'},
+{name:'Curious Cat',url:'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1000&q=85'},
+{name:'Wild Fox',url:'https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1000&q=85'},
+{name:'City Lights',url:'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85'}
+];
+let selected=0,customUrl='',n=4,order=[],chosen=null,moves=0,roomCode='';
+const $=id=>document.getElementById(id);
+
+function page(id){
+document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));
+if(id==='gallery')renderGallery();
+if(id==='game'&&!order.length)startGame();
+window.scrollTo({top:0,behavior:'smooth'});
+}
+function currentPic(){return customUrl?{name:'Your picture',url:customUrl}:pictures[selected]}
+
+function renderGallery(){
+const grid=$('galleryGrid');grid.innerHTML='';
+pictures.forEach((p,i)=>{
+const b=document.createElement('button');
+b.className='photo'+(!customUrl&&selected===i?' selected':'');
+b.innerHTML=`<img src="${p.url}" alt=""><span>${p.name}</span>`;
+b.onclick=()=>{selected=i;customUrl='';renderGallery()};
+grid.appendChild(b);
+});
+if(customUrl){
+const b=document.createElement('button');b.className='photo selected';
+b.innerHTML=`<img src="${customUrl}" alt=""><span>Your uploaded picture</span>`;
+b.onclick=()=>{};grid.prepend(b);
+}
+}
+
+$('upload').addEventListener('change',e=>{
+const f=e.target.files[0];if(!f)return;
+if(!f.type.startsWith('image/'))return alert('Please choose an image file.');
+const reader=new FileReader();
+reader.onload=()=>{customUrl=reader.result;renderGallery()};
+reader.readAsDataURL(f);
+});
+
+function startGame(){
+n=Number($('size').value||4);
+const total=n*n;
+order=Array.from({length:total},(_,i)=>i);
+for(let i=order.length-1;i>0;i--){
+const j=Math.floor(Math.random()*(i+1));
+[order[i],order[j]]=[order[j],order[i]];
+}
+if(order.every((v,i)=>v===i)&&order.length>1)[order[0],order[1]]=[order[1],order[0]];
+chosen=null;moves=0;
+$('gameTitle').textContent=currentPic().name;
+page('game');renderBoard();
+}
+
+function renderBoard(){
+const grid=$('boardGrid');
+grid.style.gridTemplateColumns=`repeat(${n},minmax(0,1fr))`;
+grid.innerHTML='';
+order.forEach((piece,pos)=>{
+const b=document.createElement('button');
+b.className='piece';
+if(chosen===pos)b.style.outline='3px solid var(--accent)';
+if(piece!==-1){
+const r=Math.floor(piece/n),c=piece%n;
+b.style.backgroundImage=`url("${currentPic().url}")`;
+b.style.backgroundSize=`${n*100}% ${n*100}%`;
+b.style.backgroundPosition=`${n===1?0:c/(n-1)*100}% ${n===1?0:r/(n-1)*100}%`;
+}
+b.onclick=()=>pick(pos);
+grid.appendChild(b);
+});
+updateStats();
+}
+
+function pick(pos){
+if(chosen===null){chosen=pos;renderBoard();return}
+if(chosen===pos){chosen=null;renderBoard();return}
+[order[chosen],order[pos]]=[order[pos],order[chosen]];
+chosen=null;moves++;renderBoard();
+if(order.every((v,i)=>v===i))$('win').textContent='🎉 Puzzle complete! Great job!';
+else $('win').textContent='';
+}
+
+function updateStats(){
+const good=order.filter((v,i)=>v===i).length;
+const pct=Math.round(good/order.length*100);
+$('placed').textContent=pct+'%';
+$('moves').textContent=moves;
+$('progress').style.width=pct+'%';
+}
+
+function shuffle(){
+if(!order.length)return;
+for(let i=order.length-1;i>0;i--){
+let j=Math.floor(Math.random()*(i+1));
+[order[i],order[j]]=[order[j],order[i]];
+}
+if(order.every((v,i)=>v===i))[order[0],order[1]]=[order[1],order[0]];
+chosen=null;moves++;$('win').textContent='';renderBoard();
+}
+
+function showPicture(){
+const pic=currentPic();
+const w=window.open('','_blank');
+if(!w){alert('Allow pop-ups to view the reference picture.');return}
+w.document.write(`<title>${pic.name}</title><body style="margin:0;background:#102437;display:grid;place-items:center;min-height:100vh"><img src="${pic.url}" style="max-width:100%;max-height:100vh;object-fit:contain"></body>`);
+w.document.close();
+}
+
+function createRoom(){
+roomCode=Math.random().toString(36).slice(2,8).toUpperCase();
+$('roomStatus').textContent='Your local room code: '+roomCode;
+}
+function joinRoom(){
+const code=$('joinCode').value.trim().toUpperCase();
+$('roomStatus').textContent=code.length>=4?'Room code accepted for preview: '+code:'Please enter a valid room code.';
+}
+renderGallery();
+</script>
+</body>
+</html>
