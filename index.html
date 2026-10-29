@@ -1,289 +1,59 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#102437">
-<title>JIGSAW WORLD</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover"><meta name="theme-color" content="#17101e"><title>JIGSAW WORLD</title>
 <style>
-:root{--bg:#102437;--panel:#19354a;--card:#21445a;--text:#f4fbff;--muted:#a8c1ce;--accent:#5ce0cf;--line:#365c70}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,sans-serif}
-button,select,input{font:inherit}
-button{cursor:pointer;color:inherit}
-.top{display:flex;align-items:center;justify-content:space-between;padding:14px  max(12px,calc((100% - 1100px)/2));gap:12px;border-bottom:1px solid #ffffff18;background:#102437;position:sticky;top:0;z-index:4}
-.brand{border:0;background:none;font-weight:950;font-size:clamp(16px,3vw,24px);letter-spacing:.04em}
-.brand span{color:var(--accent)}
-.nav{display:flex;gap:7px;flex-wrap:wrap}
-.btn{border:1px solid var(--line);background:var(--panel);padding:10px 13px;border-radius:11px;font-weight:750}
-.primary{background:var(--accent);color:#0d2634;border-color:transparent}
-.wrap{max-width:1100px;padding:22px 16px 55px;margin:auto}
-.hero{border:1px solid #ffffff20;border-radius:22px;padding:clamp(28px,7vw,70px) 18px;text-align:center;background:linear-gradient(120deg,#102437e8,#0c2935cc),url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80') center/cover}
-.eyebrow{color:var(--accent);font-weight:850;letter-spacing:.15em;font-size:12px}
-.hero h1{font-size:clamp(38px,8vw,78px);line-height:.98;margin:14px 0;letter-spacing:-.05em}
-.hero p{max-width:620px;margin:0 auto 24px;color:#d4e7ee;line-height:1.6}
-.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}
-.tile{background:var(--panel);border:1px solid #ffffff12;border-radius:16px;padding:22px;min-height:145px;text-align:left}
-.tile b{display:block;font-size:21px;margin:9px 0 5px}
-.tile p,.note{color:var(--muted);font-size:14px;line-height:1.5}
-.section{display:none}
-.section.active{display:block}
-.heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:4px 0 18px}
-.heading h2{margin:0;font-size:28px}
-.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.photo{padding:0;overflow:hidden;text-align:left;border-radius:14px;background:var(--panel);border:2px solid transparent}
-.photo.selected{border-color:var(--accent)}
-.photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
-.photo span{display:block;padding:11px;font-weight:750}
-.controls{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:15px 0}
-select,input[type=text]{background:var(--panel);border:1px solid var(--line);border-radius:9px;color:var(--text);padding:10px}
-.game-layout{display:grid;grid-template-columns:minmax(0,1fr) 230px;gap:16px}
-.board{background:var(--panel);padding:12px;border-radius:16px;border:1px solid var(--line)}
-.board-grid{display:grid;gap:3px;aspect-ratio:1;background:#0b1b28}
-.piece{border:0;padding:0;min-width:0;position:relative;background:#244b60;overflow:hidden;aspect-ratio:1;outline:1px solid #ffffff30;touch-action:manipulation}
-.piece:focus-visible{outline:3px solid var(--accent);z-index:1}
-.side{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:15px 0}
-.stat{background:var(--card);padding:12px;border-radius:10px;text-align:center}
-.stat strong{display:block;font-size:22px}
-.stat small{color:var(--muted)}
-.bar{height:7px;background:#0d2030;border-radius:10px;overflow:hidden;margin:8px 0 15px}
-.bar div{height:100%;width:0;background:var(--accent);transition:width .2s}
-.room{max-width:600px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}
-.room input{width:100%;margin:7px 0 12px}
-.status{color:var(--accent);min-height:22px}
-.footer{text-align:center;color:var(--muted);font-size:12px;margin-top:26px}
-@media(max-width:700px){
-.tiles{grid-template-columns:1fr}
-.gallery{grid-template-columns:repeat(2,minmax(0,1fr))}
-.game-layout{grid-template-columns:1fr}
-.top{padding:12px}
-.wrap{padding:15px 12px 35px}
-.side{order:-1}
-.heading h2{font-size:23px}
-.btn{padding:9px 11px}
-}
-</style>
-</head>
+:root{--bg:#17101e;--panel:#241a2b;--panel2:#1c1422;--line:#51445f;--text:#f8f1fb;--muted:#b7aabe;--pink:#ff82a5;--pink2:#e9658b;--green:#69e0bc}*{box-sizing:border-box}html,body{margin:0;width:100%;min-height:100%;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--pink);outline-offset:2px}.topbar{height:66px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid #ffffff14;background:#1b1322;position:sticky;top:0;z-index:5}.logo{border:0;background:none;font-weight:950;font-size:20px;letter-spacing:.04em}.logo span{color:var(--pink)}.top-actions{display:flex;gap:8px}.iconbtn,.btn{border:1px solid var(--line);background:var(--panel);border-radius:11px;padding:10px 13px}.iconbtn{width:42px;height:42px;padding:0;font-size:20px}.btn.primary{background:var(--pink);border-color:var(--pink);color:#210f19;font-weight:850;box-shadow:0 3px 0 #a74464}.btn.primary:active{transform:translateY(2px);box-shadow:none}.wrap{max-width:1150px;margin:auto;padding:22px 18px 50px}.hero{min-height:320px;border:1px solid #ffffff20;border-radius:22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:32px 18px;background:linear-gradient(120deg,#1b1420d9,#1b1420a8),url('https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=1800&q=85') center/cover}.eyebrow{font-size:12px;letter-spacing:.2em;font-weight:900;color:var(--pink)}h1{font-size:clamp(42px,9vw,82px);letter-spacing:-.055em;line-height:.95;margin:14px 0}h1 span{color:var(--pink)}.hero p{max-width:600px;color:#e5dbe9;line-height:1.6}.section{display:none}.section.active{display:block}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:18px}.card{background:var(--panel);border:1px solid #ffffff12;border-radius:16px;padding:20px;text-align:left;min-height:130px}.card b{display:block;font-size:20px;margin:9px 0 5px}.muted{color:var(--muted)}.heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:6px 0 18px}.heading h2{margin:0;font-size:28px}.gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.photo{padding:0;text-align:left;border:2px solid transparent;border-radius:13px;overflow:hidden;background:var(--panel)}.photo.selected{border-color:var(--pink)}.photo img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#302438}.photo span{display:block;padding:10px 11px;font-weight:750}.controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:18px 0}.file-label{display:inline-flex;align-items:center}.controls select,.controls input[type=number]{background:var(--panel);color:var(--text);border:1px solid var(--line);padding:10px;border-radius:9px}.modal-backdrop{position:fixed;inset:0;z-index:20;background:#08060bd9;backdrop-filter:blur(7px);display:none;align-items:center;justify-content:center;padding:14px}.modal-backdrop.open{display:flex}.modal{width:min(720px,100%);max-height:min(90dvh,900px);overflow:auto;background:#241a2b;border:1px solid #ffffff12;border-radius:8px;padding:18px 18px 24px;box-shadow:0 20px 80px #0008}.modalhead{display:flex;align-items:center;justify-content:space-between;font-size:20px;color:#ded3e8;margin-bottom:18px}.close{background:none;border:0;font-size:30px;color:#b9a9c7}.setting-block{background:#1a121f;border-radius:8px;padding:18px;margin-bottom:14px}.block-title{text-align:center;color:#9e90ad;font-size:19px;margin:0 0 20px;display:flex;align-items:center;gap:12px}.block-title:before,.block-title:after{content:"";height:5px;flex:1;background:repeating-linear-gradient(90deg,#51465e 0 16px,transparent 16px 28px)}.segmented{display:flex;background:#100b15;padding:6px;border-radius:9px;gap:6px}.segmented button{flex:1;border:0;border-radius:7px;padding:10px 6px;background:transparent;color:#b9acc8}.segmented button.active{background:#51445f;color:white}.limit{text-align:center;color:#c4b8d1;margin:18px 0 12px}.pink{color:var(--pink)}.range-row{display:grid;grid-template-columns:1fr 145px;gap:12px;align-items:center}.range-row input{width:100%;accent-color:var(--pink)}.piece-count{padding:10px;border:1px solid #655674;border-radius:8px;text-align:center;color:#d8cce3;background:#302438}.range-labels{display:flex;justify-content:space-between;color:#9889a8;font-size:13px}.center{text-align:center}.previewbtn{margin:16px auto 12px;font-size:18px;padding:8px 16px}.preview-info{color:#a99bb6;text-align:center;margin:6px 0 14px}.preview-ratio{color:#a99bb6;text-align:center;margin-bottom:18px}.checkrow{display:flex;gap:12px;align-items:flex-start;margin:12px 0}.checkrow input{width:20px;height:20px;accent-color:var(--pink);flex:none;margin-top:2px}.checkrow small{display:block;color:#9e91ad;margin-top:4px;line-height:1.45}.fieldlabel{display:block;font-weight:800;margin:14px 0 4px}.fieldhint{color:#9e91ad;font-size:13px;margin-bottom:8px}.field{width:100%;padding:12px;border:1px solid #655674;border-radius:7px;background:#302438;color:white}.create-row{text-align:center}.create-row .btn{min-width:145px;font-size:19px;padding:12px 25px}.game-top{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;background:#211728;border-bottom:1px solid #ffffff1a}.toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap}.tool{width:42px;height:42px;border:1px solid #594a66;border-radius:8px;background:#2b2032;font-size:19px}.tool.active{background:#55445f}.game-status{font-size:13px;color:#c4b7d0}.arena-wrap{height:calc(100dvh - 128px);min-height:460px;overflow:hidden;position:relative;background:#100b17;background-image:radial-gradient(#59426355 1px,transparent 1px);background-size:13px 13px;touch-action:none}.arena{position:absolute;inset:0;overflow:hidden;touch-action:none}.board{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);border:3px solid #47384e;background:#1a1220;box-shadow:0 0 0 1px #08050c;z-index:1}.board-grid{position:absolute;inset:0;display:grid}.slot{border:1px solid #5e4c64aa;background:#21172945;min-width:0;min-height:0}.slot.correct{border-color:transparent;background:transparent}.piece{position:absolute;z-index:3;touch-action:none;user-select:none;-webkit-user-select:none;filter:drop-shadow(0 2px 2px #0008);cursor:grab}.piece.dragging{z-index:15;cursor:grabbing;filter:drop-shadow(0 5px 6px #0009)}.piece svg{width:100%;height:100%;display:block;overflow:visible}.piece.placed{z-index:2;filter:none;cursor:default}.tray-hint{position:absolute;left:50%;top:8px;transform:translateX(-50%);font-size:12px;color:#a99ab7;background:#1d1424d9;padding:5px 9px;border-radius:7px;z-index:2;white-space:nowrap}.bottom-gamebar{position:absolute;bottom:10px;left:10px;right:10px;display:flex;align-items:center;justify-content:space-between;gap:8px;z-index:16;pointer-events:none}.bottom-gamebar>*{pointer-events:auto}.progress-pill{background:#211728e8;border:1px solid #594a66;border-radius:9px;padding:9px 12px;font-size:13px}.progress-track{width:110px;height:5px;background:#51445f;border-radius:5px;overflow:hidden;margin-top:5px}.progress-track div{height:100%;width:0;background:var(--pink)}.win-banner{position:absolute;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);background:#241a2b;border:1px solid var(--pink);border-radius:18px;padding:25px;text-align:center;box-shadow:0 10px 50px #000b;display:none;width:min(90%,340px)}.win-banner.show{display:block}.reference{position:absolute;z-index:18;inset:0;background:#100b17eF;display:none;align-items:center;justify-content:center;padding:25px}.reference.show{display:flex}.reference img{max-width:100%;max-height:100%;object-fit:contain;border:2px solid #ffffff55}.room{max-width:600px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:22px}.room input{width:100%;margin:7px 0 12px}.footer{text-align:center;color:#998ba5;font-size:12px;margin:25px 0}.hidden{display:none!important}
+@media(max-width:700px){.topbar{height:58px;padding:0 10px}.logo{font-size:16px}.top-actions .btn{padding:8px;font-size:12px}.wrap{padding:14px 12px 35px}.cards{grid-template-columns:1fr}.gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.heading h2{font-size:22px}.modal-backdrop{padding:0;align-items:flex-start}.modal{max-height:calc(100dvh - 10px);width:calc(100% - 10px);margin:5px;padding:15px 12px 22px}.setting-block{padding:13px 11px}.block-title{font-size:16px;margin-bottom:15px}.range-row{grid-template-columns:1fr 94px;gap:8px}.piece-count{font-size:13px;padding:10px 4px}.previewbtn{font-size:16px}.arena-wrap{height:calc(100dvh - 111px);min-height:420px}.game-top{padding:7px}.tool{width:37px;height:37px}.game-status{display:none}.board{max-width:76vw}.bottom-gamebar{bottom:7px;left:7px;right:7px}.progress-pill{padding:7px 9px}.progress-track{width:75px}}
+</style></head>
 <body>
-<header class="top">
-<button class="brand" onclick="page('home')">🧩 <span>JIGSAW</span> WORLD</button>
-<nav class="nav">
-<button class="btn" onclick="page('gallery')">Gallery</button>
-<button class="btn" onclick="page('game')">Puzzle</button>
-<button class="btn" onclick="page('together')">Play together</button>
-</nav>
-</header>
-<main class="wrap">
-
-<section id="home" class="section active">
-<div class="hero">
-<div class="eyebrow">YOUR LITTLE PUZZLE UNIVERSE</div>
-<h1>JIGSAW<br><span style="color:var(--accent)">WORLD</span></h1>
-<p>Slow down, find the right pieces, and turn a beautiful picture into your next little victory.</p>
-<button class="btn primary" onclick="page('gallery')">Choose a puzzle →</button>
-</div>
-<div class="tiles">
-<button class="tile" onclick="page('gallery')">
-<div style="font-size:28px">🖼️</div>
-<b>Explore pictures</b><p>Choose a picture and start a new puzzle.</p>
-</button>
-<button class="tile" onclick="page('game')">
-<div style="font-size:28px">🧩</div>
-<b>Continue playing</b><p>Jump into a puzzle on this device.</p>
-</button>
-<button class="tile" onclick="page('together')">
-<div style="font-size:28px">👥</div>
-<b>Play together</b><p>Make a room code to share with a friend.</p>
-</button>
-</div>
-</section>
-
-<section id="gallery" class="section">
-<div class="heading">
-<div><h2>Choose your picture</h2><div class="note">Pick a picture or upload your own.</div></div>
-<button class="btn" onclick="page('home')">Home</button>
-</div>
-<div class="gallery" id="galleryGrid"></div>
-<div class="controls">
-<label class="btn" for="upload">＋ Upload picture</label>
-<input id="upload" type="file" accept="image/*" hidden>
-<label for="size">Pieces:</label>
-<select id="size">
-<option value="3">9 (Easy)</option>
-<option value="4" selected>16 (Normal)</option>
-<option value="5">25 (Tricky)</option>
-<option value="6">36 (Hard)</option>
-</select>
-<button class="btn primary" onclick="startGame()">Start puzzle →</button>
-</div>
-</section>
-
-<section id="game" class="section">
-<div class="heading">
-<div><h2 id="gameTitle">Your puzzle</h2><div class="note">Tap one piece, then tap another to swap them.</div></div>
-<button class="btn" onclick="page('gallery')">Change picture</button>
-</div>
-<div class="game-layout">
-<div class="board"><div id="boardGrid" class="board-grid"></div></div>
-<aside class="side">
-<h3>Progress</h3><div class="bar"><div id="progress"></div></div>
-<div class="stats">
-<div class="stat"><strong id="placed">0%</strong><small>Correct</small></div>
-<div class="stat"><strong id="moves">0</strong><small>Moves</small></div>
-</div>
-<button class="btn primary" style="width:100%" onclick="shuffle()">Shuffle pieces</button>
-<button class="btn" style="width:100%;margin-top:8px" onclick="showPicture()">Show reference</button>
-<p class="note">Pictures need an internet connection unless you upload your own.</p>
-<div id="win" class="status"></div>
-</aside>
-</div>
-</section>
-
-<section id="together" class="section">
-<div class="heading">
-<div><h2>Play together</h2><div class="note">Room-code preview.</div></div>
-<button class="btn" onclick="page('home')">Home</button>
-</div>
-<div class="room">
-<h3>Create a room</h3>
-<label for="player">Your name</label>
-<input id="player" type="text" placeholder="Puzzle player">
-<button class="btn primary" onclick="createRoom()">Create room code</button>
-<hr style="border-color:var(--line);margin:22px 0">
-<h3>Join a room</h3>
-<input id="joinCode" type="text" placeholder="Enter room code">
-<button class="btn" onclick="joinRoom()">Join room</button>
-<p id="roomStatus" class="status"></p>
-<p class="note">This is a local preview. Real-time play across different devices requires an online server.</p>
-</div>
-</section>
-<div class="footer">JIGSAW WORLD · Made for curious minds</div>
-</main>
-
+<header class="topbar" id="siteHeader"><button class="logo" onclick="showPage('home')">ð§© <span>JIGSAW</span> WORLD</button><div class="top-actions"><button class="btn" onclick="showPage('gallery')">Pictures</button><button class="btn" onclick="openSettings()">New puzzle +</button></div></header>
+<main class="wrap" id="homePage">
+<section id="home" class="section active"><div class="hero"><div class="eyebrow">A WORLD MADE OF PIECES</div><h1>JIGSAW<br><span>WORLD</span></h1><p>Choose a beautiful real photo, set your challenge, then drag every scattered piece into its place.</p><button class="btn primary" onclick="showPage('gallery')">Explore pictures â</button></div><div class="cards"><button class="card" onclick="showPage('gallery')"><div style="font-size:28px">ð</div><b>Photo gallery</b><span class="muted">Discover nature, animals, cities and more.</span></button><button class="card" onclick="openSettings()"><div style="font-size:28px">ð§©</div><b>New puzzle</b><span class="muted">Choose the number of pieces and create your game.</span></button><button class="card" onclick="showPage('together')"><div style="font-size:28px">ð¥</div><b>Play together</b><span class="muted">Room setup preview. Online multiplayer needs a server.</span></button></div></section>
+<section id="gallery" class="section"><div class="heading"><div><h2>Pick your picture</h2><div class="muted">Choose a photo, then set up your puzzle.</div></div><button class="btn" onclick="showPage('home')">Home</button></div><div id="galleryGrid" class="gallery"></div><div class="controls"><button class="btn" onclick="loadMorePhotos()">ï¼ Load more photos</button><label class="btn file-label" for="uploadImage">â Upload your own</label><input id="uploadImage" class="hidden" type="file" accept="image/*"><button class="btn primary" onclick="openSettings()">Use selected photo â</button></div><p id="galleryMessage" class="muted" style="font-size:13px"></p></section>
+<section id="together" class="section"><div class="heading"><h2>Play together</h2><button class="btn" onclick="showPage('home')">Home</button></div><div class="room"><h3>Create a room</h3><label class="fieldlabel" for="playerName">Your name</label><input class="field" id="playerName" placeholder="Puzzle player"><button class="btn primary" onclick="makeRoom()">Create room code</button><hr style="border-color:var(--line);margin:22px 0"><label class="fieldlabel" for="joinCode">Join a room</label><input class="field" id="joinCode" placeholder="Enter room code"><button class="btn" onclick="joinRoom()">Join room</button><p id="roomMessage" class="pink"></p><p class="muted">This is a local preview only. Shared live puzzles and chat require a backend service.</p></div></section>
+<div class="footer">JIGSAW WORLD Â· Find your missing piece</div></main>
+<div id="settingsBackdrop" class="modal-backdrop"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modalhead"><span id="modalTitle">New puzzle</span><button class="close" onclick="closeSettings()" aria-label="Close">Ã</button></div><div class="setting-block"><div class="block-title">Difficulty</div><div class="segmented"><button id="normalBtn" class="active" onclick="setMode('normal')">ð§© Normal</button><button id="hardBtn" onclick="setMode('hard')">ð§© Hardmode â</button></div><div class="limit">Your limit is <b>500 pieces</b></div><div class="range-row"><div><input id="pieceRange" type="range" min="12" max="500" value="96" oninput="updatePieceCount()"><div class="range-labels"><span>12</span><span>500</span></div></div><div class="piece-count">ð§© <span id="pieceCount">96</span></div></div><div class="center"><button class="btn primary previewbtn" onclick="showCropPreview()">Preview &amp; Crop</button></div><div id="qualityInfo" class="preview-info">Puzzle will be <b>96 pcs</b>, quality is excellent.</div><div id="ratioInfo" class="preview-ratio">8 Ã 12</div><label class="checkrow"><input type="checkbox" id="mystery"><span>Mystery puzzle<small>Hide the picture preview while solving.</small></span></label></div><div class="setting-block"><div class="block-title">Players</div><label class="fieldlabel" for="playerLimit">Player limit</label><div class="fieldhint">Your limit is <b>5 players</b> for this preview.</div><input class="field" type="number" id="playerLimit" min="1" max="5" value="5"><label class="fieldlabel" for="roomPassword">Room password (optional)</label><div class="fieldhint">If specified, players will be asked for it to join.</div><input class="field" type="password" id="roomPassword" placeholder="Optional password"><label class="checkrow"><input type="checkbox" id="registeredOnly"><span>Allow only registered users</span></label></div><div class="create-row"><button class="btn primary" onclick="createPuzzle()">Create</button></div></div></div>
+<div id="cropBackdrop" class="modal-backdrop"><div class="modal"><div class="modalhead"><span>Preview picture</span><button class="close" onclick="closeCrop()">Ã</button></div><p class="muted">Preview the selected photo before starting. The puzzle uses the whole photo; you can choose another if needed.</p><img id="cropImage" alt="Selected picture preview" style="display:block;max-width:100%;max-height:55dvh;margin:12px auto;border-radius:8px"><div class="center"><button class="btn primary" onclick="closeCrop()">Looks good</button></div></div></div>
+<div id="gamePage" class="hidden"><div class="game-top"><div class="toolbar"><button class="tool" title="Home" onclick="leaveGame()">ð</button><button class="tool" title="New puzzle" onclick="openSettings()">ð§©</button><button class="tool" title="Show picture" onclick="toggleReference()">â§</button><button class="tool" title="Show/hide tray hint" onclick="toggleHint()">â</button></div><div class="game-status" id="gameStatus">0 / 96 pieces placed</div><div class="toolbar"><button class="tool" title="Players" onclick="alert('Player panel preview. Online multiplayer is not connected yet.')">â</button><button class="tool" title="Settings" onclick="openSettings()">â</button><button class="tool" title="Fullscreen" onclick="toggleFullscreen()">â¶</button></div></div><div class="arena-wrap" id="arenaWrap"><div class="arena" id="arena"><div class="tray-hint" id="trayHint">Drag pieces into the outlined board</div><div class="board" id="board"><div class="board-grid" id="boardGrid"></div></div></div><div class="reference" id="reference"><img id="referenceImg" alt="Puzzle reference"><button class="btn primary" style="position:absolute;top:12px;right:12px" onclick="toggleReference()">Close â</button></div><div class="bottom-gamebar"><div class="progress-pill"><span id="progressText">0% complete</span><div class="progress-track"><div id="progressFill"></div></div></div><button class="btn" onclick="shuffleUnplaced()">â¤¨ Shuffle loose pieces</button><button class="btn" onclick="leaveGame()">â</button></div><div id="winBanner" class="win-banner"><div style="font-size:40px">ð</div><h2>Puzzle complete!</h2><p>You found every piece.</p><button class="btn primary" onclick="openSettings()">Play another</button></div></div></div>
 <script>
-const pictures=[
-{name:'Mountain Escape',url:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1000&q=85'},
-{name:'Ocean Blue',url:'https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1000&q=85'},
-{name:'Forest Path',url:'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1000&q=85'},
-{name:'Curious Cat',url:'https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?auto=format&fit=crop&w=1000&q=85'},
-{name:'Wild Fox',url:'https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=1000&q=85'},
-{name:'City Lights',url:'https://images.unsplash.com/photo-1519608487953-e999c86e7455?auto=format&fit=crop&w=1000&q=85'}
-];
-let selected=0,customUrl='',n=4,order=[],chosen=null,moves=0,roomCode='';
+const photoSeeds=[
+ ['Mountain lake','photo-1470770841072-f978cf4d019e'],['Ocean coast','photo-1500375592092-40eb2168fd21'],['Forest path','photo-1448375240586-882707db888b'],['Curious cat','photo-1514888286974-6c03e2ca1dba'],['Red fox','photo-1474511320723-9a56873867b5'],['City at night','photo-1519608487953-e999c86e7455'],['Alpine peaks','photo-1464822759023-fed622ff2c3b'],['Desert dunes','photo-1509316785289-025f5b846b35'],['Pink flowers','photo-1490750967868-88aa4486c946'],['Wild elephant','photo-1561731216-c3a4d99437d5'],['Green island','photo-1510414842594-a61c69b5ae57'],['Waterfall','photo-1432405972618-c60b0225b8f9'],['Snowy mountains','photo-1454496522488-7a8e488e8606'],['Tropical beach','photo-1519046904884-53103b34b206'],['Starry sky','photo-1462331940025-496dfbfc7564'],['Golden field','photo-1470252649378-9c29740c9fa8'],['Butterfly','photo-1550745165-9bc0b252726f'],['Autumn trees','photo-1507371341162-763b5e419408'],['Wild deer','photo-1484406566174-9da000fda645'],['Old town','photo-1511818966892-d7d671e672a2'],['Lake reflection','photo-1439066615861-d1af74d74000'],['Hummingbird','photo-1497206365907-f5e630693df0'],['Lavender fields','photo-1499002238440-d264edd596ec'],['Coastal cliffs','photo-1518837695005-2083093ee35b']
+];let photos=[],selectedPhoto=0,customPhoto=null,photoBatch=0,mode='normal',game=null,drag=null,hideHint=false;
 const $=id=>document.getElementById(id);
-
-function page(id){
-document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id===id));
-if(id==='gallery')renderGallery();
-if(id==='game'&&!order.length)startGame();
-window.scrollTo({top:0,behavior:'smooth'});
-}
-function currentPic(){return customUrl?{name:'Your picture',url:customUrl}:pictures[selected]}
-
-function renderGallery(){
-const grid=$('galleryGrid');grid.innerHTML='';
-pictures.forEach((p,i)=>{
-const b=document.createElement('button');
-b.className='photo'+(!customUrl&&selected===i?' selected':'');
-b.innerHTML=`<img src="${p.url}" alt=""><span>${p.name}</span>`;
-b.onclick=()=>{selected=i;customUrl='';renderGallery()};
-grid.appendChild(b);
-});
-if(customUrl){
-const b=document.createElement('button');b.className='photo selected';
-b.innerHTML=`<img src="${customUrl}" alt=""><span>Your uploaded picture</span>`;
-b.onclick=()=>{};grid.prepend(b);
-}
-}
-
-$('upload').addEventListener('change',e=>{
-const f=e.target.files[0];if(!f)return;
-if(!f.type.startsWith('image/'))return alert('Please choose an image file.');
-const reader=new FileReader();
-reader.onload=()=>{customUrl=reader.result;renderGallery()};
-reader.readAsDataURL(f);
-});
-
-function startGame(){
-n=Number($('size').value||4);
-const total=n*n;
-order=Array.from({length:total},(_,i)=>i);
-for(let i=order.length-1;i>0;i--){
-const j=Math.floor(Math.random()*(i+1));
-[order[i],order[j]]=[order[j],order[i]];
-}
-if(order.every((v,i)=>v===i)&&order.length>1)[order[0],order[1]]=[order[1],order[0]];
-chosen=null;moves=0;
-$('gameTitle').textContent=currentPic().name;
-page('game');renderBoard();
-}
-
-function renderBoard(){
-const grid=$('boardGrid');
-grid.style.gridTemplateColumns=`repeat(${n},minmax(0,1fr))`;
-grid.innerHTML='';
-order.forEach((piece,pos)=>{
-const b=document.createElement('button');
-b.className='piece';
-if(chosen===pos)b.style.outline='3px solid var(--accent)';
-if(piece!==-1){
-const r=Math.floor(piece/n),c=piece%n;
-b.style.backgroundImage=`url("${currentPic().url}")`;
-b.style.backgroundSize=`${n*100}% ${n*100}%`;
-b.style.backgroundPosition=`${n===1?0:c/(n-1)*100}% ${n===1?0:r/(n-1)*100}%`;
-}
-b.onclick=()=>pick(pos);
-grid.appendChild(b);
-});
-updateStats();
-}
-
-function pick(pos){
-if(chosen===null){chosen=pos;renderBoard();return}
-if(chosen===pos){chosen=null;renderBoard();return}
-[order[chosen],order[pos]]=[order[pos],order[chosen]];
-chosen=null;moves++;renderBoard();
-if(order.every((v,i)=>v===i))$('win').textContent='🎉 Puzzle complete! Great job!';
-else $('win').textContent='';
-}
-
-function updateStats(){
-const good=order.filter((v,i)=>v===i).length;
-const pct=Math.round(good/order.length*100);
-$('placed').textContent=pct+'%';
-$('moves').textContent=moves;
-$('progress').style.width=pct+'%';
-}
-
-function shuffle(){
-if(!order.length)return;
-for(let i=order.length-1;i>0;i--){
-let j=Math.floor(Math.random()*(i+1));
-[order[i],order[j]]=[order[j],order[i]];
-}
-if(order.every((v,i)=>v===i))[order[0],order[1]]=[order[1],order[0]];
-chosen=null;moves++;$('win').textContent='';renderBoard();
-}
-
-function showPicture(){
-const pic=currentPic();
-const w=window.open('','_blank');
-if(!w){alert('Allow pop-ups to view the reference picture.');return}
-w.document.write(`<title>${pic.name}</title><body style="margin:0;background:#102437;display:grid;place-items:center;min-height:100vh"><img src="${pic.url}" style="max-width:100%;max-height:100vh;object-fit:contain"></body>`);
-w.document.close();
-}
-
-function createRoom(){
-roomCode=Math.random().toString(36).slice(2,8).toUpperCase();
-$('roomStatus').textContent='Your local room code: '+roomCode;
-}
-function joinRoom(){
-const code=$('joinCode').value.trim().toUpperCase();
-$('roomStatus').textContent=code.length>=4?'Room code accepted for preview: '+code:'Please enter a valid room code.';
-}
-renderGallery();
-</script>
-</body>
-</html>
+function photoUrl(id,w=900){return `https://images.unsplash.com/${id}?auto=format&fit=crop&w=${w}&q=85`}
+function initPhotos(){photos=photoSeeds.map((p,i)=>({name:p[0],url:photoUrl(p[1]),id:p[1]}));renderGallery()}
+function showPage(id){if(id==='game')return;document.querySelectorAll('main .section').forEach(s=>s.classList.toggle('active',s.id===id));$('homePage').classList.remove('hidden');$('siteHeader').classList.remove('hidden');$('gamePage').classList.add('hidden');window.scrollTo({top:0,behavior:'smooth'});if(id==='gallery')renderGallery()}
+function renderGallery(){const grid=$('galleryGrid');grid.innerHTML='';const list=customPhoto?[customPhoto,...photos]:photos;list.forEach((p,i)=>{const b=document.createElement('button');b.className='photo'+((customPhoto&&i===0)||(!customPhoto&&i===selectedPhoto)?' selected':'');const im=document.createElement('img');im.src=p.url;im.alt=p.name;im.loading='lazy';im.onerror=()=>{im.style.background='linear-gradient(135deg,#44314f,#192a36)';im.alt='Photo unavailable';};const sp=document.createElement('span');sp.textContent=p.name;b.append(im,sp);b.onclick=()=>{if(customPhoto&&i===0){selectedPhoto=-1}else{selectedPhoto=customPhoto?i-1:i;customPhoto=null}renderGallery()};grid.appendChild(b)});$('galleryMessage').textContent=`${list.length} photos available in this gallery. Load more for another collection.`}
+function loadMorePhotos(){photoBatch++;const more=photoSeeds.map((p,i)=>({name:p[0]+(photoBatch>1?' Â· '+photoBatch:''),url:photoUrl(p[1],1000),id:p[1]}));photos=photos.concat(more);renderGallery();$('galleryMessage').textContent=`Added ${more.length} more photo choices. External photos need an internet connection.`}
+$('uploadImage').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(!f)return;if(!f.type.startsWith('image/')){alert('Please select an image file.');return}const r=new FileReader();r.onload=()=>{customPhoto={name:f.name.replace(/\.[^.]+$/,'' )||'Your photo',url:r.result,id:'custom'};selectedPhoto=-1;renderGallery()};r.readAsDataURL(f)});
+function currentPhoto(){if(customPhoto&&selectedPhoto===-1)return customPhoto;return photos[Math.max(0,selectedPhoto)]||photos[0]}
+function openSettings(){if(!customPhoto&&selectedPhoto<0)selectedPhoto=0;$('settingsBackdrop').classList.add('open');updatePieceCount()}
+function closeSettings(){$('settingsBackdrop').classList.remove('open')}
+function setMode(v){mode=v;$('normalBtn').classList.toggle('active',v==='normal');$('hardBtn').classList.toggle('active',v==='hard');if(v==='hard'&&Number($('pieceRange').value)<150)$('pieceRange').value=150;updatePieceCount()}
+function gridDimensions(count,aspect){let cols=Math.max(3,Math.round(Math.sqrt(count*aspect))),rows=Math.max(3,Math.ceil(count/cols));while(rows*cols<count){if(cols/aspect<rows)cols++;else rows++}return {cols,rows,total:cols*rows}}
+function updatePieceCount(){let val=Number($('pieceRange').value);if(mode==='hard'&&val<150){val=150;$('pieceRange').value=150}const aspect=1.45;const d=gridDimensions(val,aspect);$('pieceCount').textContent=d.total;$('qualityInfo').innerHTML=`Puzzle will be <b>${d.total} pcs</b>, quality is excellent.`;$('ratioInfo').textContent=`${d.cols} Ã ${d.rows}`}
+function showCropPreview(){$('cropImage').src=currentPhoto().url;$('cropBackdrop').classList.add('open')}
+function closeCrop(){$('cropBackdrop').classList.remove('open')}
+function createPuzzle(){const p=currentPhoto();const count=Number($('pieceCount').textContent);const d=gridDimensions(count,1.45);game={photo:p,cols:d.cols,rows:d.rows,total:d.cols*d.rows,placed:new Set(),pieces:[],mystery:$('mystery').checked,moves:0};closeSettings();$('homePage').classList.add('hidden');$('siteHeader').classList.add('hidden');$('gamePage').classList.remove('hidden');$('referenceImg').src=p.url;$('reference').classList.remove('show');$('winBanner').classList.remove('show');hideHint=false;$('trayHint').classList.remove('hidden');buildGame();window.scrollTo(0,0)}
+function shapePath(w,h,edges){const tab=Math.min(w,h)*.20;let p=`M 0 0`;function edge(side,type){const a=tab,b=tab*1.5;if(side==='top'){if(!type){p+=` L ${w} 0`;return}const s=type>0?1:-1;p+=` L ${w*.36} 0 C ${w*.36} ${-s*a},${w*.36} ${-s*b},${w*.5} ${-s*b} C ${w*.64} ${-s*b},${w*.64} ${-s*a},${w*.64} 0 L ${w} 0`}if(side==='right'){if(!type){p+=` L ${w} ${h}`;return}const s=type>0?1:-1;p+=` L ${w} ${h*.36} C ${w+s*a} ${h*.36},${w+s*b} ${h*.36},${w+s*b} ${h*.5} C ${w+s*b} ${h*.64},${w+s*a} ${h*.64},${w} ${h*.64} L ${w} ${h}`}if(side==='bottom'){if(!type){p+=` L 0 ${h}`;return}const s=type>0?1:-1;p+=` L ${w*.64} ${h} C ${w*.64} ${h+s*a},${w*.64} ${h+s*b},${w*.5} ${h+s*b} C ${w*.36} ${h+s*b},${w*.36} ${h+s*a},${w*.36} ${h} L 0 ${h}`}if(side==='left'){if(!type){p+=` L 0 0`;return}const s=type>0?1:-1;p+=` L 0 ${h*.64} C ${-s*a} ${h*.64},${-s*b} ${h*.64},${-s*b} ${h*.5} C ${-s*b} ${h*.36},${-s*a} ${h*.36},0 ${h*.36} L 0 0`}}
+// Piece outline follows clockwise edges; adjacent edges use opposite tab directions.
+let e=edges;p='M 0 0';edge('top',e.top);edge('right',e.right);edge('bottom',e.bottom);edge('left',e.left);return p+' Z'}
+function edgeType(r,c,side){if(side==='top')return r===0?0: -game.piecesGrid[r-1][c].bottom;if(side==='left')return c===0?0:-game.piecesGrid[r][c-1].right;return Math.random()<.5?1:-1}
+function buildGame(){const arena=$('arena'),board=$('board'),grid=$('boardGrid');arena.querySelectorAll('.piece').forEach(x=>x.remove());grid.innerHTML='';game.piecesGrid=[];const aw=arena.clientWidth,ah=arena.clientHeight;const aspect=game.cols/game.rows;let bw=Math.min(aw*.64,ah*.68);let bh=bw/aspect;if(bh>ah*.66){bh=ah*.66;bw=bh*aspect}if(bw>aw*.72){bw=aw*.72;bh=bw/aspect}board.style.width=bw+'px';board.style.height=bh+'px';board.style.left='50%';board.style.top='50%';grid.style.gridTemplateColumns=`repeat(${game.cols},1fr)`;grid.style.gridTemplateRows=`repeat(${game.rows},1fr)`;for(let i=0;i<game.total;i++){const s=document.createElement('div');s.className='slot';s.dataset.index=i;grid.appendChild(s)}const cw=bw/game.cols,ch=bh/game.rows;const pieceW=Math.max(24,Math.min(58,cw*1.05)),pieceH=Math.max(24,Math.min(58,ch*1.05));for(let r=0;r<game.rows;r++){game.piecesGrid[r]=[];for(let c=0;c<game.cols;c++){const edges={top:r===0?0: -game.piecesGrid[r-1][c].bottom,right:c===game.cols-1?0:(Math.random()<.5?1:-1),bottom:r===game.rows-1?0:(Math.random()<.5?1:-1),left:c===0?0: -game.piecesGrid[r][c-1].right};game.piecesGrid[r][c]=edges;const idx=r*game.cols+c;const el=document.createElement('div');el.className='piece';el.dataset.index=idx;el.style.width=pieceW+'px';el.style.height=pieceH+'px';el.innerHTML=pieceSvg(r,c,edges);arena.appendChild(el);const pos=randomTrayPosition(pieceW,pieceH,aw,ah,bw,bh);el.style.left=pos.x+'px';el.style.top=pos.y+'px';el.addEventListener('pointerdown',startDrag);game.pieces.push({el,idx,r,c,edges,placed:false,w:pieceW,h:pieceH});}}
+updateGameStats();window.addEventListener('resize',onGameResize,{once:true})}
+function pieceSvg(r,c,e){const vb=100;const path=shapePath(vb,vb,e);const id='clip_'+r+'_'+c+'_'+Math.random().toString(36).slice(2,7);const x=-c*100-15,y=-r*100-15;const url=game.photo.url;return `<svg viewBox="-18 -18 136 136" preserveAspectRatio="none" aria-label="Puzzle piece"><defs><clipPath id="${id}"><path d="${path}"/></clipPath></defs><image href="${url}" x="${x}" y="${y}" width="${game.cols*100}" height="${game.rows*100}" preserveAspectRatio="none" clip-path="url(#${id})"/><path d="${path}" fill="none" stroke="#ffffff9c" stroke-width="1.1"/></svg>`}
+function randomTrayPosition(pw,ph,aw,ah,bw,bh){const bx=(aw-bw)/2,by=(ah-bh)/2;let x,y;for(let tries=0;tries<80;tries++){const side=Math.floor(Math.random()*4);if(side===0){x=Math.random()*Math.max(1,aw-pw);y=Math.random()*Math.max(1,by-ph-8)}else if(side===1){x=Math.random()*Math.max(1,aw-pw);y=by+bh+8+Math.random()*Math.max(1,ah-by-bh-ph-20)}else if(side===2){x=Math.random()*Math.max(1,bx-pw-8);y=by+Math.random()*Math.max(1,bh-ph)}else{x=bx+bw+8+Math.random()*Math.max(1,aw-bx-bw-pw-8);y=by+Math.random()*Math.max(1,bh-ph)}x=Math.max(1,Math.min(aw-pw-1,x));y=Math.max(1,Math.min(ah-ph-1,y));if(x+pw<bx||x>bx+bw||y+ph<by||y>by+bh)return{x,y}}return{x:Math.random()*(aw-pw),y:Math.random()*(ah-ph)}}
+function startDrag(e){if(!game)return;const p=game.pieces.find(p=>p.el===e.currentTarget);if(!p||p.placed)return;e.preventDefault();const rect=p.el.getBoundingClientRect();drag={piece:p,pointerId:e.pointerId,dx:e.clientX-rect.left,dy:e.clientY-rect.top,el:p.el};p.el.classList.add('dragging');p.el.setPointerCapture?.(e.pointerId);p.el.addEventListener('pointermove',moveDrag);p.el.addEventListener('pointerup',endDrag,{once:true});p.el.addEventListener('pointercancel',endDrag,{once:true})}
+function moveDrag(e){if(!drag||e.pointerId!==drag.pointerId)return;const a=$('arena').getBoundingClientRect();drag.el.style.left=(e.clientX-a.left-drag.dx)+'px';drag.el.style.top=(e.clientY-a.top-drag.dy)+'px'}
+function endDrag(e){if(!drag)return;const p=drag.piece,el=drag.el;el.classList.remove('dragging');el.removeEventListener('pointermove',moveDrag);const a=$('arena').getBoundingClientRect(),b=$('board').getBoundingClientRect();const px=e.clientX,py=e.clientY;const inside=px>=b.left&&px<=b.right&&py>=b.top&&py<=b.bottom;if(inside){const c=Math.max(0,Math.min(game.cols-1,Math.floor((px-b.left)/b.width*game.cols)));const r=Math.max(0,Math.min(game.rows-1,Math.floor((py-b.top)/b.height*game.rows)));const idx=r*game.cols+c;if(idx===p.idx){p.placed=true;game.placed.add(p.idx);el.classList.add('placed');el.style.left=(b.left-a.left+c*b.width/game.cols-(p.w-(b.width/game.cols))/2)+'px';el.style.top=(b.top-a.top+r*b.height/game.rows-(p.h-(b.height/game.rows))/2)+'px';el.style.width=(b.width/game.cols+2)+'px';el.style.height=(b.height/game.rows+2)+'px';el.style.pointerEvents='none';$('boardGrid').children[idx].classList.add('correct');}else{el.animate([{opacity:.65},{opacity:1}],{duration:220});} }updateGameStats();drag=null}
+function updateGameStats(){if(!game)return;const n=game.placed.size,pct=Math.round(n/game.total*100);$('gameStatus').textContent=`${n} / ${game.total} pieces placed`; $('progressText').textContent=pct+'% complete';$('progressFill').style.width=pct+'%';if(n===game.total){$('winBanner').classList.add('show')}}
+function shuffleUnplaced(){if(!game)return;const a=$('arena'),b=$('board').getBoundingClientRect(),ar=a.getBoundingClientRect();game.pieces.filter(p=>!p.placed).forEach(p=>{const pos=randomTrayPosition(p.w,p.h,a.clientWidth,a.clientHeight,b.width,b.height);p.el.style.left=pos.x+'px';p.el.style.top=pos.y+'px'})}
+function toggleReference(){if(!game||game.mystery){if(game&&game.mystery)alert('Mystery puzzle is on. The reference picture is hidden.');return}$('reference').classList.toggle('show')}
+function toggleHint(){$('trayHint').classList.toggle('hidden');hideHint=!hideHint}
+function leaveGame(){game=null;$('gamePage').classList.add('hidden');$('homePage').classList.remove('hidden');$('siteHeader').classList.remove('hidden');showPage('gallery')}
+function toggleFullscreen(){const el=$('gamePage');if(!document.fullscreenElement)el.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()}
+function onGameResize(){if(!game)return;buildGame()}
+function makeRoom(){const code=Math.random().toString(36).slice(2,8).toUpperCase();$('roomMessage').textContent='Preview room code: '+code+' (not connected to another device yet).'}function joinRoom(){const c=$('joinCode').value.trim().toUpperCase();$('roomMessage').textContent=c.length>=4?'Code entered: '+c+'. Online room service is not connected yet.':'Enter a room code first.'}
+initPhotos();
+</script></body></html>
