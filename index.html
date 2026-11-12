@@ -7,100 +7,105 @@
 <title>JIGSAW WORLD</title>
 <style>
 :root{--bg:#17101e;--panel:#241a2b;--line:#51445f;--text:#fff8ff;--muted:#c2b4cb;--pink:#ff82a5}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;overflow-x:hidden}
 button,input,select{font:inherit}
 button{color:inherit;cursor:pointer}
-button:disabled{cursor:not-allowed}
+button:disabled{cursor:not-allowed;opacity:.5}
+:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
 .hidden{display:none!important}
-.top{min-height:65px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 15px;background:#211728;border-bottom:1px solid #ffffff18}
-.logo{border:0;background:none;font-weight:950;font-size:21px}
+.top{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 15px;background:#211728;border-bottom:1px solid #ffffff18;position:sticky;top:0;z-index:10}
+.logo{border:0;background:none;font-weight:900;font-size:21px}
 .logo span{color:var(--pink)}
-.btn,.tool{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 14px}
-.primary{background:var(--pink)!important;color:#21101a!important;border-color:var(--pink)!important;font-weight:850}
+.btn,.tool{border:1px solid var(--line);background:var(--panel);border-radius:12px;padding:10px 14px;transition:transform .12s,background .12s}
+.btn:active,.tool:active{transform:scale(.95)}
+.primary{background:var(--pink)!important;color:#21101a!important;border-color:var(--pink)!important;font-weight:800}
 .row,.controls{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:12px 0}
 .wrap{max-width:1100px;margin:auto;padding:22px 15px 40px}
-.section{display:none}
-.section.active{display:block}
-.hero{min-height:620px;border-radius:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;background:linear-gradient(135deg,#35213f,#17101e 70%);border:1px solid #ffffff35}
-.tagline{letter-spacing:5px;color:#f4dce9}
-.hero h1{font-size:clamp(55px,12vw,100px);line-height:.95;margin:30px 0;font-weight:950}
+.section{display:none}.section.active{display:block}
+.hero{min-height:560px;border-radius:30px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:30px 20px;background:radial-gradient(circle at 80% 10%,#ff82a533,transparent 45%),linear-gradient(135deg,#35213f,#17101e 70%);border:1px solid #ffffff35}
+.hero h1{font-size:clamp(52px,12vw,100px);line-height:.95;margin:26px 0;font-weight:900}
 .hero h1 span{color:var(--pink)}
-.hero p{font-size:clamp(18px,4vw,30px);max-width:750px;line-height:1.5}
-.hero .primary{font-size:22px;padding:17px 25px}
+.hero p{font-size:clamp(17px,3.6vw,26px);max-width:700px;line-height:1.5}
+.hero .primary{font-size:20px;padding:15px 24px}
 .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-top:20px}
-.card,.photo{background:var(--panel);border:1px solid #ffffff20;border-radius:18px;overflow:hidden}
-.card{padding:20px;text-align:left;min-height:160px}
-.card b{display:block;font-size:21px;margin:15px 0}
+.card{background:var(--panel);border:1px solid #ffffff20;border-radius:18px;padding:20px;text-align:start;min-height:150px}
+.card b{display:block;font-size:20px;margin:12px 0}
 .muted{color:var(--muted)}
 .heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:15px}
 .gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
-.photo{padding:0;text-align:left;border:2px solid transparent}
+.photo{background:var(--panel);border:2px solid transparent;border-radius:18px;overflow:hidden;padding:0;text-align:start}
 .photo.selected{border-color:var(--pink)}
 .photo img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:#302239}
-.photo span{display:block;padding:11px;font-weight:750}
-.controls select,.room input,.chat-input{background:var(--bg);color:white;border:1px solid var(--line);padding:11px;border-radius:9px}
+.photo span{display:block;padding:11px;font-weight:700}
+select,.room input,.chat-input{background:var(--bg);color:#fff;border:1px solid var(--line);padding:10px;border-radius:9px}
 .modal-bg{position:fixed;inset:0;background:#08060bdd;z-index:50;display:none;align-items:center;justify-content:center;padding:10px}
 .modal-bg.open{display:flex}
 .modal{width:min(600px,100%);max-height:92dvh;overflow:auto;background:var(--panel);padding:17px;border-radius:16px}
 .modal-head{display:flex;justify-content:space-between;align-items:center;font-size:21px}
 .x{background:none;border:0;font-size:28px}
 .block{background:#1a121f;padding:14px;border-radius:10px;margin:12px 0}
-.block h3{text-align:center;color:var(--muted);font-weight:500}
-.check{display:flex;gap:9px;align-items:center;margin:12px 0}
+.block h3{text-align:center;color:var(--muted);font-weight:500;margin:0 0 8px}
+.check{display:flex;gap:9px;align-items:center;margin:10px 0}
 input[type=range],input[type=checkbox]{accent-color:var(--pink)}
+input[type=range]{flex:1}
 .preview{display:block;max-width:100%;max-height:180px;margin:10px auto;border-radius:8px}
 .saved-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
 .saved-card{background:var(--panel);border:1px solid #ffffff20;border-radius:15px;overflow:hidden}
-.saved-card img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#302239}
-.saved-info{padding:12px}
+.saved-card img{width:100%;aspect-ratio:4/3;object-fit:cover;background:#302239;display:block}
+.saved-info{padding:12px}.saved-info h3{margin:0 0 4px}
 .saved-progress{height:7px;background:#51445f;border-radius:10px;overflow:hidden;margin:10px 0}
 .saved-progress div{height:100%;background:var(--pink)}
-.saved-actions{display:flex;gap:8px}
-.saved-actions button{flex:1}
+.saved-actions{display:flex;gap:8px}.saved-actions button{flex:1}
 .empty-saved{text-align:center;padding:40px;background:var(--panel);border-radius:15px}
 #gamePage{position:fixed;inset:0;z-index:20;background:#100b17;display:flex;flex-direction:column}
-.gamebar{min-height:55px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;background:#211728;padding:7px;z-index:5}
+.gamebar{min-height:54px;display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;background:#211728;padding:7px;z-index:5}
 .tool{width:40px;height:40px;padding:0;font-size:18px}
-.status{margin-left:auto;color:#d1c2db;font-size:13px;padding:0 8px}
-.arena-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:#100b17;touch-action:none;cursor:grab}
-.arena{position:absolute;width:3000px;height:3000px;left:0;top:0;transform-origin:0 0;will-change:transform}
-.board{position:absolute;border:3px solid #302536;z-index:1;overflow:visible}
-.piece{position:absolute;z-index:3;touch-action:none;user-select:none;filter:drop-shadow(0 2px 3px #0009);cursor:grab}
-.piece.dragging{z-index:20;cursor:grabbing}
-.piece svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none}
-.piece.placed{z-index:2;filter:none;pointer-events:none}
+.tool.on{background:var(--pink);color:#21101a}
+.status{margin-inline-start:auto;color:#d1c2db;font-size:13px;padding:0 8px;font-variant-numeric:tabular-nums}
+.arena-wrap{position:relative;flex:1;min-height:0;overflow:hidden;background:radial-gradient(circle at 50% 50%,#1b1325,#100b17);touch-action:none;cursor:grab}
+.arena{position:absolute;left:0;top:0;transform-origin:0 0;will-change:transform}
+.board{position:absolute;border:3px dashed #4a3b58;z-index:1;background:#ffffff08}
+.ghost{position:absolute;inset:0;background-size:100% 100%;opacity:.16;pointer-events:none}
+.piece{position:absolute;z-index:3;user-select:none;pointer-events:none;transition:opacity .2s}
+.piece.dragging{z-index:20}
+.piece svg{display:block;width:100%;height:100%;overflow:visible;pointer-events:none;filter:drop-shadow(0 2px 3px #0009)}
+.piece path.edge{pointer-events:fill;cursor:grab}
+.piece.dragging path.edge{cursor:grabbing}
+.piece.placed{z-index:2}
+.piece.placed svg{filter:none}
+.piece.placed path{pointer-events:none!important}
+.piece.dim{opacity:.1}.piece.dim path{pointer-events:none!important}
+.piece.pop svg{animation:pop .35s}
+@keyframes pop{50%{transform:scale(1.06)}}
 .bottom{position:absolute;bottom:12px;left:12px;right:12px;display:flex;justify-content:space-between;align-items:end;pointer-events:none;z-index:25}
 .pill{pointer-events:auto;background:#211728ed;border:1px solid var(--line);border-radius:9px;padding:9px 12px;font-size:12px}
 .track{height:5px;width:120px;background:#51445f;border-radius:6px;margin-top:5px;overflow:hidden}
-.track div{height:100%;width:0;background:var(--pink)}
-.win{display:none;position:absolute;z-index:30;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--panel);border:1px solid var(--pink);border-radius:16px;padding:22px;text-align:center;width:min(90%,330px)}
+.track div{height:100%;width:0;background:var(--pink);transition:width .3s}
+.win{display:none;position:absolute;z-index:30;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--panel);border:1px solid var(--pink);border-radius:16px;padding:22px;text-align:center;width:min(90%,340px)}
 .win.show{display:block}
 .reference{display:none;position:absolute;inset:0;background:#100b17ee;z-index:22;align-items:center;justify-content:center;padding:20px}
 .reference.show{display:flex}
 .reference img{max-width:100%;max-height:100%;object-fit:contain}
+.toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%);background:#000c;border:1px solid var(--line);padding:10px 16px;border-radius:10px;z-index:99;opacity:0;pointer-events:none;transition:opacity .25s;max-width:90%;text-align:center}
+.toast.show{opacity:1}
 .room{max-width:650px;margin:auto;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px}
-.room input{width:100%;margin:6px 0 12px}
+.room input[type=text],.room input:not([type]){width:100%;margin:6px 0 12px}
 .chat{height:210px;overflow:auto;background:#140e19;padding:10px;border-radius:8px;margin:12px 0}
 .msg{padding:8px 10px;background:#302239;border-radius:9px;margin:7px 0;overflow-wrap:anywhere}
-.chatrow{display:flex;gap:7px}
-.chat-input{min-width:0;flex:1}
+.chatrow{display:flex;gap:7px}.chat-input{min-width:0;flex:1}
 .footer{text-align:center;color:#998ba5;font-size:12px;margin-top:24px}
 @media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:650px){
-.top{padding:8px}
-.logo{font-size:15px}
-.top .btn{font-size:12px;padding:8px}
-.wrap{padding:12px}
-.hero{min-height:calc(100dvh - 130px);padding:20px 13px}
+.top{padding:8px}.logo{font-size:15px}.top .btn{font-size:12px;padding:8px}
+.wrap{padding:12px}.hero{min-height:calc(100dvh - 130px);padding:20px 13px}
 .cards{grid-template-columns:1fr}
 .gallery{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .saved-grid{grid-template-columns:1fr}
-.gamebar{gap:4px;padding:5px}
-.tool{width:35px;height:35px;font-size:16px}
-.status{display:none}
-.track{width:80px}
+.gamebar{gap:4px;padding:5px}.tool{width:34px;height:34px;font-size:15px}
+.status{font-size:11px;padding:0 4px}.track{width:80px}
 }
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -108,13 +113,8 @@ input[type=range],input[type=checkbox]{accent-color:var(--pink)}
 <header class="top" id="top">
 <button class="logo" onclick="page('home')">🧩 <span>JIGSAW</span> WORLD</button>
 <div class="row" style="margin:0">
-<select id="lang" onchange="setLanguage(this.value)" style="background:#241a2b;color:white;border:1px solid #51445f;border-radius:8px;padding:8px">
-<option value="en">English</option>
-<option value="ar">العربية</option>
-<option value="lt">Lietuvių</option>
-<option value="ru">Русский</option>
-<option value="uk">Українська</option>
-<option value="pt">Português</option>
+<select id="lang" onchange="setLanguage(this.value)" aria-label="Language">
+<option value="en">English</option><option value="ar">العربية</option><option value="lt">Lietuvių</option><option value="ru">Русский</option><option value="uk">Українська</option><option value="pt">Português</option>
 </select>
 <button class="btn" onclick="page('gallery')" data-i="pictures">Pictures</button>
 <button class="btn primary" onclick="openSettings()" data-i="new">New +</button>
@@ -124,7 +124,7 @@ input[type=range],input[type=checkbox]{accent-color:var(--pink)}
 <main class="wrap" id="homeWrap">
 <section id="home" class="section active">
 <div class="hero">
-<div class="tagline">A WORLD MADE OF PIECES</div>
+<div class="muted" style="letter-spacing:4px" data-i="tagline">A WORLD MADE OF PIECES</div>
 <h1>JIGSAW<br><span>WORLD</span></h1>
 <p data-i="heroText">Choose a photo, scatter the pieces, and put the picture back together.</p>
 <button class="btn primary" onclick="page('gallery')" data-i="choose">Choose a picture →</button>
@@ -132,14 +132,14 @@ input[type=range],input[type=checkbox]{accent-color:var(--pink)}
 <div class="cards">
 <button class="card" onclick="page('gallery')">🖼️<b data-i="explore">Explore pictures</b><span class="muted" data-i="exploreText">Choose a picture or upload your own.</span></button>
 <button class="card" onclick="openSettings()">🧩<b data-i="newPuzzle">New puzzle</b><span class="muted" data-i="newText">Choose difficulty and create a puzzle.</span></button>
-<button class="card" onclick="page('rooms')">👥<b data-i="playPeople">Play with people</b><span class="muted" data-i="roomText">Create a private room or join a room.</span></button>
+<button class="card" onclick="page('rooms')">👥<b data-i="playPeople">Play with people</b><span class="muted" data-i="roomText">Create a room or join a room.</span></button>
 <button class="card" onclick="page('continue')">⏯️<b data-i="continue">Continue</b><span class="muted" data-i="continueText">Continue your saved puzzles.</span></button>
 </div>
 </section>
 
 <section id="gallery" class="section">
 <div class="heading">
-<div><h2 data-i="choosePhoto">Choose a picture</h2><div class="muted" data-i="pickText">Pick a photo to set up your puzzle.</div></div>
+<div><h2 data-i="choosePhoto">Choose a picture</h2><div class="muted" data-i="pickText">Pick a photo for your puzzle.</div></div>
 <button class="btn" onclick="page('home')" data-i="home">Home</button>
 </div>
 <div class="gallery" id="galleryGrid"></div>
@@ -149,7 +149,7 @@ input[type=range],input[type=checkbox]{accent-color:var(--pink)}
 <button class="btn" id="moreButton" onclick="loadMore()" data-i="more">Load more photos</button>
 <button class="btn primary" onclick="openSettings()" data-i="next">Next: settings →</button>
 </div>
-<p class="muted" data-i="internet">Gallery needs internet. You can upload your own image.</p>
+<p class="muted" data-i="internet">If a photo can't load, a built-in picture is used. You can also upload your own.</p>
 </section>
 
 <section id="continue" class="section">
@@ -165,48 +165,42 @@ input[type=range],input[type=checkbox]{accent-color:var(--pink)}
 <div class="room">
 <h3 data-i="createRoom">Create a room</h3>
 <label data-i="yourName">Your name</label>
-<input id="playerName" placeholder="Puzzle player">
-<label class="check"><input type="checkbox" id="privateRoom" checked><span data-i="private">Private room</span></label>
+<input id="playerName" placeholder="Puzzle player" maxlength="20">
 <button class="btn primary" onclick="createRoom()" data-i="createCode">Create room code</button>
 <p id="roomCodeText" class="muted"></p>
-<hr>
+<hr style="border-color:var(--line)">
 <h3 data-i="joinRoom">Join a room</h3>
-<input id="joinCode" placeholder="Enter room code">
+<input id="joinCode" placeholder="Room code" maxlength="8">
 <button class="btn" onclick="joinRoom()" data-i="join">Join room</button>
 <p id="roomStatus" class="muted"></p>
 <h3 data-i="chat">Room chat</h3>
 <div class="chat" id="chatMessages"></div>
 <div class="chatrow">
-<input class="chat-input" id="chatInput" placeholder="Write a message…">
+<input class="chat-input" id="chatInput" placeholder="…" maxlength="300">
 <button class="btn primary" onclick="sendChat()" data-i="send">Send</button>
 </div>
-<p class="muted" data-i="onlineNotice">Demo mode: rooms and chat work on this device only.</p>
+<p class="muted" data-i="onlineNotice">Demo mode: rooms and chat work between tabs on this device only.</p>
 </div>
 </section>
-<div class="footer">JIGSAW WORLD · Puzzle your way</div>
+<div class="footer">JIGSAW WORLD</div>
 </main>
 
 <div class="modal-bg" id="settings">
 <div class="modal">
-<div class="modal-head"><span data-i="newPuzzle">New puzzle</span><button class="x" onclick="closeSettings()">×</button></div>
+<div class="modal-head"><span data-i="newPuzzle">New puzzle</span><button class="x" onclick="closeSettings()" aria-label="Close">×</button></div>
 <div class="block">
 <h3 data-i="difficulty">Difficulty</h3>
-<div class="row">
+<div class="row" style="justify-content:center">
 <button class="btn primary" id="normal" onclick="setMode(false)" data-i="normal">🧩 Normal</button>
 <button class="btn" id="hard" onclick="setMode(true)" data-i="hard">🧩 Hard</button>
 </div>
-<p><span data-i="pieces">Pieces</span>: <b id="countText">36</b></p>
+<p class="muted" id="modeHint" style="text-align:center;margin:4px 0"></p>
 <div class="row">
 <input id="pieceRange" type="range" min="3" max="12" value="6" oninput="updateCount()">
-<span class="btn" id="countBadge">36 pieces</span>
+<span class="btn" id="countBadge">36</span>
 </div>
-<img id="preview" class="preview" alt="Puzzle preview">
+<img id="preview" class="preview" alt="">
 <label class="check"><input id="mystery" type="checkbox"><span data-i="mystery">Mystery puzzle</span></label>
-</div>
-<div class="block">
-<h3 data-i="playArea">Play area</h3>
-<label class="check"><input id="largeBoard" type="checkbox" checked><span data-i="large">Large centered puzzle board</span></label>
-<p class="muted" data-i="gestures">Drag pieces and pinch to zoom.</p>
 </div>
 <div class="row" style="justify-content:center">
 <button class="btn primary" onclick="createPuzzle()" data-i="createPuzzle">Create puzzle</button>
@@ -216,1091 +210,618 @@ input[type=range],input[type=checkbox]{accent-color:var(--pink)}
 
 <section id="gamePage" class="hidden">
 <div class="gamebar">
-<button class="tool" onclick="exitGame()">⌂</button>
-<button class="tool" onclick="reference()">🖼️</button>
-<button class="tool" onclick="shufflePieces()">🔀</button>
+<button class="tool" onclick="exitGame()" title="Home">⌂</button>
+<button class="tool" onclick="reference()" title="Picture">🖼️</button>
+<button class="tool" onclick="shufflePieces()" title="Shuffle">🔀</button>
+<button class="tool" id="ghostBtn" onclick="toggleGhost()" title="Guide">👻</button>
+<button class="tool" id="edgeBtn" onclick="toggleEdges()" title="Edges">▣</button>
+<button class="tool" id="soundBtn" onclick="toggleSound()" title="Sound">🔊</button>
 <button class="tool" onclick="zoomBy(.85)">−</button>
 <button class="tool" onclick="zoomBy(1.18)">＋</button>
 <button class="tool" onclick="resetView()">⤢</button>
 <button class="tool" onclick="fullscreen()">⛶</button>
-<span class="status" id="status">0 / 36</span>
+<span class="status"><span id="timer">00:00</span> · <span id="status">0 / 36</span></span>
 </div>
 <div class="arena-wrap" id="arenaWrap">
-<div class="arena" id="arena"><div class="board" id="board"></div></div>
-<div class="reference" id="referenceLayer" onclick="this.classList.remove('show')"><img id="referenceImg" alt="Reference"></div>
+<div class="arena" id="arena"><div class="board" id="board"><div class="ghost" id="ghost"></div></div></div>
+<div class="reference" id="referenceLayer" onclick="this.classList.remove('show')"><img id="referenceImg" alt=""></div>
 <div class="win" id="win">
-<h2>🎉 Puzzle complete!</h2>
-<p data-i="finished">You put the picture back together.</p>
+<h2>🎉</h2>
+<p id="winText"></p>
 <button class="btn primary" onclick="exitGame()" data-i="backPictures">Back to pictures</button>
 </div>
 <div class="bottom">
-<div class="pill"><span id="progressText">0% complete</span><div class="track"><div id="progress"></div></div></div>
+<div class="pill"><span id="progressText">0%</span><div class="track"><div id="progress"></div></div></div>
 <button class="btn pill" onclick="reference()" data-i="viewPicture">View picture</button>
 </div>
 </div>
 </section>
+<div class="toast" id="toast"></div>
 
 <script>
-const T={
-en:{pictures:"Pictures",new:"New +",heroText:"Choose a photo, scatter the pieces, and put the picture back together.",choose:"Choose a picture →",explore:"Explore pictures",exploreText:"Choose a picture or upload your own.",newPuzzle:"New puzzle",newText:"Choose difficulty and create a puzzle.",playPeople:"Play with people",roomText:"Create a room or join a room.",continue:"Continue",continueText:"Continue your saved puzzles.",resume:"Resume",delete:"Delete",noSaved:"No saved puzzles yet.",choosePhoto:"Choose a picture",pickText:"Pick a photo for your puzzle.",home:"Home",upload:"＋ Upload picture",more:"Load more photos",next:"Next: settings →",internet:"Gallery needs internet. You can upload your own image.",createRoom:"Create a room",yourName:"Your name",private:"Private room",createCode:"Create room code",joinRoom:"Join a room",join:"Join room",chat:"Room chat",send:"Send",onlineNotice:"Demo mode: rooms and chat work on this device only.",difficulty:"Difficulty",normal:"🧩 Normal",hard:"🧩 Hard",pieces:"Pieces",mystery:"Mystery puzzle",playArea:"Play area",large:"Large centered puzzle board",gestures:"Drag pieces with one finger. Pinch to zoom.",createPuzzle:"Create puzzle",finished:"You put the picture back together.",backPictures:"Back to pictures",viewPicture:"View picture"},
-ar:{pictures:"الصور",new:"جديد +",heroText:"اختار صورة وركّب قطعها من جديد.",choose:"اختار صورة ←",explore:"استكشف الصور",exploreText:"اختار صورة أو ارفع صورتك.",newPuzzle:"بازل جديد",newText:"اختار الصعوبة وابدأ اللعب.",playPeople:"العب مع الناس",roomText:"اعمل روم أو ادخل روم.",continue:"استمرار",continueText:"واصل البازل المحفوظة.",resume:"مواصلة",delete:"حذف",noSaved:"ما عندك بازل محفوظة حالياً.",choosePhoto:"اختار صورة",pickText:"اختار الصورة البتريدها.",home:"الرئيسية",upload:"＋ ارفع صورة",more:"صور إضافية",next:"التالي: الإعدادات ←",internet:"المعرض يحتاج إنترنت. تقدر ترفع صورتك.",createRoom:"إنشاء روم",yourName:"اسمك",private:"روم خاص",createCode:"إنشاء كود الروم",joinRoom:"دخول روم",join:"دخول",chat:"شات الروم",send:"إرسال",onlineNotice:"الوضع التجريبي يعمل على نفس الجهاز فقط.",difficulty:"الصعوبة",normal:"🧩 عادي",hard:"🧩 صعب",pieces:"القطع",mystery:"بازل غامض",playArea:"مساحة اللعب",large:"لوحة كبيرة في المنتصف",gestures:"اسحب القطع بإصبعك وقرّب إصبعين للتكبير.",createPuzzle:"ابدأ البازل",finished:"جمّعت الصورة كاملة!",backPictures:"الرجوع للصور",viewPicture:"عرض الصورة"},
-lt:{pictures:"Nuotraukos",new:"Naujas +",heroText:"Pasirink nuotrauką ir sudėk ją iš naujo.",choose:"Pasirink nuotrauką →",explore:"Nuotraukos",exploreText:"Pasirink arba įkelk nuotrauką.",newPuzzle:"Nauja dėlionė",newText:"Pasirink sudėtingumą.",playPeople:"Žaisti kartu",roomText:"Sukurk kambarį arba prisijunk.",continue:"Tęsti",continueText:"Tęsk išsaugotas dėliones.",resume:"Tęsti",delete:"Ištrinti",noSaved:"Išsaugotų dėlionių nėra.",choosePhoto:"Pasirink nuotrauką",pickText:"Pasirink nuotrauką.",home:"Pradžia",upload:"＋ Įkelti",more:"Daugiau nuotraukų",next:"Toliau →",internet:"Reikia interneto.",createRoom:"Sukurti kambarį",yourName:"Vardas",private:"Privatus",createCode:"Sukurti kodą",joinRoom:"Prisijungti",join:"Prisijungti",chat:"Pokalbis",send:"Siųsti",onlineNotice:"Demonstracinis režimas.",difficulty:"Sudėtingumas",normal:"🧩 Įprastas",hard:"🧩 Sunkus",pieces:"Detalės",mystery:"Paslėpti nuotrauką",playArea:"Žaidimo laukas",large:"Didelė lenta",gestures:"Vilk detales ir priartink dviem pirštais.",createPuzzle:"Kurti dėlionę",finished:"Dėlionė baigta!",backPictures:"Grįžti",viewPicture:"Rodyti nuotrauką"},
-ru:{pictures:"Фото",new:"Новая +",heroText:"Выбери фото и собери его заново.",choose:"Выбрать фото →",explore:"Фотографии",exploreText:"Выбери или загрузи фото.",newPuzzle:"Новый пазл",newText:"Выбери сложность.",playPeople:"Играть вместе",roomText:"Создай комнату или войди.",continue:"Продолжить",continueText:"Продолжить сохранённые пазлы.",resume:"Продолжить",delete:"Удалить",noSaved:"Сохранённых пазлов нет.",choosePhoto:"Выбери фото",pickText:"Выбери изображение.",home:"Главная",upload:"＋ Загрузить фото",more:"Ещё фото",next:"Далее →",internet:"Нужен интернет.",createRoom:"Создать комнату",yourName:"Имя",private:"Приватная",createCode:"Создать код",joinRoom:"Войти",join:"Войти",chat:"Чат",send:"Отправить",onlineNotice:"Демо-режим.",difficulty:"Сложность",normal:"🧩 Обычная",hard:"🧩 Сложная",pieces:"Детали",mystery:"Скрыть образец",playArea:"Игровое поле",large:"Большое поле",gestures:"Перетаскивай детали и увеличивай двумя пальцами.",createPuzzle:"Создать пазл",finished:"Пазл собран!",backPictures:"Назад",viewPicture:"Показать фото"},
-uk:{pictures:"Фото",new:"Нова +",heroText:"Вибери фото та склади його знову.",choose:"Вибрати фото →",explore:"Фотографії",exploreText:"Вибери або завантаж фото.",newPuzzle:"Новий пазл",newText:"Обери складність.",playPeople:"Грати разом",roomText:"Створи кімнату або приєднайся.",continue:"Продовжити",continueText:"Продовжити збережені пазли.",resume:"Продовжити",delete:"Видалити",noSaved:"Збережених пазлів немає.",choosePhoto:"Вибери фото",pickText:"Вибери зображення.",home:"Головна",upload:"＋ Завантажити",more:"Більше фото",next:"Далі →",internet:"Потрібен інтернет.",createRoom:"Створити кімнату",yourName:"Ім'я",private:"Приватна",createCode:"Створити код",joinRoom:"Увійти",join:"Увійти",chat:"Чат",send:"Надіслати",onlineNotice:"Демо-режим.",difficulty:"Складність",normal:"🧩 Звичайна",hard:"🧩 Складна",pieces:"Деталі",mystery:"Приховати зразок",playArea:"Ігрове поле",large:"Велике поле",gestures:"Перетягуй деталі та збільшуй двома пальцями.",createPuzzle:"Створити пазл",finished:"Пазл зібрано!",backPictures:"Назад",viewPicture:"Показати фото"},
-pt:{pictures:"Fotos",new:"Novo +",heroText:"Escolha uma foto e monte a imagem novamente.",choose:"Escolher foto →",explore:"Explorar fotos",exploreText:"Escolha ou envie sua foto.",newPuzzle:"Novo quebra-cabeça",newText:"Escolha a dificuldade.",playPeople:"Jogar juntos",roomText:"Crie ou entre em uma sala.",continue:"Continuar",continueText:"Continue seus quebra-cabeças.",resume:"Continuar",delete:"Excluir",noSaved:"Nenhum quebra-cabeça salvo.",choosePhoto:"Escolha uma foto",pickText:"Escolha sua imagem.",home:"Início",upload:"＋ Enviar foto",more:"Mais fotos",next:"Próximo →",internet:"A galeria precisa de internet.",createRoom:"Criar sala",yourName:"Seu nome",private:"Sala privada",createCode:"Criar código",joinRoom:"Entrar",join:"Entrar",chat:"Chat",send:"Enviar",onlineNotice:"Modo de demonstração.",difficulty:"Dificuldade",normal:"🧩 Normal",hard:"🧩 Difícil",pieces:"Peças",mystery:"Esconder imagem",playArea:"Área de jogo",large:"Tabuleiro grande",gestures:"Arraste as peças e amplie com dois dedos.",createPuzzle:"Criar quebra-cabeça",finished:"Quebra-cabeça completo!",backPictures:"Voltar",viewPicture:"Ver imagem"}
-};
-
-const photos=[
-["Mountain lake","photo-1470770841072-f978cf4d019e"],
-["Blue ocean","photo-1500375592092-40eb2168fd21"],
-["Forest path","photo-1448375240586-882707db888b"],
-["Curious cat","photo-1514888286974-6c03e2ca1dba"],
-["Wild fox","photo-1474511320723-9a56873867b5"],
-["City lights","photo-1519608487953-e999c86e7455"],
-["Mountain peaks","photo-1464822759023-fed622ff2c3b"],
-["Desert dunes","photo-1509316785289-025f5b846b35"],
-["Pink flowers","photo-1490750967868-88aa4486c946"],
-["Green hills","photo-1464278533981-50106e6176b1"],
-["Snow forest","photo-1517299321609-52687d1bc55a"],
-["Tropical coast","photo-1519046904884-53103b34b206"],
-["Golden sunset","photo-1500530855697-b586d89ba3ee"],
-["Beautiful waterfall","photo-1432405972618-c60b0225b8f9"],
-["Wild elephant","photo-1557050543-4d5f4e07ef46"],
-["Colourful bird","photo-1444464666168-49d633b86797"]
-];
-
-/* صور إضافية بمعرّفات مختلفة بدون تكرار */
-const morePhotos=[
-"photo-1500534623283-312aade485b7",
-"photo-1470252649378-9c29740c9fa8",
-"photo-1518837695005-2083093ee35b",
-"photo-1507371341162-763b5e419408",
-"photo-1501785888041-af3ef285b470",
-"photo-1441974231531-c6227db76b6e",
-"photo-1507525428034-b723cf961d3e",
-"photo-1472396961693-142e6e269027",
-"photo-1472120435266-53107fd0c44a",
-"photo-1472214103451-9374bd1c798e",
-"photo-1469474968028-56623f02e42e",
-"photo-1500534314209-a25ddb2bd429",
-"photo-1511497584788-876760111969",
-"photo-1497250681960-ef046c08a56e",
-"photo-1502082553048-f009c37129b9",
-"photo-1470770841072-f978cf4d019e",
-"photo-1464822759023-fed622ff2c3b",
-"photo-1500530855697-b586d89ba3ee",
-"photo-1500534623283-312aade485b7",
-"photo-1518837695005-2083093ee35b",
-"photo-1470252649378-9c29740c9fa8",
-"photo-1501785888041-af3ef285b470",
-"photo-1441974231531-c6227db76b6e",
-"photo-1507525428034-b723cf961d3e",
-"photo-1472396961693-142e6e269027",
-"photo-1469474968028-56623f02e42e",
-"photo-1511497584788-876760111969",
-"photo-1497250681960-ef046c08a56e"
-];
-
-let lang="en",selected=0,customURL="",customName="",modeHard=false,game=null,zoom=1,pan={x:0,y:0},drag=null,roomCode="",saveTimer;
+window.addEventListener("error",e=>{try{toast("Error: "+(e.message||"script"))}catch(x){}});
 const $=id=>document.getElementById(id);
-const SAVE_KEY="jigsaw_world_saved_puzzles_v4";
+const T={
+en:{tagline:"A WORLD MADE OF PIECES",pictures:"Pictures",new:"New +",heroText:"Choose a photo, scatter the pieces, and put the picture back together.",choose:"Choose a picture →",explore:"Explore pictures",exploreText:"Choose a picture or upload your own.",newPuzzle:"New puzzle",newText:"Choose difficulty and create a puzzle.",playPeople:"Play with people",roomText:"Create a room or join a room.",continue:"Continue",continueText:"Continue your saved puzzles.",resume:"Resume",delete:"Delete",noSaved:"No saved puzzles yet.",choosePhoto:"Choose a picture",pickText:"Pick a photo for your puzzle.",home:"Home",upload:"＋ Upload picture",more:"Load more photos",noMore:"No more photos",next:"Next: settings →",internet:"If a photo can't load, a built-in picture is used. You can also upload your own.",createRoom:"Create a room",yourName:"Your name",createCode:"Create room code",joinRoom:"Join a room",join:"Join room",chat:"Room chat",send:"Send",onlineNotice:"Demo mode: rooms and chat work between tabs on this device only.",difficulty:"Difficulty",normal:"🧩 Normal",hard:"🧩 Hard",mystery:"Mystery puzzle",createPuzzle:"Create puzzle",backPictures:"Back to pictures",viewPicture:"View picture",pieces:"pieces",complete:"complete",hintN:"Empty board, relaxed snapping.",hintH:"Empty board, tight snapping, up to 225 pieces.",mysteryOn:"Turn off Mystery puzzle to view the picture.",finished:"You finished in",room:"Room code",roomMade:"Room created.",roomJoined:"Joined room.",badCode:"Enter a valid room code.",confirmDel:"Delete this puzzle?",full:"Storage is full. Progress may not be saved.",loadFail:"Could not load this picture. Try another one.",guideOn:"Guide shown",guideOff:"Guide hidden",edgesOn:"Edge pieces only",edgesOff:"All pieces",soundOn:"Sound on",soundOff:"Sound off",hardNoGuide:"Guide is disabled in Hard mode."},
+ar:{tagline:"عالم مصنوع من القطع",pictures:"الصور",new:"جديد +",heroText:"اختار صورة وركّب قطعها من جديد.",choose:"اختار صورة ←",explore:"استكشف الصور",exploreText:"اختار صورة أو ارفع صورتك.",newPuzzle:"بازل جديد",newText:"اختار الصعوبة وابدأ اللعب.",playPeople:"العب مع الناس",roomText:"اعمل روم أو ادخل روم.",continue:"استمرار",continueText:"واصل البازل المحفوظة.",resume:"مواصلة",delete:"حذف",noSaved:"ما عندك بازل محفوظة حالياً.",choosePhoto:"اختار صورة",pickText:"اختار الصورة البتريدها.",home:"الرئيسية",upload:"＋ ارفع صورة",more:"صور إضافية",noMore:"ما في صور إضافية",next:"التالي: الإعدادات ←",internet:"لو الصورة ما اتحمّلت بنستخدم صورة جاهزة. وتقدر ترفع صورتك.",createRoom:"إنشاء روم",yourName:"اسمك",createCode:"إنشاء كود الروم",joinRoom:"دخول روم",join:"دخول",chat:"شات الروم",send:"إرسال",onlineNotice:"الوضع التجريبي: الغرف والشات بين التبويبات في نفس الجهاز بس.",difficulty:"الصعوبة",normal:"🧩 عادي",hard:"🧩 صعب",mystery:"بازل غامض",createPuzzle:"ابدأ البازل",backPictures:"الرجوع للصور",viewPicture:"عرض الصورة",pieces:"قطعة",complete:"مكتمل",hintN:"لوحة فاضية وتركيب سهل.",hintH:"لوحة فاضية وتركيب دقيق وحد أقصى 225 قطعة.",mysteryOn:"أوقف البازل الغامض عشان تشوف الصورة.",finished:"خلّصتها في",room:"كود الروم",roomMade:"اتعمل الروم.",roomJoined:"دخلت الروم.",badCode:"اكتب كود روم صحيح.",confirmDel:"متأكد إنك داير تحذف البازل دي؟",full:"التخزين ممتلئ، ممكن التقدم ما يتحفظ.",loadFail:"ما قدرنا نحمّل الصورة. جرّب صورة تانية.",guideOn:"الدليل ظاهر",guideOff:"الدليل مخفي",edgesOn:"قطع الحواف بس",edgesOff:"كل القطع",soundOn:"الصوت شغال",soundOff:"الصوت مقفول",hardNoGuide:"الدليل معطّل في الوضع الصعب."},
+lt:{pictures:"Nuotraukos",new:"Naujas +",heroText:"Pasirink nuotrauką ir sudėk ją iš naujo.",choose:"Pasirink nuotrauką →",continue:"Tęsti",resume:"Tęsti",delete:"Ištrinti",home:"Pradžia",createPuzzle:"Kurti dėlionę",newPuzzle:"Nauja dėlionė",normal:"🧩 Įprastas",hard:"🧩 Sunkus",pieces:"detalės",complete:"baigta",backPictures:"Grįžti",viewPicture:"Rodyti nuotrauką",noSaved:"Išsaugotų dėlionių nėra."},
+ru:{pictures:"Фото",new:"Новая +",heroText:"Выбери фото и собери его заново.",choose:"Выбрать фото →",continue:"Продолжить",resume:"Продолжить",delete:"Удалить",home:"Главная",createPuzzle:"Создать пазл",newPuzzle:"Новый пазл",normal:"🧩 Обычная",hard:"🧩 Сложная",pieces:"деталей",complete:"готово",backPictures:"Назад",viewPicture:"Показать фото",noSaved:"Сохранённых пазлов нет."},
+uk:{pictures:"Фото",new:"Нова +",heroText:"Вибери фото та склади його знову.",choose:"Вибрати фото →",continue:"Продовжити",resume:"Продовжити",delete:"Видалити",home:"Головна",createPuzzle:"Створити пазл",newPuzzle:"Новий пазл",normal:"🧩 Звичайна",hard:"🧩 Складна",pieces:"деталей",complete:"готово",backPictures:"Назад",viewPicture:"Показати фото",noSaved:"Збережених пазлів немає."},
+pt:{pictures:"Fotos",new:"Novo +",heroText:"Escolha uma foto e monte a imagem novamente.",choose:"Escolher foto →",continue:"Continuar",resume:"Continuar",delete:"Excluir",home:"Início",createPuzzle:"Criar quebra-cabeça",newPuzzle:"Novo quebra-cabeça",normal:"🧩 Normal",hard:"🧩 Difícil",pieces:"peças",complete:"completo",backPictures:"Voltar",viewPicture:"Ver imagem",noSaved:"Nenhum quebra-cabeça salvo."}
+};
+let lang="en";
+const t=k=>(T[lang]&&T[lang][k])||T.en[k]||k;
 
-const usedPhotoIds=new Set(photos.map(p=>p[1]));
-let morePhotoIndex=0;
+/* ---------- gallery data ---------- */
+const U=id=>"https://images.unsplash.com/"+id+"?auto=format&fit=crop&w=1200&q=80";
+const TH=["cat","fox","elephant","bird","owl","penguin","giraffe","fish","butterfly","river","waterfall","lake","ocean","forest","flowers","peaks","snow","desert","hills","city"];
+const KW={bird:"parrot",fish:"clownfish",peaks:"mountain",snow:"snow,forest",city:"city,night",hills:"green,hills"};
+const items=[
+["Curious cat","cat","photo-1514888286974-6c03e2ca1dba"],["Wild fox","fox","photo-1474511320723-9a56873867b5"],["Elephant","elephant","photo-1557050543-4d5f4e07ef46"],["Parrot","bird","photo-1444464666168-49d633b86797"],["Night owl","owl",""],["Penguin","penguin",""],["Giraffe","giraffe",""],["Clownfish","fish",""],["Butterfly","butterfly",""],["River valley","river",""],["Waterfall","waterfall","photo-1432405972618-c60b0225b8f9"],["Mountain lake","lake","photo-1470770841072-f978cf4d019e"],["Ocean sunset","ocean","photo-1500375592092-40eb2168fd21"],["Pine forest","forest","photo-1448375240586-882707db888b"],["Pink flowers","flowers","photo-1490750967868-88aa4486c946"],["Mountain peaks","peaks","photo-1464822759023-fed622ff2c3b"],["Snow forest","snow","photo-1517299321609-52687d1bc55a"],["Desert dunes","desert","photo-1509316785289-025f5b846b35"],["Green hills","hills","photo-1464278533981-50106e6176b1"],["City lights","city","photo-1519608487953-e999c86e7455"]
+].map((a,n)=>({name:a[0],id:a[2],kw:KW[a[1]]||a[1],n:n+1,seed:TH.indexOf(a[1]),url:""}));
+const extra=["photo-1500534623283-312aade485b7","photo-1470252649378-9c29740c9fa8","photo-1518837695005-2083093ee35b","photo-1507371341162-763b5e419408","photo-1501785888041-af3ef285b470","photo-1441974231531-c6227db76b6e","photo-1507525428034-b723cf961d3e","photo-1472396961693-142e6e269027","photo-1469474968028-56623f02e42e","photo-1511497584788-876760111969","photo-1497250681960-ef046c08a56e","photo-1502082553048-f009c37129b9"];
+let extraI=0,sel=0,custom=null;
 
-function photoURL(id){
- if(id.startsWith("data:")||id.startsWith("blob:")||id.startsWith("http"))return id;
- return "https://images.unsplash.com/"+id+"?auto=format&fit=crop&w=1200&q=85";
+/* built-in offline pictures: drawn scenes (animals + nature) */
+function art(seed){
+ const th=TH[seed%TH.length],c=document.createElement("canvas");c.width=1200;c.height=800;const x=c.getContext("2d");
+ let s=seed*7919+13;const R=()=>(s=(s*9301+49297)%233280)/233280;
+ const grad=(y0,y1,st)=>{const g=x.createLinearGradient(0,y0,0,y1);st.forEach((col,i)=>g.addColorStop(i/(st.length-1),col));return g};
+ const sky=a=>{x.fillStyle=grad(0,800,a);x.fillRect(0,0,1200,800)};
+ const E=(cx,cy,rx,ry,col,rot)=>{x.fillStyle=col;x.beginPath();x.ellipse(cx,cy,rx,ry,rot||0,0,7);x.fill()};
+ const disc=(cx,cy,r,col)=>E(cx,cy,r,r,col);
+ const poly=(pts,col)=>{x.fillStyle=col;x.beginPath();pts.forEach((q,i)=>i?x.lineTo(q[0],q[1]):x.moveTo(q[0],q[1]));x.closePath();x.fill()};
+ const line=(x1,y1,x2,y2,col,w)=>{x.strokeStyle=col;x.lineWidth=w;x.lineCap="round";x.beginPath();x.moveTo(x1,y1);x.lineTo(x2,y2);x.stroke()};
+ const ridge=(base,amp,f,col,jag)=>{x.fillStyle=col;x.beginPath();x.moveTo(0,800);const ph=R()*6;
+  for(let px=0;px<=1200;px+=jag||20)x.lineTo(px,base+Math.sin(px/f+ph)*amp+Math.sin(px/(f*.4)+ph*2)*amp*.4+(jag?(R()-.5)*amp*.7:0));
+  x.lineTo(1200,800);x.closePath();x.fill()};
+ const pine=(px,py,h,col,tip)=>{x.fillStyle="#3a2a20";x.fillRect(px-h*.03,py-h*.1,h*.06,h*.14);
+  for(let i=0;i<3;i++){const y0=py-h*.08-i*h*.27,w=h*.26*(1-i*.2);poly([[px,y0-h*.42],[px-w,y0],[px+w,y0]],col);if(tip)poly([[px,y0-h*.42],[px-w*.45,y0-h*.2],[px+w*.45,y0-h*.2]],tip)}};
+ const savanna=()=>{sky(["#f6a05a","#ffd89a","#ffeec8"]);disc(900,300,90,"#fff3c4");x.fillStyle="#c99a55";x.fillRect(0,560,1200,240);ridge(560,14,120,"#b8863f");
+  line(180,600,180,420,"#4a3220",14);E(180,410,130,34,"#3d5a2a");E(240,390,90,26,"#4a6a32");line(1050,600,1050,450,"#4a3220",10);E(1050,440,100,26,"#3d5a2a")};
+ const eye=(cx,cy,r,col,pup)=>{disc(cx,cy,r,col);E(cx,cy,r*.28,r*.8,pup||"#111");disc(cx-r*.25,cy-r*.3,r*.18,"#fff")};
+
+ if(th==="cat"){
+  sky(["#f6d7b0","#e8b98a"]);x.fillStyle="#b9793f";x.fillRect(0,690,1200,110);
+  x.strokeStyle="#e08a3c";x.lineWidth=46;x.lineCap="round";x.beginPath();x.moveTo(740,700);x.bezierCurveTo(960,720,980,520,880,430);x.stroke();
+  E(600,580,190,215,"#e08a3c");E(600,620,105,150,"#f7e3c6");E(500,745,60,34,"#f7e3c6");E(700,745,60,34,"#f7e3c6");
+  for(let i=0;i<4;i++){line(430+i*0,520+i*45,490,540+i*45,"#a85a1f",12);line(770,520+i*45,710,540+i*45,"#a85a1f",12)}
+  poly([[470,260],[500,130],[590,215]],"#e08a3c");poly([[730,260],[700,130],[610,215]],"#e08a3c");poly([[495,235],[508,165],[560,215]],"#f4a3a8");poly([[705,235],[692,165],[640,215]],"#f4a3a8");
+  disc(600,340,150,"#e08a3c");E(600,395,95,70,"#f7e3c6");
+  line(600,205,600,255,"#a85a1f",12);line(560,212,565,255,"#a85a1f",10);line(640,212,635,255,"#a85a1f",10);
+  eye(545,325,36,"#9fd36b");eye(655,325,36,"#9fd36b");poly([[580,375],[620,375],[600,400]],"#f08a9a");
+  x.strokeStyle="#6b3a18";x.lineWidth=4;x.beginPath();x.moveTo(600,400);x.lineTo(600,415);x.moveTo(600,415);x.quadraticCurveTo(580,435,560,415);x.moveTo(600,415);x.quadraticCurveTo(620,435,640,415);x.stroke();
+  for(let k=-1;k<=1;k+=2)for(let i=0;i<3;i++)line(600+k*60,400+i*10,600+k*170,380+i*28,"rgba(255,255,255,.9)",3);
+ }else if(th==="fox"){
+  sky(["#f3b868","#c9763a","#6e3a1e"]);for(let i=0;i<9;i++){line(60+i*150+R()*40,0,60+i*150+R()*40,700,`rgba(60,30,15,${.35+R()*.3})`,30+R()*30)}
+  x.fillStyle="#7a4a24";x.fillRect(0,700,1200,100);for(let i=0;i<40;i++)E(R()*1200,700+R()*100,18,8,R()<.5?"#c9501e":"#e8a030");
+  x.strokeStyle="#e8742a";x.lineWidth=110;x.lineCap="round";x.beginPath();x.moveTo(780,720);x.bezierCurveTo(1000,740,1060,520,960,420);x.stroke();E(965,420,52,60,"#fff3e0",.4);
+  E(600,730,190,130,"#e8742a");E(600,720,90,110,"#fff3e0");
+  poly([[440,300],[430,130],[570,230]],"#e8742a");poly([[760,300],[770,130],[630,230]],"#e8742a");poly([[455,250],[445,170],[520,225]],"#2a1810");poly([[745,250],[755,170],[680,225]],"#2a1810");
+  E(600,400,170,140,"#e8742a");poly([[430,420],[600,670],[770,420],[690,500],[510,500]],"#fff3e0");
+  E(600,470,90,70,"#fff3e0");
+  E(530,370,26,16,"#fff",-.3);E(670,370,26,16,"#fff",.3);E(532,372,13,13,"#2a1810");E(668,372,13,13,"#2a1810");disc(536,366,4,"#fff");disc(672,366,4,"#fff");
+  poly([[570,540],[630,540],[600,580]],"#1c1210");line(600,580,600,605,"#1c1210",5);
+ }else if(th==="elephant"){
+  savanna();
+  [[470,640],[560,650],[700,640],[780,650]].forEach(l=>{x.fillStyle="#7d7d86";x.beginPath();x.roundRect(l[0]-38,l[1]-80,76,150,22);x.fill()});
+  E(620,500,260,170,"#8b8b95");E(360,440,125,125,"#8b8b95");E(425,440,85,125,"#74747e",.15);
+  x.strokeStyle="#8b8b95";x.lineWidth=70;x.lineCap="round";x.beginPath();x.moveTo(300,500);x.bezierCurveTo(240,580,220,640,250,690);x.stroke();
+  poly([[300,505],[250,560],[320,570]],"#f6f1e3");eye(335,415,14,"#222");line(880,440,910,560,"#5d5d66",10);
+  line(580,380,700,520,"rgba(0,0,0,.08)",4);
+ }else if(th==="bird"){
+  sky(["#1d6b44","#46a95e","#a6dc8a"]);for(let i=0;i<22;i++)E(R()*1200,R()*420,90,26,`rgba(${20+R()*40},${110+R()*80},${60},.55)`,R()*3);
+  line(200,640,1000,600,"#6a4528",24);
+  E(740,450,60,230,"#2bb673",.9);E(780,520,48,210,"#2b6cc9",1);E(700,500,30,220,"#f5c431",.8);
+  E(600,470,115,190,"#e63946");E(520,490,45,140,"#2b6cc9",.25);E(500,470,28,110,"#f5c431",.2);
+  disc(600,290,85,"#e63946");E(560,285,40,36,"#fff");eye(565,285,24,"#fff","#111");
+  poly([[620,260],[720,300],[680,350],[640,320]],"#f4f1e8");poly([[650,300],[705,318],[680,350],[655,330]],"#444");
+  line(560,660,560,610,"#c9a04a",10);line(640,650,640,605,"#c9a04a",10);
+ }else if(th==="owl"){
+  sky(["#0a1030","#23306a","#4a4a8a"]);for(let i=0;i<70;i++){x.fillStyle=`rgba(255,255,255,${.3+R()*.6})`;x.fillRect(R()*1200,R()*500,2,2)}
+  disc(900,200,110,"#f5ecc4");disc(870,180,18,"rgba(0,0,0,.07)");disc(930,230,24,"rgba(0,0,0,.07)");
+  line(150,640,1050,620,"#3a2618",30);
+  E(600,520,170,225,"#8a6a45");E(600,560,105,160,"#d8c3a0");for(let i=0;i<5;i++)for(let k=0;k<3;k++)E(540+k*60,470+i*50,18,10,"#8a6a45");
+  E(450,520,45,170,"#6a4d2e",.2);E(750,520,45,170,"#6a4d2e",-.2);
+  poly([[480,260],[470,160],[560,215]],"#6a4d2e");poly([[720,260],[730,160],[640,215]],"#6a4d2e");disc(600,330,135,"#8a6a45");
+  disc(535,330,60,"#e8d9b8");disc(665,330,60,"#e8d9b8");disc(535,330,40,"#f5b82e");disc(665,330,40,"#f5b82e");disc(535,330,18,"#111");disc(665,330,18,"#111");disc(528,320,6,"#fff");disc(658,320,6,"#fff");
+  poly([[580,355],[620,355],[600,405]],"#e8962e");E(540,742,34,16,"#e8962e");E(660,742,34,16,"#e8962e");
+ }else if(th==="penguin"){
+  sky(["#6fb7e9","#bfe3f7","#eaf6fd"]);ridge(480,30,200,"#d7ecf8",26);x.fillStyle="#f3fafe";x.fillRect(0,600,1200,200);ridge(590,16,150,"#f3fafe");
+  for(let i=0;i<60;i++)disc(R()*1200,R()*800,2+R()*4,"rgba(255,255,255,.8)");
+  E(520,740,50,20,"#f08a1e");E(680,740,50,20,"#f08a1e");E(600,500,155,245,"#1b1f2a");E(600,545,112,195,"#f5f7fa");
+  E(450,500,35,115,"#1b1f2a",.2);E(750,500,35,115,"#1b1f2a",-.2);disc(600,290,100,"#1b1f2a");E(600,320,70,55,"#f5f7fa");
+  eye(558,280,20,"#fff");eye(642,280,20,"#fff");poly([[570,315],[630,315],[600,360]],"#f08a1e");
+  E(940,640,46,95,"#1b1f2a");E(940,670,32,66,"#f5f7fa");disc(940,545,38,"#1b1f2a");poly([[925,550],[955,550],[940,575]],"#f08a1e");
+ }else if(th==="giraffe"){
+  savanna();
+  [[430,700],[520,700],[640,700],[720,700]].forEach(l=>line(l[0],640,l[0],l[1]+60,"#d9a441",30));
+  E(580,610,190,100,"#e3b04a");poly([[600,590],[680,590],[700,250],[630,250]],"#e3b04a");E(710,230,80,46,"#e3b04a",-.35);
+  poly([[690,190],[694,140],[705,190]],"#a56a2a");poly([[730,200],[740,150],[748,205]],"#a56a2a");E(655,235,16,32,"#c98f3a",.5);eye(735,222,12,"#222");disc(780,245,8,"#7a4a1a");
+  for(let i=0;i<22;i++){const t0=R(),px=i<12?400+R()*360:630+t0*60,py=i<12?560+R()*100:270+t0*300;E(px,py,10+R()*14,8+R()*12,"#a56a2a",R()*3)}
+ }else if(th==="fish"){
+  sky(["#1aa0d8","#0a6ea8","#052a4f"]);for(let i=0;i<6;i++)poly([[150+i*200,0],[210+i*200,0],[330+i*200,700],[170+i*200,700]],"rgba(255,255,255,.05)");
+  x.fillStyle="#d9b97a";x.fillRect(0,720,1200,80);for(let i=0;i<14;i++){const px=R()*1200;E(px,730,30+R()*40,70+R()*80,`hsl(${R()<.5?340:20},70%,55%)`)}
+  for(let i=0;i<10;i++){line(80+i*120,740,80+i*120+R()*40-20,560+R()*80,"#2f9e5a",10)}
+  poly([[790,400],[940,300],[940,500]],"#f58b1f");E(600,400,205,125,"#f58b1f");
+  x.save();x.beginPath();x.ellipse(600,400,205,125,0,0,7);x.clip();x.fillStyle="#fff";x.fillRect(500,250,38,300);x.fillRect(660,250,34,300);x.fillRect(430,250,0,0);x.fillStyle="#222";x.fillRect(494,250,6,300);x.fillRect(538,250,6,300);x.fillRect(654,250,6,300);x.fillRect(694,250,6,300);x.restore();
+  poly([[560,285],[620,200],[700,290]],"#f58b1f");poly([[560,500],[610,560],[660,490]],"#f58b1f");eye(455,370,24,"#fff");
+  for(let i=0;i<24;i++){x.strokeStyle="rgba(255,255,255,.5)";x.lineWidth=2;x.beginPath();x.arc(R()*1200,R()*650,4+R()*14,0,7);x.stroke()}
+ }else if(th==="butterfly"){
+  sky(["#8fd3f4","#d9f2c7","#9ad077"]);ridge(520,30,200,"#7cc063");x.fillStyle="#5aa24a";x.fillRect(0,640,1200,160);
+  for(let i=0;i<120;i++){const fx=R()*1200,fy=560+R()*240;line(fx,fy,fx,fy+50,"#3b8a3a",3);disc(fx,fy,8+R()*8,["#ff7fa8","#ffd84a","#fff","#c78bff"][(R()*4)|0])}
+  const wing=(k)=>{E(600+k*170,330,170,125,"#f58a1f",k*.45);E(600+k*150,330,125,85,"#ffb347",k*.45);E(600+k*130,520,105,95,"#e8641a",-k*.4);
+   for(let i=0;i<6;i++)disc(600+k*(90+i*28),290+(i%3)*30,7,"#fff");x.strokeStyle="#2a1a10";x.lineWidth=8;x.beginPath();x.ellipse(600+k*170,330,170,125,k*.45,0,7);x.stroke();x.beginPath();x.ellipse(600+k*130,520,105,95,-k*.4,0,7);x.stroke()};
+  wing(-1);wing(1);E(600,420,16,150,"#2a1a10");disc(600,265,20,"#2a1a10");line(595,250,540,170,"#2a1a10",4);line(605,250,660,170,"#2a1a10",4);disc(540,170,7,"#2a1a10");disc(660,170,7,"#2a1a10");
+ }else if(th==="river"){
+  sky(["#5aa9e6","#bfe3f7"]);ridge(330,50,220,"#7a9bb5",28);ridge(400,30,160,"#4f8a6c",24);x.fillStyle="#3f7f4a";x.fillRect(0,440,1200,360);
+  for(let i=0;i<26;i++){const side=i%2?1:-1,px=600+side*(180+R()*430),py=440+R()*340;pine(px,py,70+(py-440)*.35,"#215a38")}
+  x.fillStyle=grad(430,800,["#9fd8f5","#3c8fc9","#1b5f9a"]);x.beginPath();x.moveTo(585,430);x.bezierCurveTo(500,520,760,610,830,800);x.lineTo(250,800);x.bezierCurveTo(470,650,410,520,615,430);x.closePath();x.fill();
+  for(let i=0;i<40;i++){x.fillStyle=`rgba(255,255,255,${.1+R()*.3})`;x.fillRect(420+R()*320,500+R()*300,20+R()*70,2)}
+ }else if(th==="waterfall"){
+  sky(["#cfe8f3","#eaf6f0"]);poly([[0,0],[480,0],[470,560],[0,640]],"#5f6770");poly([[1200,0],[720,0],[730,560],[1200,640]],"#555d66");
+  for(let i=0;i<30;i++){E(R()*480,R()*600,30+R()*40,16+R()*20,"rgba(0,0,0,.1)");E(720+R()*480,R()*600,30+R()*40,16+R()*20,"rgba(0,0,0,.1)")}
+  for(let i=0;i<26;i++){disc(R()*470,R()*150+20,40+R()*40,"#2f7a3a");disc(730+R()*470,R()*150+20,40+R()*40,"#2f7a3a")}
+  x.fillStyle=grad(60,580,["#ffffff","#cfeaf7","#ffffff"]);x.fillRect(480,60,240,520);for(let i=0;i<22;i++)line(490+R()*220,70,490+R()*220,570,"rgba(120,180,220,.35)",3);
+  x.fillStyle=grad(560,800,["#4cc3c9","#1d7f8f","#0f4c63"]);x.fillRect(0,560,1200,240);
+  for(let i=0;i<18;i++)E(480+R()*240,570+R()*40,60+R()*60,26+R()*16,"rgba(255,255,255,.55)");
+  for(let i=0;i<14;i++)E(R()*1200,700+R()*90,40+R()*60,18+R()*14,"#59616a");
+ }else if(th==="lake"){
+  sky(["#243b6b","#e98f6f","#ffd9a0"]);disc(300+R()*600,430,70,"#fff1c4");ridge(400,60,220,"#3b3f78",30);ridge(450,40,170,"#2a2c5c",24);
+  x.fillStyle=grad(500,800,["#f2a77f","#3f5f9a","#1b2f5c"]);x.fillRect(0,500,1200,300);
+  for(let i=0;i<70;i++){x.fillStyle=`rgba(255,240,210,${.1+R()*.25})`;x.fillRect(R()*1200,510+R()*290,40+R()*120,2+R()*3)}
+ }else if(th==="ocean"){
+  sky(["#3a1c5c","#ff6b6b","#ffc26b"]);disc(600,440,120,"#fff2b0");x.fillStyle=grad(470,800,["#ff9a6b","#1b4b86","#0b2447"]);x.fillRect(0,470,1200,330);
+  for(let i=0;i<90;i++){const yy=480+Math.pow(R(),1.5)*320;x.fillStyle=`rgba(255,235,190,${.12+R()*.3})`;x.fillRect(600-(60+(yy-470)*.5)*R()*1.4+(R()-.5)*60,yy,30+R()*(60+(yy-470)),3)}
+  for(let i=0;i<50;i++){x.strokeStyle="rgba(255,255,255,.25)";x.lineWidth=2;x.beginPath();x.arc(R()*1200,500+R()*300,20+R()*30,Math.PI*1.1,Math.PI*1.9);x.stroke()}
+ }else if(th==="forest"){
+  sky(["#8cc4b4","#dcefe2"]);ridge(380,40,200,"#7aa793",26);x.fillStyle="#2f5a45";x.fillRect(0,640,1200,160);
+  [["#4f8a6c",520,230],["#3d7358",600,270],["#2e5d47",690,310],["#1f4636",790,350]].forEach(l=>{for(let i=0;i<13;i++)pine(i*95+R()*60-20,l[1]+R()*30,l[2]+R()*50,l[0])});
+ }else if(th==="city"){
+  sky(["#0b1030","#2a2a6a","#8a4a8a"]);for(let i=0;i<90;i++){x.fillStyle=`rgba(255,255,255,${.3+R()*.6})`;x.fillRect(R()*1200,R()*400,2,2)}disc(950,150,45,"#fff6d6");
+  [["#15183a",.55],["#0c0f28",1]].forEach(l=>{for(let px=-20;px<1200;){const w=50+R()*80,h=(140+R()*380)*l[1]+60;x.fillStyle=l[0];x.fillRect(px,800-h,w,h);
+   for(let wy=800-h+14;wy<780;wy+=22)for(let wx=px+8;wx<px+w-10;wx+=16)if(R()<.42){x.fillStyle=R()<.8?"#ffd66b":"#9fd8ff";x.fillRect(wx,wy,8,11)}px+=w+4}});
+ }else if(th==="desert"){
+  sky(["#3f93d3","#f7d194","#ffe9bd"]);disc(820,260,80,"#fff3c9");ridge(470,35,180,"#eaae62");ridge(560,40,150,"#d48a46");ridge(650,35,130,"#b56a32");ridge(730,25,110,"#8c4a24");
+ }else if(th==="peaks"){
+  sky(["#2a5a9a","#8fc1ea","#e6f2fb"]);
+  for(let i=0;i<6;i++){const px=60+i*210+R()*80,h=260+R()*230,w=170+R()*80,top=560-h;poly([[px,top],[px-w,620],[px+w,620]],i%2?"#4a5f86":"#3a4d75");poly([[px,top],[px-w*.38,top+h*.38],[px+w*.38,top+h*.38]],"#f4f8ff")}
+  ridge(640,30,160,"#2f5d44");ridge(720,25,120,"#1f4633");
+ }else if(th==="flowers"){
+  sky(["#7ec8f0","#e8f7ff"]);disc(1000,140,55,"#fff6c8");ridge(400,40,200,"#7cc08a");ridge(480,35,160,"#5aae5e");ridge(570,30,130,"#3f9448");
+  const cols=["#ff7fa8","#ffd84a","#ffffff","#c78bff","#ff9a5c"];
+  for(let i=0;i<420;i++){const fy=520+Math.pow(R(),.8)*280,sc=.4+(fy-520)/280*1.3,fx=R()*1200;x.fillStyle="#2f7d3a";x.fillRect(fx-1,fy,2,18*sc);disc(fx,fy,7*sc+R()*5*sc,cols[(R()*5)|0]);disc(fx,fy,2.5*sc,"#ffe27a")}
+ }else if(th==="snow"){
+  sky(["#16294f","#5b7fb5","#dce8f6"]);ridge(430,50,210,"#c4d6ec",24);x.fillStyle="#eef5fc";x.fillRect(0,640,1200,160);ridge(610,25,170,"#eef5fc");
+  [[480,160],[540,220],[600,280],[690,330]].forEach(l=>{for(let i=0;i<11;i++)pine(i*115+R()*70-20,l[0]+R()*40+130,l[1]+R()*60,"#1f4a3c","#f4f9ff")});
+ }else{
+  const h=th==="hills"&&seed<TH.length?120:R()*360;sky([`hsl(${h},70%,28%)`,`hsl(${h+40},80%,62%)`,`hsl(${h+60},85%,82%)`]);disc(200+R()*800,150+R()*120,55+R()*45,"rgba(255,255,255,.6)");
+  for(let i=0;i<5;i++)ridge(360+i*90,45,80+i*35,`hsl(${h+22*i},${55-i*6}%,${44-i*7}%)`);
+ }
+ return c.toDataURL("image/jpeg",.85);
+}
+/* real photo sources, tried in order: Unsplash (fixed id) -> Flickr by keyword -> Picsum */
+const remoteList=it=>[it.id?U(it.id):"",it.kw?"https://loremflickr.com/1200/800/"+encodeURIComponent(it.kw)+"?lock="+(it.n||1):"","https://picsum.photos/seed/jw"+it.seed+"-"+(it.n||1)+"/1200/800"].filter(Boolean);
+const remoteOf=it=>remoteList(it)[0];
+function mkImg(it){
+ const img=document.createElement("img");img.loading="lazy";img.alt=it.name;
+ const useArt=()=>{it.url=art(it.seed);img.src=it.url};
+ const list=remoteList(it);let k=0;
+ if(it.url){img.src=it.url}
+ else{img.onerror=()=>{k++;if(k<list.length)img.src=list[k];else{img.onerror=null;useArt()}};img.onload=()=>{if(!it.url&&img.src.startsWith("http"))it.url=img.src};img.src=list[0]}
+ return img;
+}
+function pic(){
+ if(custom)return custom;
+ const it=items[sel];
+ return{name:it.name,url:it.url||remoteOf(it)||art(it.seed),fallback:it.seed};
 }
 
-function imageFallback(img,id){
- const urls=[
-  photoURL(id),
-  "https://images.pexels.com/photos/417074/pexels-photo-417074.jpeg?auto=compress&cs=tinysrgb&w=1000",
-  "https://picsum.photos/900/650?random="+Math.floor(Math.random()*10000)
- ];
- let n=0;
- img.onerror=()=>{
-  n++;
-  if(n<urls.length)img.src=urls[n];
-  else{
-   img.style.display="none";
-   if(img.parentElement)img.parentElement.style.background="#302239";
-  }
- };
- img.src=urls[0];
-}
-
+/* ---------- ui ---------- */
+function toast(m){const e=$("toast");e.textContent=m;e.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove("show"),2000)}
 function setLanguage(l){
- lang=T[l]?l:"en";
- document.documentElement.lang=lang;
- document.documentElement.dir=lang==="ar"?"rtl":"ltr";
- $("lang").value=lang;
- document.querySelectorAll("[data-i]").forEach(e=>{
-  const k=e.dataset.i;
-  if(T[lang][k])e.textContent=T[lang][k];
- });
+ lang=T[l]?l:"en";document.documentElement.lang=lang;document.documentElement.dir=lang==="ar"?"rtl":"ltr";$("lang").value=lang;
+ document.querySelectorAll("[data-i]").forEach(e=>{e.textContent=t(e.dataset.i)});
+ updateCount();setMode(hard);
  if($("continue").classList.contains("active"))showSavedGames();
 }
-
 function page(id){
  document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));
- $("homeWrap").classList.toggle("hidden",id==="gamePage");
- $("top").classList.toggle("hidden",id==="gamePage");
  if(id==="gallery")renderGallery();
  if(id==="continue")showSavedGames();
  window.scrollTo(0,0);
 }
-
-function pic(){
- return customURL
-  ?{name:customName||"Your picture",url:customURL}
-  :{name:photos[selected][0],url:photoURL(photos[selected][1])};
-}
-
-function safe(s){
- return String(s).replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
-}
-
 function renderGallery(){
- const g=$("galleryGrid");
- g.innerHTML="";
-
- photos.forEach((p,i)=>{
-  const b=document.createElement("button");
-  b.type="button";
-  b.className="photo"+(!customURL&&i===selected?" selected":"");
-
-  const img=document.createElement("img");
-  img.loading="lazy";
-  img.alt=p[0];
-  imageFallback(img,p[1]);
-
-  const label=document.createElement("span");
-  label.textContent=p[0];
-
-  b.append(img,label);
-  b.addEventListener("click",()=>{
-   selected=i;
-   customURL="";
-   renderGallery();
-   $("preview").src=pic().url;
-  });
-  g.appendChild(b);
- });
-
- if(customURL){
-  const b=document.createElement("button");
-  b.type="button";
-  b.className="photo selected";
-  const img=document.createElement("img");
-  img.src=customURL;
-  img.alt=customName;
-  const label=document.createElement("span");
-  label.textContent=customName;
-  b.append(img,label);
-  b.addEventListener("click",()=>{$("preview").src=customURL;});
-  g.prepend(b);
- }
+ const g=$("galleryGrid");g.innerHTML="";
+ const add=(it,i,isCustom)=>{
+  const b=document.createElement("button");b.type="button";
+  b.className="photo"+((isCustom?!!custom:(!custom&&i===sel))?" selected":"");
+  const l=document.createElement("span");l.textContent=it.name;
+  b.append(isCustom?Object.assign(new Image(),{src:it.url,alt:it.name}):mkImg(it),l);
+  b.onclick=()=>{if(isCustom){}else{sel=i;custom=null}renderGallery();$("preview").src=pic().url};
+  isCustom?g.prepend(b):g.append(b);
+ };
+ items.forEach((it,i)=>add(it,i,false));
+ if(custom)add(custom,0,true);
 }
-
+const MORE=["lion","horse","deer","eagle","wolf","bear","river","waterfall","forest","mountain","lake","beach","flowers","sunset","tiger","whale","rabbit","canyon","meadow","dolphin","zebra","squirrel","island","autumn"];
 function loadMore(){
- const added=[];
-
- while(morePhotoIndex<morePhotos.length && added.length<8){
-  const id=morePhotos[morePhotoIndex++];
-
-  if(usedPhotoIds.has(id))continue;
-
-  usedPhotoIds.add(id);
-  const item=["More picture "+(photos.length+1),id];
-  photos.push(item);
-  added.push(item);
+ for(let k=0;k<6;k++){
+  extraI++;const kw=MORE[(extraI-1)%MORE.length],round=Math.floor((extraI-1)/MORE.length);
+  items.push({name:kw.charAt(0).toUpperCase()+kw.slice(1)+(round?" "+(round+1):""),id:"",kw,n:200+extraI,seed:100+extraI*7,url:""});
  }
-
  renderGallery();
-
- if(morePhotoIndex>=morePhotos.length){
-  const btn=$("moreButton");
-  btn.disabled=true;
-  btn.textContent=lang==="ar"?"ما في صور إضافية":"No more photos";
-  btn.style.opacity=".5";
- }
-
- if(added.length===0 && morePhotoIndex>=morePhotos.length){
-  alert(lang==="ar"?"وصلت لنهاية الصور المتاحة.":"You have reached the end of the available photos.");
- }
+ const g=$("galleryGrid");g.lastElementChild&&g.lastElementChild.scrollIntoView({behavior:"smooth",block:"end"});
 }
 
 $("upload").addEventListener("change",e=>{
- const f=e.target.files[0];
- if(!f)return;
-
- if(!f.type.startsWith("image/")){
-  alert("Choose an image.");
-  return;
- }
-
- const reader=new FileReader();
-
- reader.onload=()=>{
+ const f=e.target.files[0];e.target.value="";
+ if(!f||!f.type.startsWith("image/"))return;
+ const r=new FileReader();
+ r.onload=()=>{
   const im=new Image();
-
   im.onload=()=>{
-   const max=1400;
-   const scale=Math.min(1,max/im.width,max/im.height);
-   const w=Math.round(im.width*scale);
-   const h=Math.round(im.height*scale);
-
-   const c=document.createElement("canvas");
-   c.width=w;
-   c.height=h;
-   c.getContext("2d").drawImage(im,0,0,w,h);
-
-   customURL=c.toDataURL("image/jpeg",.85);
-   customName=f.name;
-   renderGallery();
-   $("preview").src=customURL;
-   openSettings();
+   const k=Math.min(1,1400/im.width,1400/im.height),w=Math.round(im.width*k),h=Math.round(im.height*k);
+   const c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);
+   custom={name:f.name,url:c.toDataURL("image/jpeg",.85)};renderGallery();openSettings();
   };
-
-  im.onerror=()=>alert("Could not read this image.");
-  im.src=reader.result;
+  im.onerror=()=>toast(t("loadFail"));im.src=r.result;
  };
-
- reader.readAsDataURL(f);
- e.target.value="";
+ r.readAsDataURL(f);
 });
-
-function openSettings(){
- $("preview").src=pic().url;
- updateCount();
- $("settings").classList.add("open");
-}
-
-function closeSettings(){
- $("settings").classList.remove("open");
-}
-
+let hard=false;
+function openSettings(){$("preview").src=pic().url;updateCount();$("settings").classList.add("open")}
+function closeSettings(){$("settings").classList.remove("open")}
 function setMode(h){
- modeHard=h;
- $("normal").classList.toggle("primary",!h);
- $("hard").classList.toggle("primary",h);
- $("pieceRange").max=h?15:12;
-
- if(+$("pieceRange").value>+$("pieceRange").max){
-  $("pieceRange").value=$("pieceRange").max;
- }
-
- updateCount();
+ hard=h;$("normal").classList.toggle("primary",!h);$("hard").classList.toggle("primary",h);
+ const r=$("pieceRange");r.max=h?15:12;if(+r.value>+r.max)r.value=r.max;
+ $("modeHint").textContent=t(h?"hintH":"hintN");updateCount();
 }
+function updateCount(){const n=+$("pieceRange").value;$("countBadge").textContent=n*n+" "+t("pieces")}
 
-function updateCount(){
- const n=+$("pieceRange").value;
- $("countText").textContent=n*n;
- $("countBadge").textContent=n*n+" pieces";
-}
-
-/* نظام الحفظ */
-function getSavedGames(){
- try{
-  const data=localStorage.getItem(SAVE_KEY);
-  const games=data?JSON.parse(data):[];
-  return Array.isArray(games)?games:[];
- }catch(e){
-  console.error("Could not read saved puzzles:",e);
-  return [];
- }
-}
-
-function storeSavedGames(games){
- try{
-  localStorage.setItem(SAVE_KEY,JSON.stringify(games));
-  return true;
- }catch(e){
-  console.error("Could not save puzzles:",e);
-  alert("Could not update saved puzzles. Your browser storage may be full.");
-  return false;
- }
-}
-
-function makeId(){
- return "puzzle-"+Date.now()+"-"+Math.random().toString(36).slice(2,9);
-}
+/* ---------- storage: localStorage (metadata) + IndexedDB (uploaded images) ---------- */
+const SAVE_KEY="jigsaw_world_saved_v5";let warned=false;
+const idb=()=>new Promise((res,rej)=>{const r=indexedDB.open("jigsaw-world",1);r.onupgradeneeded=()=>r.result.createObjectStore("img");r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)});
+async function idbPut(k,v){try{const d=await idb();return await new Promise(r=>{const x=d.transaction("img","readwrite");x.objectStore("img").put(v,k);x.oncomplete=()=>r(1);x.onerror=()=>r(0)})}catch(e){return 0}}
+async function idbGet(k){try{const d=await idb();return await new Promise(r=>{const q=d.transaction("img").objectStore("img").get(k);q.onsuccess=()=>r(q.result||"");q.onerror=()=>r("")})}catch(e){return""}}
+async function idbDel(k){try{const d=await idb();d.transaction("img","readwrite").objectStore("img").delete(k)}catch(e){}}
+function getSaved(){try{const a=JSON.parse(localStorage.getItem(SAVE_KEY)||"[]");return Array.isArray(a)?a:[]}catch(e){return[]}}
+function putSaved(a){try{localStorage.setItem(SAVE_KEY,JSON.stringify(a));return true}catch(e){if(!warned){warned=true;toast(t("full"))}return false}}
+const makeId=()=>"p-"+Date.now()+"-"+Math.random().toString(36).slice(2,8);
 
 function saveProgress(){
- if(!game||!game.pieces)return;
-
- const record={
-  id:game.id,
-  name:game.photo.name,
-  photo:game.photo,
-  n:game.n,
-  total:game.total,
-  mystery:game.mystery,
-  bw:game.bw,
-  bh:game.bh,
-  cellW:game.cellW,
-  cellH:game.cellH,
-  tab:game.tab,
-  bx:game.bx,
-  by:game.by,
-  worldW:game.worldW,
-  worldH:game.worldH,
-  pieces:game.pieces.map(p=>({
-   idx:p.idx,
-   group:p.group,
-   placed:p.placed,
-   x:parseFloat(p.el.style.left)||0,
-   y:parseFloat(p.el.style.top)||0
-  })),
-  placedIndexes:[...game.placed],
-  updatedAt:Date.now()
- };
-
- const a=getSavedGames();
- const i=a.findIndex(x=>String(x.id)===String(record.id));
-
- if(i>=0)a[i]=record;
- else a.unshift(record);
-
- storeSavedGames(a);
+ if(!game||!game.pieces.length||game.done)return;
+ const data=game.photo.url.startsWith("data:");
+ if(data&&!game.stored){game.stored=true;idbPut(game.id,game.photo.url)}
+ const rec={id:game.id,name:game.photo.name,photo:{name:game.photo.name,url:data?"":game.photo.url,key:data?game.id:"",fallback:game.photo.fallback||0},
+  n:game.n,total:game.total,mystery:game.mystery,hard:game.hard,bw:game.bw,bh:game.bh,cellW:game.cellW,cellH:game.cellH,tab:game.tab,bx:game.bx,by:game.by,worldW:game.worldW,worldH:game.worldH,
+  elapsed:elapsed(),placed:[...game.placed],updatedAt:Date.now(),
+  pieces:game.pieces.map(p=>({idx:p.idx,group:p.group,placed:p.placed,x:parseFloat(p.el.style.left)||0,y:parseFloat(p.el.style.top)||0}))};
+ const a=getSaved(),i=a.findIndex(x=>x.id===rec.id);
+ if(i>=0)a[i]=rec;else a.unshift(rec);
+ putSaved(a);
 }
-
-function scheduleSave(){
- clearTimeout(saveTimer);
- saveTimer=setTimeout(saveProgress,300);
+function scheduleSave(){clearTimeout(scheduleSave.t);scheduleSave.t=setTimeout(saveProgress,400)}
+function removeSaved(id){
+ const a=getSaved(),u=a.filter(x=>x.id!==id);
+ const old=a.find(x=>x.id===id);if(old&&old.photo&&old.photo.key)idbDel(old.photo.key);
+ putSaved(u);
 }
-
-/* حذف البازل المحفوظة */
-function deleteSavedPuzzle(id){
- const games=getSavedGames();
- const updated=games.filter(item=>String(item.id)!==String(id));
-
- if(updated.length===games.length){
-  alert("This saved puzzle could not be found.");
-  showSavedGames();
-  return;
- }
-
- if(storeSavedGames(updated)){
-  showSavedGames();
- }
-}
-
 function showSavedGames(){
- const container=$("savedGames");
- container.innerHTML="";
-
- const list=getSavedGames().sort(
-  (a,b)=>(b.updatedAt||0)-(a.updatedAt||0)
- );
-
+ const c=$("savedGames");c.innerHTML="";
+ const list=getSaved().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
  if(!list.length){
-  const empty=document.createElement("div");
-  empty.className="empty-saved";
-  empty.style.gridColumn="1/-1";
-
-  const icon=document.createElement("div");
-  icon.textContent="🧩";
-
-  const title=document.createElement("h3");
-  title.textContent=T[lang].noSaved;
-
-  empty.append(icon,title);
-  container.appendChild(empty);
-  return;
+  const e=document.createElement("div");e.className="empty-saved";e.style.gridColumn="1/-1";
+  e.innerHTML="<div style='font-size:40px'>🧩</div><h3></h3>";e.querySelector("h3").textContent=t("noSaved");c.append(e);return;
  }
-
- list.forEach(item=>{
-  const pct=Math.max(0,Math.min(100,
-   Math.round((item.placedIndexes?.length||0)/(item.total||1)*100)
-  ));
-
-  const card=document.createElement("div");
-  card.className="saved-card";
-
-  const img=document.createElement("img");
-  img.alt=item.name||"Saved puzzle";
-
-  if(item.photo&&item.photo.url){
-   img.src=item.photo.url;
-   img.onerror=()=>{
-    img.onerror=null;
-    img.src="https://picsum.photos/800/600?random="+
-     encodeURIComponent(String(item.id||"puzzle").length);
-   };
-  }
-
-  const info=document.createElement("div");
-  info.className="saved-info";
-
-  const title=document.createElement("h3");
-  title.textContent=item.name||"Saved puzzle";
-
-  const details=document.createElement("div");
-  details.className="muted";
-  details.textContent=(item.total||0)+" pieces · "+pct+"%";
-
-  const bar=document.createElement("div");
-  bar.className="saved-progress";
-
-  const fill=document.createElement("div");
-  fill.style.width=pct+"%";
-  bar.appendChild(fill);
-
-  const actions=document.createElement("div");
-  actions.className="saved-actions";
-
-  const resume=document.createElement("button");
-  resume.type="button";
-  resume.className="btn primary";
-  resume.textContent=T[lang].resume;
-  resume.addEventListener("click",()=>resumePuzzle(item.id));
-
-  const del=document.createElement("button");
-  del.type="button";
-  del.className="btn";
-  del.textContent=T[lang].delete;
-
-  del.addEventListener("click",()=>{
-   const message=lang==="ar"
-    ?"متأكد إنك داير تحذف البازل دي؟"
-    :"Are you sure you want to delete this puzzle?";
-
-   if(confirm(message)){
-    deleteSavedPuzzle(item.id);
-   }
-  });
-
-  actions.append(resume,del);
-  info.append(title,details,bar,actions);
-  card.append(img,info);
-  container.appendChild(card);
+ list.forEach(it=>{
+  const pct=Math.min(100,Math.round((it.placed?.length||0)/(it.total||1)*100));
+  const card=document.createElement("div");card.className="saved-card";
+  const img=document.createElement("img");img.alt=it.name||"";
+  const fb=()=>{img.onerror=null;img.src=art(it.photo?.fallback||7)};
+  if(it.photo?.key)idbGet(it.photo.key).then(v=>{img.src=v||art(7)});
+  else{img.onerror=fb;img.src=it.photo?.url||art(7)}
+  const info=document.createElement("div");info.className="saved-info";
+  const h=document.createElement("h3");h.textContent=it.name||"Puzzle";
+  const d=document.createElement("div");d.className="muted";d.textContent=it.total+" "+t("pieces")+" · "+pct+"%";
+  const bar=document.createElement("div");bar.className="saved-progress";const f=document.createElement("div");f.style.width=pct+"%";bar.append(f);
+  const act=document.createElement("div");act.className="saved-actions";
+  const rs=document.createElement("button");rs.className="btn primary";rs.textContent=t("resume");rs.onclick=()=>resumePuzzle(it.id);
+  const dl=document.createElement("button");dl.className="btn";dl.textContent=t("delete");
+  dl.onclick=()=>{if(confirm(t("confirmDel"))){removeSaved(it.id);showSavedGames()}};
+  act.append(rs,dl);info.append(h,d,bar,act);card.append(img,info);c.append(card);
  });
 }
-
-function resumePuzzle(id){
- const s=getSavedGames().find(x=>String(x.id)===String(id));
-
- if(!s){
-  alert("Puzzle not found.");
-  showSavedGames();
-  return;
+async function resumePuzzle(id){
+ const s=getSaved().find(x=>x.id===id);
+ if(!s||!s.n||!s.photo){toast("Puzzle not found");return showSavedGames()}
+ let url=s.photo.url;
+ if(s.photo.key)url=await idbGet(s.photo.key);
+ if(!url)url=art(s.photo.fallback||7);
+ startGame({...s,photo:{...s.photo,url}});
+}
+const probe=u=>new Promise(r=>{const i=new Image(),to=setTimeout(()=>r(false),6000);i.onload=()=>{clearTimeout(to);r(true)};i.onerror=()=>{clearTimeout(to);r(false)};i.src=u});
+async function createPuzzle(){
+ closeSettings();let p=pic();
+ if(!custom){
+  const it=items[sel];
+  if(!it.url){for(const u of remoteList(it)){if(await probe(u)){it.url=u;break}}}
+  if(!it.url)it.url=art(it.seed);
+  p=pic();
  }
-
- if(!s.photo||!s.photo.url||!s.n){
-  alert("This saved puzzle is damaged and cannot be opened.");
-  return;
- }
-
- $("gamePage").classList.remove("hidden");
- $("homeWrap").classList.add("hidden");
- $("top").classList.add("hidden");
- $("win").classList.remove("show");
-
- buildPuzzle(s);
+ startGame(null,p);
 }
 
-function createPuzzle(){
- closeSettings();
-
- $("gamePage").classList.remove("hidden");
- $("homeWrap").classList.add("hidden");
- $("top").classList.add("hidden");
- $("win").classList.remove("show");
-
- buildPuzzle();
+/* ---------- puzzle geometry ---------- */
+const edgeSign=(r,c,a)=>((r*17+c*31+(a==="h"?7:19))%2===0)?1:-1;
+function edgePath(x,y,dx,dy,nx,ny,len,sign,tb){
+ const px=v=>x+dx*v,py=v=>y+dy*v,ox=v=>nx*sign*tb*v,oy=v=>ny*sign*tb*v,L=len;
+ return ` L ${px(L*.34)} ${py(L*.34)}
+ C ${px(L*.39)} ${py(L*.39)} ${px(L*.39)+ox(.65)} ${py(L*.39)+oy(.65)} ${px(L*.44)+ox(.72)} ${py(L*.44)+oy(.72)}
+ C ${px(L*.46)+ox(.72)} ${py(L*.46)+oy(.72)} ${px(L*.46)+ox(1)} ${py(L*.46)+oy(1)} ${px(L*.5)+ox(1)} ${py(L*.5)+oy(1)}
+ C ${px(L*.54)+ox(1)} ${py(L*.54)+oy(1)} ${px(L*.54)+ox(.72)} ${py(L*.54)+oy(.72)} ${px(L*.56)+ox(.72)} ${py(L*.56)+oy(.72)}
+ C ${px(L*.61)+ox(.65)} ${py(L*.61)+oy(.65)} ${px(L*.61)} ${py(L*.61)} ${px(L*.66)} ${py(L*.66)}
+ L ${px(L)} ${py(L)}`;
 }
-
-/* رسم قطع البازل */
-function edgeSign(r,c,a){
- return((r*17+c*31+(a==="h"?7:19))%2===0)?1:-1;
-}
-
-function edgePath(x,y,dx,dy,nx,ny,len,sign,t){
- const px=v=>x+dx*v;
- const py=v=>y+dy*v;
- const ox=v=>nx*sign*t*v;
- const oy=v=>ny*sign*t*v;
-
- return `L ${px(len*.34)} ${py(len*.34)}
- C ${px(len*.39)} ${py(len*.39)} ${px(len*.39)+ox(.65)} ${py(len*.39)+oy(.65)} ${px(len*.44)+ox(.72)} ${py(len*.44)+oy(.72)}
- C ${px(len*.46)+ox(.72)} ${py(len*.46)+oy(.72)} ${px(len*.46)+ox(1)} ${py(len*.46)+oy(1)} ${px(len*.5)+ox(1)} ${py(len*.5)+oy(1)}
- C ${px(len*.54)+ox(1)} ${py(len*.54)+oy(1)} ${px(len*.54)+ox(.72)} ${py(len*.54)+oy(.72)} ${px(len*.56)+ox(.72)} ${py(len*.56)+oy(.72)}
- C ${px(len*.61)+ox(.65)} ${py(len*.61)+oy(.65)} ${px(len*.61)} ${py(len*.61)} ${px(len*.66)} ${py(len*.66)}
- L ${px(len)} ${py(len)}`;
-}
-
-function piecePath(r,c,w,h,t,n){
- let d=`M ${t} ${t}`;
-
- d+=r===0
-  ?` L ${t+w} ${t}`
-  :edgePath(t,t,1,0,0,-1,w,-edgeSign(r-1,c,"h"),t);
-
- d+=c===n-1
-  ?` L ${t+w} ${t+h}`
-  :edgePath(t+w,t,0,1,1,0,h,edgeSign(r,c,"v"),t);
-
- d+=r===n-1
-  ?` L ${t} ${t+h}`
-  :edgePath(t+w,t+h,-1,0,0,1,w,edgeSign(r,c,"h"),t);
-
- d+=c===0
-  ?` L ${t} ${t}`
-  :edgePath(t,t+h,0,-1,-1,0,h,-edgeSign(r,c-1,"v"),t);
-
+function piecePath(r,c,w,h,tb,n){
+ let d=`M ${tb} ${tb}`;
+ d+=r===0?` L ${tb+w} ${tb}`:edgePath(tb,tb,1,0,0,-1,w,-edgeSign(r-1,c,"h"),tb);
+ d+=c===n-1?` L ${tb+w} ${tb+h}`:edgePath(tb+w,tb,0,1,1,0,h,edgeSign(r,c,"v"),tb);
+ d+=r===n-1?` L ${tb} ${tb+h}`:edgePath(tb+w,tb+h,-1,0,0,1,w,edgeSign(r,c,"h"),tb);
+ d+=c===0?` L ${tb} ${tb}`:edgePath(tb,tb+h,0,-1,-1,0,h,-edgeSign(r,c-1,"v"),tb);
  return d+" Z";
 }
 
-function buildPuzzle(saved=null){
- const n=saved?Number(saved.n):+$("pieceRange").value;
- const total=n*n;
- const arena=$("arena");
- const board=$("board");
+/* ---------- game ---------- */
+let game=null,zoom=1,pan={x:0,y:0},drag=null,timerI=null,soundOn=true,edgesOnly=false,ghostOn=true,audio=null;
+const elapsed=()=>game?game.elapsed+(game.t0?(Date.now()-game.t0)/1000:0):0;
+const fmt=s=>{s=Math.floor(s);const m=Math.floor(s/60);return String(m).padStart(2,"0")+":"+String(s%60).padStart(2,"0")};
 
- game={
-  id:saved?saved.id:makeId(),
-  n,
-  total,
-  pieces:[],
-  placed:new Set(saved?.placedIndexes||[]),
-  photo:saved?saved.photo:pic(),
-  mystery:saved?!!saved.mystery:$("mystery").checked
- };
-
+function startGame(saved,photo){
+ $("gamePage").classList.remove("hidden");$("homeWrap").classList.add("hidden");$("top").classList.add("hidden");$("win").classList.remove("show");
+ buildPuzzle(saved,photo);
+}
+function randomPos(p){
+ const g=game;
+ for(let i=0;i<80;i++){
+  const x=30+Math.random()*(g.worldW-p.w-60),y=30+Math.random()*(g.worldH-p.h-60),m=30;
+  if(!(x+p.w>g.bx-m&&x<g.bx+g.bw+m&&y+p.h>g.by-m&&y<g.by+g.bh+m))return{x,y};
+ }
+ return{x:30,y:30};
+}
+async function buildPuzzle(saved,photo){
+ const n=saved?+saved.n:+$("pieceRange").value;
+ const id=saved?saved.id:makeId();
+ const ph=saved?saved.photo:(photo||pic());
+ game={id,n,total:n*n,pieces:[],placed:new Set(saved?.placed||[]),photo:ph,mystery:saved?!!saved.mystery:$("mystery").checked,hard:saved?!!saved.hard:hard,
+  elapsed:saved?.elapsed||0,t0:0,done:false,stored:!!saved?.photo?.key};
+ ghostOn=false;edgesOnly=false;
+ let src=ph.url;
+ if(src.startsWith("data:")){try{src=URL.createObjectURL(await (await fetch(src)).blob())}catch(e){}}
  const source=new Image();
-
  source.onload=()=>{
-  const ratio=source.naturalWidth/source.naturalHeight;
-  if(!ratio)return;
-
-  let bw=saved?.bw;
-  let bh=saved?.bh;
-
-  if(!bw||!bh){
-   if(ratio>=1){
-    bw=Math.min(1050,1150*ratio);
-    bh=bw/ratio;
-   }else{
-    bh=Math.min(1150,1050/ratio);
-    bw=bh*ratio;
-   }
+  if(!game||game.id!==id)return;
+  const ratio=source.naturalWidth/source.naturalHeight||1.5;
+  let bw=saved?.bw,bh=saved?.bh;
+  if(!bw||!bh){if(ratio>=1){bw=Math.min(900,1000*ratio);bh=bw/ratio}else{bh=Math.min(900,1000/ratio);bw=bh*ratio}}
+  const worldW=saved?.worldW||Math.round(bw+900),worldH=saved?.worldH||Math.round(bh+900);
+  const bx=saved?.bx??(worldW-bw)/2,by=saved?.by??(worldH-bh)/2;
+  const arena=$("arena"),board=$("board"),ghost=$("ghost");
+  arena.innerHTML="";arena.style.width=worldW+"px";arena.style.height=worldH+"px";
+  board.style.cssText=`left:${bx}px;top:${by}px;width:${bw}px;height:${bh}px`;
+  ghost.style.backgroundImage=`url("${src}")`;board.innerHTML="";board.append(ghost);arena.append(board);
+  const cellW=saved?.cellW||bw/n,cellH=saved?.cellH||bh/n,tab=saved?.tab||Math.min(cellW,cellH)*.22;
+  Object.assign(game,{bw,bh,bx,by,worldW,worldH,cellW,cellH,tab,src});
+  const old=saved?.pieces||[],ns="http://www.w3.org/2000/svg";
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++){
+   const idx=r*n+c,w=cellW+2*tab,h=cellH+2*tab;
+   const el=document.createElement("div");el.className="piece";el.style.width=w+"px";el.style.height=h+"px";
+   const svg=document.createElementNS(ns,"svg");svg.setAttribute("viewBox",`0 0 ${w} ${h}`);
+   const d=piecePath(r,c,cellW,cellH,tab,n),cid=`cl${id.slice(-5)}_${idx}`;
+   const defs=document.createElementNS(ns,"defs"),cp=document.createElementNS(ns,"clipPath");cp.id=cid;
+   const sh=document.createElementNS(ns,"path");sh.setAttribute("d",d);cp.append(sh);defs.append(cp);svg.append(defs);
+   const im=document.createElementNS(ns,"image");
+   im.setAttribute("href",src);im.setAttribute("x",tab-c*cellW);im.setAttribute("y",tab-r*cellH);im.setAttribute("width",bw);im.setAttribute("height",bh);
+   im.setAttribute("preserveAspectRatio","none");im.setAttribute("clip-path",`url(#${cid})`);svg.append(im);
+   const ol=document.createElementNS(ns,"path");ol.setAttribute("d",d);ol.setAttribute("fill","transparent");ol.setAttribute("stroke","#f8eafa");ol.setAttribute("stroke-width","1.2");ol.setAttribute("class","edge");svg.append(ol);
+   el.append(svg);
+   const o=old.find(q=>q.idx===idx);
+   const p={idx,r,c,w,h,el,group:o?o.group:idx,placed:o?!!o.placed:game.placed.has(idx),isEdge:r===0||c===0||r===n-1||c===n-1};
+   game.pieces.push(p);
+   const pos=o?{x:o.x,y:o.y}:randomPos(p);
+   el.style.left=pos.x+"px";el.style.top=pos.y+"px";
+   if(p.placed){game.placed.add(idx);el.classList.add("placed");ol.setAttribute("stroke","transparent")}
+   arena.append(el);
+   el.addEventListener("pointerdown",startPieceDrag);
   }
-
-  const worldW=saved?.worldW||3000;
-  const worldH=saved?.worldH||3000;
-  const bx=saved?.bx??(worldW-bw)/2;
-  const by=saved?.by??(worldH-bh)/2;
-
-  arena.style.width=worldW+"px";
-  arena.style.height=worldH+"px";
-  arena.innerHTML="";
-
-  board.style.left=bx+"px";
-  board.style.top=by+"px";
-  board.style.width=bw+"px";
-  board.style.height=bh+"px";
-  board.style.background="transparent";
-  board.innerHTML="";
-  arena.append(board);
-
-  const cellW=saved?.cellW||bw/n;
-  const cellH=saved?.cellH||bh/n;
-  const tab=saved?.tab||Math.min(cellW,cellH)*.22;
-
-  Object.assign(game,{
-   bw,bh,bx,by,worldW,worldH,cellW,cellH,tab,playURL:source.src
-  });
-
-  const oldPieces=saved?.pieces||[];
-
-  for(let r=0;r<n;r++){
-   for(let c=0;c<n;c++){
-    const idx=r*n+c;
-    const w=cellW+2*tab;
-    const h=cellH+2*tab;
-
-    const el=document.createElement("div");
-    el.className="piece";
-    el.style.width=w+"px";
-    el.style.height=h+"px";
-
-    const ns="http://www.w3.org/2000/svg";
-    const svg=document.createElementNS(ns,"svg");
-    svg.setAttribute("viewBox",`0 0 ${w} ${h}`);
-
-    const defs=document.createElementNS(ns,"defs");
-    const clip=document.createElementNS(ns,"clipPath");
-    const clipId="clip"+idx;
-
-    clip.id=clipId;
-
-    const shape=document.createElementNS(ns,"path");
-    shape.setAttribute("d",piecePath(r,c,cellW,cellH,tab,n));
-    clip.append(shape);
-    defs.append(clip);
-    svg.append(defs);
-
-    const image=document.createElementNS(ns,"image");
-    image.setAttribute("href",source.src);
-    image.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href",source.src);
-    image.setAttribute("x",tab-c*cellW);
-    image.setAttribute("y",tab-r*cellH);
-    image.setAttribute("width",bw);
-    image.setAttribute("height",bh);
-    image.setAttribute("preserveAspectRatio","none");
-    image.setAttribute("clip-path",`url(#${clipId})`);
-    svg.append(image);
-
-    const outline=document.createElementNS(ns,"path");
-    outline.setAttribute("d",piecePath(r,c,cellW,cellH,tab,n));
-    outline.setAttribute("fill","transparent");
-    outline.setAttribute("stroke","#f8eafa");
-    outline.setAttribute("stroke-width","1.2");
-    outline.classList.add("edge");
-    svg.append(outline);
-
-    el.append(svg);
-
-    const old=oldPieces.find(q=>q.idx===idx);
-    const placed=old?!!old.placed:game.placed.has(idx);
-    const group=old?old.group:idx;
-
-    const p={idx,r,c,group,el,placed,w,h};
-    game.pieces.push(p);
-
-    if(old){
-     el.style.left=old.x+"px";
-     el.style.top=old.y+"px";
-    }else{
-     el.style.left=(100+Math.random()*(worldW-500))+"px";
-     el.style.top=(100+Math.random()*(worldH-500))+"px";
-    }
-
-    if(placed){
-     game.placed.add(idx);
-     el.classList.add("placed");
-     outline.setAttribute("stroke","transparent");
-    }
-
-    arena.append(el);
-    el.addEventListener("pointerdown",startPieceDrag);
-   }
-  }
-
-  $("referenceImg").src=source.src;
-  updateProgress();
-  centerBoard();
-  saveProgress();
+  $("referenceImg").src=src;
+  applyGhost();applyEdges();$("soundBtn").textContent=soundOn?"🔊":"🔇";
+  updateProgress();centerBoard();saveProgress();
+  game.t0=Date.now();clearInterval(timerI);
+  timerI=setInterval(()=>{if(game){$("timer").textContent=fmt(elapsed());if(Math.round(elapsed())%15===0)scheduleSave()}},1000);
  };
-
  source.onerror=()=>{
-  alert("Could not load this picture. Try another picture or check your internet.");
+  if(!game||game.id!==id)return;
+  if(!ph.retried&&!src.startsWith("data:")){ph.retried=true;ph.url=art(ph.fallback||7);game=null;return buildPuzzle(saved?{...saved,photo:ph}:null,saved?undefined:ph)}
+  toast(t("loadFail"));exitGame();
  };
-
- source.src=game.photo.url;
+ source.src=src;
 }
-
 function centerBoard(){
- if(!game)return;
-
- const w=$("arenaWrap").clientWidth;
- const h=$("arenaWrap").clientHeight;
-
- zoom=Math.min(w*.9/game.bw,h*.84/game.bh,1);
- zoom=Math.max(.1,zoom);
-
- pan.x=w/2-(game.bx+game.bw/2)*zoom;
- pan.y=h/2-(game.by+game.bh/2)*zoom;
-
- applyTransform();
+ if(!game||!game.bw)return;
+ const w=$("arenaWrap").clientWidth,h=$("arenaWrap").clientHeight;
+ zoom=Math.max(.08,Math.min(w/game.worldW,h/game.worldH)*.98);
+ pan.x=(w-game.worldW*zoom)/2;pan.y=(h-game.worldH*zoom)/2;applyTransform();
 }
-
-function applyTransform(){
- $("arena").style.transform=`translate(${pan.x}px,${pan.y}px) scale(${zoom})`;
-}
-
-function arenaPoint(x,y){
- return{x:(x-pan.x)/zoom,y:(y-pan.y)/zoom};
-}
-
-function targetPos(p){
- return{
-  x:game.bx+p.c*game.cellW-game.tab,
-  y:game.by+p.r*game.cellH-game.tab
- };
-}
-
-function members(g){
- return game.pieces.filter(p=>p.group===g&&!p.placed);
-}
+const applyTransform=()=>{$("arena").style.transform=`translate(${pan.x}px,${pan.y}px) scale(${zoom})`};
+const arenaPoint=(x,y)=>{const r=$("arenaWrap").getBoundingClientRect();return{x:(x-r.left-pan.x)/zoom,y:(y-r.top-pan.y)/zoom}};
+const targetPos=p=>({x:game.bx+p.c*game.cellW-game.tab,y:game.by+p.r*game.cellH-game.tab});
+const members=g=>game.pieces.filter(p=>p.group===g&&!p.placed);
+const L=p=>parseFloat(p.el.style.left)||0,Tp=p=>parseFloat(p.el.style.top)||0;
 
 function startPieceDrag(e){
- if(!game||e.button>0)return;
-
- const p=game.pieces.find(q=>q.el===e.currentTarget);
- if(!p||p.placed)return;
-
- e.preventDefault();
- e.stopPropagation();
-
+ if(!game||(e.pointerType==="mouse"&&e.button>0))return;
+ const p=game.pieces.find(q=>q.el===e.currentTarget);if(!p||p.placed||drag)return;
+ e.preventDefault();e.stopPropagation();
  const pt=arenaPoint(e.clientX,e.clientY);
- const left=parseFloat(p.el.style.left)||0;
- const top=parseFloat(p.el.style.top)||0;
-
- drag={
-  p,
-  id:e.pointerId,
-  dx:pt.x-left,
-  dy:pt.y-top,
-  start:members(p.group).map(q=>({
-   q,
-   x:parseFloat(q.el.style.left)||0,
-   y:parseFloat(q.el.style.top)||0
-  }))
- };
-
- p.el.classList.add("dragging");
+ const ms=members(p.group);
+ drag={p,id:e.pointerId,dx:pt.x-L(p),dy:pt.y-Tp(p),start:ms.map(q=>({q,x:L(q),y:Tp(q)}))};
+ ms.forEach(q=>q.el.classList.add("dragging"));
  p.el.setPointerCapture(e.pointerId);
- p.el.onpointermove=movePieceDrag;
- p.el.onpointerup=endPieceDrag;
- p.el.onpointercancel=endPieceDrag;
+ p.el.onpointermove=movePieceDrag;p.el.onpointerup=endPieceDrag;p.el.onpointercancel=endPieceDrag;
 }
-
 function movePieceDrag(e){
  if(!drag||e.pointerId!==drag.id)return;
-
- const pt=arenaPoint(e.clientX,e.clientY);
- const s=drag.start.find(v=>v.q===drag.p);
-
- const dx=pt.x-drag.dx-s.x;
- const dy=pt.y-drag.dy-s.y;
-
- drag.start.forEach(v=>{
-  v.q.el.style.left=v.x+dx+"px";
-  v.q.el.style.top=v.y+dy+"px";
- });
+ const pt=arenaPoint(e.clientX,e.clientY),s=drag.start.find(v=>v.q===drag.p);
+ const dx=pt.x-drag.dx-s.x,dy=pt.y-drag.dy-s.y;
+ drag.start.forEach(v=>{v.q.el.style.left=v.x+dx+"px";v.q.el.style.top=v.y+dy+"px"});
 }
-
 function mergeGroups(a,b){
- const dx=(a.c-b.c)*game.cellW;
- const dy=(a.r-b.r)*game.cellH;
-
- const ax=parseFloat(a.el.style.left);
- const ay=parseFloat(a.el.style.top);
- const bx=parseFloat(b.el.style.left);
- const by=parseFloat(b.el.style.top);
-
- const sx=bx+dx-ax;
- const sy=by+dy-ay;
-
- const old=members(a.group);
- const g=b.group;
-
- old.forEach(v=>{
-  v.el.style.left=(parseFloat(v.el.style.left)+sx)+"px";
-  v.el.style.top=(parseFloat(v.el.style.top)+sy)+"px";
-  v.group=g;
- });
+ const sx=L(b)+(a.c-b.c)*game.cellW-L(a),sy=Tp(b)+(a.r-b.r)*game.cellH-Tp(a),g=b.group;
+ members(a.group).forEach(v=>{v.el.style.left=L(v)+sx+"px";v.el.style.top=Tp(v)+sy+"px";v.group=g});
 }
-
 function snapNeighbors(p){
+ const k=game.hard?.2:.34,tol=Math.max(10,Math.min(game.cellW,game.cellH)*k);let merged=false;
  for(let pass=0;pass<game.total;pass++){
   let done=false;
-
   for(const a of members(p.group)){
    for(const b of game.pieces){
-    if(a===b||a.group===b.group||b.placed)continue;
-    if(Math.abs(a.c-b.c)+Math.abs(a.r-b.r)!==1)continue;
-
-    const ax=parseFloat(a.el.style.left);
-    const ay=parseFloat(a.el.style.top);
-    const bx=parseFloat(b.el.style.left);
-    const by=parseFloat(b.el.style.top);
-
-    const ex=(a.c-b.c)*game.cellW;
-    const ey=(a.r-b.r)*game.cellH;
-    const tol=Math.max(12,Math.min(game.cellW,game.cellH)*.36);
-
-    if(Math.abs((ax-bx)-ex)<=tol&&Math.abs((ay-by)-ey)<=tol){
-     mergeGroups(a,b);
-     done=true;
-     break;
-    }
+    if(a===b||a.group===b.group||b.placed||Math.abs(a.c-b.c)+Math.abs(a.r-b.r)!==1)continue;
+    if(Math.abs((L(a)-L(b))-(a.c-b.c)*game.cellW)<=tol&&Math.abs((Tp(a)-Tp(b))-(a.r-b.r)*game.cellH)<=tol){mergeGroups(a,b);done=merged=true;break}
    }
-
    if(done)break;
   }
-
   if(!done)break;
  }
+ return merged;
 }
-
 function snapBoard(p){
- const ms=members(p.group);
- if(!ms.length)return;
-
- const t=targetPos(p);
- const dx=t.x-parseFloat(p.el.style.left);
- const dy=t.y-parseFloat(p.el.style.top);
- const tol=Math.max(18,Math.min(game.cellW,game.cellH)*.48);
-
- if(Math.abs(dx)>tol||Math.abs(dy)>tol)return;
-
- if(!ms.every(v=>{
-  const q=targetPos(v);
-  return Math.abs(parseFloat(v.el.style.left)+dx-q.x)<tol*.6&&
-         Math.abs(parseFloat(v.el.style.top)+dy-q.y)<tol*.6;
- }))return;
-
+ const ms=members(p.group);if(!ms.length)return false;
+ const t0=targetPos(p),dx=t0.x-L(p),dy=t0.y-Tp(p),tol=Math.max(16,Math.min(game.cellW,game.cellH)*(game.hard?.28:.45));
+ if(Math.abs(dx)>tol||Math.abs(dy)>tol)return false;
+ if(!ms.every(v=>{const q=targetPos(v);return Math.abs(L(v)+dx-q.x)<tol*.6&&Math.abs(Tp(v)+dy-q.y)<tol*.6}))return false;
  ms.forEach(v=>{
-  const q=targetPos(v);
-  v.el.style.left=q.x+"px";
-  v.el.style.top=q.y+"px";
-  v.placed=true;
-  game.placed.add(v.idx);
-  v.el.classList.add("placed");
-  v.el.querySelector(".edge").setAttribute("stroke","transparent");
+  const q=targetPos(v);v.el.style.left=q.x+"px";v.el.style.top=q.y+"px";v.placed=true;game.placed.add(v.idx);
+  v.el.classList.remove("dragging");v.el.classList.add("placed","pop");v.el.querySelector(".edge").setAttribute("stroke","transparent");
  });
+ return true;
 }
-
-function endPieceDrag(e){
+function endPieceDrag(){
  if(!drag)return;
-
- const p=drag.p;
- p.el.classList.remove("dragging");
- p.el.onpointermove=null;
- p.el.onpointerup=null;
- p.el.onpointercancel=null;
-
- snapNeighbors(p);
- snapBoard(p);
-
- drag=null;
- updateProgress();
- saveProgress();
+ const p=drag.p;members(p.group).forEach(q=>q.el.classList.remove("dragging"));
+ p.el.onpointermove=p.el.onpointerup=p.el.onpointercancel=null;
+ const m=snapNeighbors(p),b=snapBoard(p);
+ drag=null;if(b)beep(660,.12);else if(m)beep(440,.07);
+ updateProgress();saveProgress();
 }
-
 function updateProgress(){
  if(!game)return;
-
- const n=game.placed.size;
- const pct=Math.round(n/game.total*100);
-
- $("status").textContent=n+" / "+game.total;
- $("progressText").textContent=pct+"% complete";
- $("progress").style.width=pct+"%";
-
- if(n===game.total){
-  $("win").classList.add("show");
-  saveProgress();
- }else{
-  $("win").classList.remove("show");
+ const n=game.placed.size,pct=Math.round(n/game.total*100);
+ $("status").textContent=n+" / "+game.total;$("progressText").textContent=pct+"% "+t("complete");$("progress").style.width=pct+"%";
+ if(n===game.total&&!game.done){
+  game.done=true;const s=elapsed();game.t0=0;clearInterval(timerI);
+  $("winText").textContent=t("finished")+" "+fmt(s);$("win").classList.add("show");
+  [523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.18),i*140));
+  removeSaved(game.id);
  }
 }
-
 function shufflePieces(){
  if(!game)return;
-
- game.pieces.filter(p=>!p.placed&&p.group===p.idx).forEach(p=>{
-  p.el.style.left=(100+Math.random()*(game.worldW-500))+"px";
-  p.el.style.top=(100+Math.random()*(game.worldH-500))+"px";
- });
-
+ game.pieces.filter(p=>!p.placed&&members(p.group).length===1).forEach(p=>{const q=randomPos(p);p.el.style.left=q.x+"px";p.el.style.top=q.y+"px"});
  saveProgress();
 }
-
 function reference(){
  if(!game)return;
-
- if(game.mystery){
-  alert("Turn off Mystery puzzle to view the picture.");
-  return;
- }
-
+ if(game.mystery){toast(t("mysteryOn"));return}
  $("referenceLayer").classList.toggle("show");
 }
-
-function zoomBy(f){
- const x=$("arenaWrap").clientWidth/2;
- const y=$("arenaWrap").clientHeight/2;
- const wx=(x-pan.x)/zoom;
- const wy=(y-pan.y)/zoom;
-
- zoom=Math.max(.1,Math.min(2.5,zoom*f));
- pan.x=x-wx*zoom;
- pan.y=y-wy*zoom;
-
- applyTransform();
+function applyGhost(){$("ghost").style.display=ghostOn?"block":"none";$("ghostBtn").classList.toggle("on",ghostOn)}
+function toggleGhost(){
+ if(game&&game.hard){toast(t("hardNoGuide"));return}
+ ghostOn=!ghostOn;applyGhost();toast(t(ghostOn?"guideOn":"guideOff"));
 }
-
-function resetView(){
- centerBoard();
-}
-
-function fullscreen(){
- const e=$("gamePage");
-
- if(!document.fullscreenElement){
-  e.requestFullscreen?.().catch(()=>{});
- }else{
-  document.exitFullscreen?.();
- }
-}
-
-function exitGame(){
- if(game){
-  clearTimeout(saveTimer);
-  saveProgress();
- }
-
- game=null;
- $("gamePage").classList.add("hidden");
- $("homeWrap").classList.remove("hidden");
- $("top").classList.remove("hidden");
- page("gallery");
-}
-
-/* التكبير والتحريك باللمس */
-let pointers=new Map(),pinch=null,panDrag=null;
-
-$("arenaWrap").addEventListener("pointerdown",e=>{
- if(!game||drag||e.target.closest(".piece,button,.reference,.bottom"))return;
-
- pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
-
- if(pointers.size===2){
-  const a=[...pointers.values()];
-  pinch={
-   distance:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y),
-   zoom
-  };
-  panDrag=null;
-  e.preventDefault();
-  return;
- }
-
- panDrag={
-  id:e.pointerId,
-  x:e.clientX,
-  y:e.clientY,
-  px:pan.x,
-  py:pan.y
- };
-
- e.preventDefault();
-});
-
-$("arenaWrap").addEventListener("pointermove",e=>{
- if(pointers.has(e.pointerId)){
-  pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});
- }
-
- if(pointers.size>=2&&pinch){
-  const a=[...pointers.values()];
-  const d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
-  const r=$("arenaWrap").getBoundingClientRect();
-
-  const cx=(a[0].x+a[1].x)/2-r.left;
-  const cy=(a[0].y+a[1].y)/2-r.top;
-
-  const wx=(cx-pan.x)/zoom;
-  const wy=(cy-pan.y)/zoom;
-
-  zoom=Math.max(.1,Math.min(2.5,pinch.zoom*d/Math.max(1,pinch.distance)));
-  pan.x=cx-wx*zoom;
-  pan.y=cy-wy*zoom;
-
-  applyTransform();
-  return;
- }
-
- if(panDrag&&e.pointerId===panDrag.id){
-  pan.x=panDrag.px+e.clientX-panDrag.x;
-  pan.y=panDrag.py+e.clientY-panDrag.y;
-  applyTransform();
- }
-});
-
-function endPan(e){
- pointers.delete(e.pointerId);
-
- if(pointers.size<2)pinch=null;
- if(panDrag?.id===e.pointerId)panDrag=null;
-}
-
-$("arenaWrap").addEventListener("pointerup",endPan);
-$("arenaWrap").addEventListener("pointercancel",endPan);
-
-$("arenaWrap").addEventListener("wheel",e=>{
+function applyEdges(){
  if(!game)return;
- e.preventDefault();
- zoomBy(e.deltaY<0?1.1:.9);
-},{passive:false});
-
-window.addEventListener("resize",()=>{
- if(game)centerBoard();
-});
-
-window.addEventListener("pagehide",()=>{
- if(game)saveProgress();
-});
-
-/* الغرف والشات التجريبي */
-function createRoom(){
- roomCode=Math.random().toString(36).slice(2,8).toUpperCase();
-
- $("roomCodeText").textContent="Room code: "+roomCode;
- $("roomStatus").textContent="Room created in demo mode.";
- $("chatMessages").innerHTML="";
-
- addChat("JIGSAW WORLD","Room created: "+roomCode);
+ game.pieces.forEach(p=>p.el.classList.toggle("dim",edgesOnly&&!p.isEdge&&!p.placed));
+ $("edgeBtn").classList.toggle("on",edgesOnly);
+}
+function toggleEdges(){edgesOnly=!edgesOnly;applyEdges();toast(t(edgesOnly?"edgesOn":"edgesOff"))}
+function toggleSound(){soundOn=!soundOn;$("soundBtn").textContent=soundOn?"🔊":"🔇";toast(t(soundOn?"soundOn":"soundOff"))}
+function beep(f,d){
+ if(!soundOn)return;
+ try{
+  audio=audio||new (window.AudioContext||window.webkitAudioContext)();
+  const o=audio.createOscillator(),g=audio.createGain();o.type="sine";o.frequency.value=f;
+  g.gain.setValueAtTime(.12,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d+.08);
+  o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+d+.1);
+ }catch(e){}
+}
+function zoomBy(f){
+ const x=$("arenaWrap").clientWidth/2,y=$("arenaWrap").clientHeight/2,wx=(x-pan.x)/zoom,wy=(y-pan.y)/zoom;
+ zoom=Math.max(.08,Math.min(2.5,zoom*f));pan.x=x-wx*zoom;pan.y=y-wy*zoom;applyTransform();
+}
+const resetView=()=>centerBoard();
+function fullscreen(){const e=$("gamePage");if(!document.fullscreenElement)e.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()}
+function exitGame(){
+ if(game){clearTimeout(scheduleSave.t);saveProgress()}
+ clearInterval(timerI);game=null;drag=null;
+ $("gamePage").classList.add("hidden");$("homeWrap").classList.remove("hidden");$("top").classList.remove("hidden");
+ $("referenceLayer").classList.remove("show");page("gallery");
 }
 
+/* pan + pinch zoom */
+const ptrs=new Map();let pinch=null,panDrag=null;
+const AW=$("arenaWrap");
+AW.addEventListener("pointerdown",e=>{
+ if(!game||drag||e.target.closest(".piece,button,.reference,.win"))return;
+ ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ if(ptrs.size===2){const a=[...ptrs.values()];pinch={d:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y),z:zoom};panDrag=null;e.preventDefault();return}
+ panDrag={id:e.pointerId,x:e.clientX,y:e.clientY,px:pan.x,py:pan.y};e.preventDefault();
+});
+AW.addEventListener("pointermove",e=>{
+ if(ptrs.has(e.pointerId))ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+ if(ptrs.size>=2&&pinch){
+  const a=[...ptrs.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y),r=AW.getBoundingClientRect();
+  const cx=(a[0].x+a[1].x)/2-r.left,cy=(a[0].y+a[1].y)/2-r.top,wx=(cx-pan.x)/zoom,wy=(cy-pan.y)/zoom;
+  zoom=Math.max(.08,Math.min(2.5,pinch.z*d/Math.max(1,pinch.d)));pan.x=cx-wx*zoom;pan.y=cy-wy*zoom;applyTransform();return;
+ }
+ if(panDrag&&e.pointerId===panDrag.id){pan.x=panDrag.px+e.clientX-panDrag.x;pan.y=panDrag.py+e.clientY-panDrag.y;applyTransform()}
+});
+function endPan(e){ptrs.delete(e.pointerId);if(ptrs.size<2)pinch=null;if(panDrag?.id===e.pointerId)panDrag=null}
+AW.addEventListener("pointerup",endPan);AW.addEventListener("pointercancel",endPan);
+AW.addEventListener("wheel",e=>{if(!game)return;e.preventDefault();zoomBy(e.deltaY<0?1.1:.9)},{passive:false});
+window.addEventListener("resize",()=>{if(game)centerBoard()});
+window.addEventListener("pagehide",()=>{if(game)saveProgress()});
+document.addEventListener("visibilitychange",()=>{if(document.hidden&&game)saveProgress()});
+
+/* ---------- rooms (demo, works between tabs) ---------- */
+let roomCode="",bc=null;
+const safe=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function openChannel(code){
+ if(bc)bc.close();roomCode=code;
+ if("BroadcastChannel" in window){bc=new BroadcastChannel("jw-"+code);bc.onmessage=e=>addChat(e.data.n,e.data.m)}
+}
+function createRoom(){
+ const c=Math.random().toString(36).slice(2,8).toUpperCase();openChannel(c);
+ $("roomCodeText").textContent=t("room")+": "+c;$("roomStatus").textContent=t("roomMade");$("chatMessages").innerHTML="";addChat("JIGSAW WORLD",t("roomMade"));
+}
 function joinRoom(){
  const c=$("joinCode").value.trim().toUpperCase();
-
- if(c.length<4){
-  $("roomStatus").textContent="Enter a valid room code.";
-  return;
- }
-
- roomCode=c;
- $("roomStatus").textContent="Room code accepted in demo mode.";
- addChat("JIGSAW WORLD","Joined room: "+c);
+ if(c.length<4){$("roomStatus").textContent=t("badCode");return}
+ openChannel(c);$("roomStatus").textContent=t("roomJoined")+" "+c;addChat("JIGSAW WORLD",t("roomJoined"));
 }
-
-function addChat(name,msg){
- const d=document.createElement("div");
- d.className="msg";
- d.innerHTML="<b>"+safe(name)+":</b> "+safe(msg);
- $("chatMessages").append(d);
- $("chatMessages").scrollTop=$("chatMessages").scrollHeight;
+function addChat(n,m){
+ const d=document.createElement("div");d.className="msg";d.innerHTML="<b>"+safe(n)+":</b> "+safe(m);
+ $("chatMessages").append(d);$("chatMessages").scrollTop=1e9;
 }
-
 function sendChat(){
- const i=$("chatInput");
- const m=i.value.trim();
-
- if(!m)return;
-
- addChat($("playerName").value.trim()||"Player",m);
- i.value="";
+ const i=$("chatInput"),m=i.value.trim();if(!m)return;
+ const n=$("playerName").value.trim()||"Player";addChat(n,m);if(bc)bc.postMessage({n,m});i.value="";
 }
+$("chatInput").addEventListener("keydown",e=>{if(e.key==="Enter")sendChat()});
 
-$("chatInput").addEventListener("keydown",e=>{
- if(e.key==="Enter")sendChat();
-});
-
-/* تشغيل الموقع */
-renderGallery();
-$("preview").src=pic().url;
-setLanguage("en");
-setMode(false);
+/* ---------- start ---------- */
+renderGallery();$("preview").src=pic().url;setLanguage("en");setMode(false);
 </script>
 </body>
 </html>
