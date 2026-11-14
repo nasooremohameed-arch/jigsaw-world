@@ -142,6 +142,7 @@ input[type=range]{flex:1}
 <div><h2 data-i="choosePhoto">Choose a picture</h2><div class="muted" data-i="pickText">Pick a photo for your puzzle.</div></div>
 <button class="btn" onclick="page('home')" data-i="home">Home</button>
 </div>
+<div class="block hidden" id="roomBanner" style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span data-i="pickForRoom">Choose a picture for the room, then press Next.</span><button class="btn" onclick="cancelRoomPick()" data-i="cancel">Cancel</button></div>
 <div class="gallery" id="galleryGrid"></div>
 <div class="controls">
 <label class="btn" for="upload" data-i="upload">＋ Upload picture</label>
@@ -170,6 +171,8 @@ input[type=range]{flex:1}
 <p id="roomCodeText" class="muted"></p>
 <p id="roomPlayers" class="muted"></p>
 <button class="btn primary hidden" id="roomStart" onclick="roomStartPuzzle()" data-i="startRoom">Choose picture & start</button>
+<button class="btn hidden" id="roomOpen" onclick="roomOpenPuzzle()" data-i="openPuzzle">Open room puzzle</button>
+<button class="btn hidden" id="roomLeaveBtn" onclick="roomLeaveUI()" data-i="leaveRoom">Leave room</button>
 <hr style="border-color:var(--line)">
 <h3 data-i="joinRoom">Join a room</h3>
 <input id="joinCode" placeholder="Room code" maxlength="8">
@@ -244,8 +247,8 @@ input[type=range]{flex:1}
 window.addEventListener("error",e=>{try{toast("Error: "+(e.message||"script"))}catch(x){}});
 const $=id=>document.getElementById(id);
 const T={
-en:{tagline:"A WORLD MADE OF PIECES",pictures:"Pictures",new:"New +",heroText:"Choose a photo, scatter the pieces, and put the picture back together.",choose:"Choose a picture →",explore:"Explore pictures",exploreText:"Choose a picture or upload your own.",newPuzzle:"New puzzle",newText:"Choose difficulty and create a puzzle.",playPeople:"Play with people",roomText:"Create a room or join a room.",continue:"Continue",continueText:"Continue your saved puzzles.",resume:"Resume",delete:"Delete",noSaved:"No saved puzzles yet.",choosePhoto:"Choose a picture",pickText:"Pick a photo for your puzzle.",home:"Home",upload:"＋ Upload picture",more:"Load more photos",noMore:"No more photos",next:"Next: settings →",internet:"If a photo can't load, a built-in picture is used. You can also upload your own.",createRoom:"Create a room",yourName:"Your name",createCode:"Create room code",joinRoom:"Join a room",join:"Join room",chat:"Room chat",send:"Send",onlineNotice:"Demo mode: rooms and chat work between tabs on this device only.",difficulty:"Difficulty",normal:"🧩 Normal",hard:"🧩 Hard",mystery:"Mystery puzzle",createPuzzle:"Create puzzle",backPictures:"Back to pictures",viewPicture:"View picture",pieces:"pieces",complete:"complete",hintN:"Empty board, relaxed snapping.",hintH:"Empty board, tight snapping, up to 225 pieces.",mysteryOn:"Turn off Mystery puzzle to view the picture.",finished:"You finished in",room:"Room code",roomMade:"Room created.",roomJoined:"Joined room.",badCode:"Enter a valid room code.",confirmDel:"Delete this puzzle?",full:"Storage is full. Progress may not be saved.",loadFail:"Could not load this picture. Try another one.",guideOn:"Guide shown",guideOff:"Guide hidden",edgesOn:"Edge pieces only",edgesOff:"All pieces",soundOn:"Sound on",soundOff:"Sound off",hardNoGuide:"Guide is disabled in Hard mode.",startRoom:"Choose picture & start",players:"Players",waitHost:"Joined. Waiting for the host to start the puzzle…",demoNote:"Demo mode (no Firebase config): this room works only between tabs on this device.",fbFail:"Could not connect to Firebase.",noCustom:"Uploaded pictures can't be used in rooms. Pick a gallery picture."},
-ar:{tagline:"عالم مصنوع من القطع",pictures:"الصور",new:"جديد +",heroText:"اختار صورة وركّب قطعها من جديد.",choose:"اختار صورة ←",explore:"استكشف الصور",exploreText:"اختار صورة أو ارفع صورتك.",newPuzzle:"بازل جديد",newText:"اختار الصعوبة وابدأ اللعب.",playPeople:"العب مع الناس",roomText:"اعمل روم أو ادخل روم.",continue:"استمرار",continueText:"واصل البازل المحفوظة.",resume:"مواصلة",delete:"حذف",noSaved:"ما عندك بازل محفوظة حالياً.",choosePhoto:"اختار صورة",pickText:"اختار الصورة البتريدها.",home:"الرئيسية",upload:"＋ ارفع صورة",more:"صور إضافية",noMore:"ما في صور إضافية",next:"التالي: الإعدادات ←",internet:"لو الصورة ما اتحمّلت بنستخدم صورة جاهزة. وتقدر ترفع صورتك.",createRoom:"إنشاء روم",yourName:"اسمك",createCode:"إنشاء كود الروم",joinRoom:"دخول روم",join:"دخول",chat:"شات الروم",send:"إرسال",onlineNotice:"الوضع التجريبي: الغرف والشات بين التبويبات في نفس الجهاز بس.",difficulty:"الصعوبة",normal:"🧩 عادي",hard:"🧩 صعب",mystery:"بازل غامض",createPuzzle:"ابدأ البازل",backPictures:"الرجوع للصور",viewPicture:"عرض الصورة",pieces:"قطعة",complete:"مكتمل",hintN:"لوحة فاضية وتركيب سهل.",hintH:"لوحة فاضية وتركيب دقيق وحد أقصى 225 قطعة.",mysteryOn:"أوقف البازل الغامض عشان تشوف الصورة.",finished:"خلّصتها في",room:"كود الروم",roomMade:"اتعمل الروم.",roomJoined:"دخلت الروم.",badCode:"اكتب كود روم صحيح.",confirmDel:"متأكد إنك داير تحذف البازل دي؟",full:"التخزين ممتلئ، ممكن التقدم ما يتحفظ.",loadFail:"ما قدرنا نحمّل الصورة. جرّب صورة تانية.",guideOn:"الدليل ظاهر",guideOff:"الدليل مخفي",edgesOn:"قطع الحواف بس",edgesOff:"كل القطع",soundOn:"الصوت شغال",soundOff:"الصوت مقفول",hardNoGuide:"الدليل معطّل في الوضع الصعب.",startRoom:"اختار صورة وابدأ",players:"اللاعبين",waitHost:"دخلت. ننتظر صاحب الروم يبدأ البازل…",demoNote:"وضع تجريبي (ما في إعداد Firebase): الروم شغال بين التبويبات في نفس الجهاز بس.",fbFail:"ما قدرنا نتصل بـ Firebase.",noCustom:"الصور المرفوعة ما بتشتغل في الرومات. اختار صورة من المعرض."},
+en:{tagline:"A WORLD MADE OF PIECES",pictures:"Pictures",new:"New +",heroText:"Choose a photo, scatter the pieces, and put the picture back together.",choose:"Choose a picture →",explore:"Explore pictures",exploreText:"Choose a picture or upload your own.",newPuzzle:"New puzzle",newText:"Choose difficulty and create a puzzle.",playPeople:"Play with people",roomText:"Create a room or join a room.",continue:"Continue",continueText:"Continue your saved puzzles.",resume:"Resume",delete:"Delete",noSaved:"No saved puzzles yet.",choosePhoto:"Choose a picture",pickText:"Pick a photo for your puzzle.",home:"Home",upload:"＋ Upload picture",more:"Load more photos",noMore:"No more photos",next:"Next: settings →",internet:"If a photo can't load, a built-in picture is used. You can also upload your own.",createRoom:"Create a room",yourName:"Your name",createCode:"Create room code",joinRoom:"Join a room",join:"Join room",chat:"Room chat",send:"Send",onlineNotice:"Demo mode: rooms and chat work between tabs on this device only.",difficulty:"Difficulty",normal:"🧩 Normal",hard:"🧩 Hard",mystery:"Mystery puzzle",createPuzzle:"Create puzzle",backPictures:"Back to pictures",viewPicture:"View picture",pieces:"pieces",complete:"complete",hintN:"Empty board, relaxed snapping.",hintH:"Empty board, tight snapping, up to 225 pieces.",mysteryOn:"Turn off Mystery puzzle to view the picture.",finished:"You finished in",room:"Room code",roomMade:"Room created.",roomJoined:"Joined room.",badCode:"Enter a valid room code.",confirmDel:"Delete this puzzle?",full:"Storage is full. Progress may not be saved.",loadFail:"Could not load this picture. Try another one.",guideOn:"Guide shown",guideOff:"Guide hidden",edgesOn:"Edge pieces only",edgesOff:"All pieces",soundOn:"Sound on",soundOff:"Sound off",hardNoGuide:"Guide is disabled in Hard mode.",startRoom:"Choose picture & start",players:"Players",waitHost:"Joined. Waiting for the host to start the puzzle…",demoNote:"Demo mode (no Firebase config): this room works only between tabs on this device.",fbFail:"Could not connect to Firebase.",noCustom:"Uploaded pictures can't be used in rooms. Pick a gallery picture.",openPuzzle:"Open room puzzle",leaveRoom:"Leave room",pickForRoom:"Choose a picture for the room, then press Next.",cancel:"Cancel",noPuzzleYet:"No puzzle has been started in this room yet."},
+ar:{tagline:"عالم مصنوع من القطع",pictures:"الصور",new:"جديد +",heroText:"اختار صورة وركّب قطعها من جديد.",choose:"اختار صورة ←",explore:"استكشف الصور",exploreText:"اختار صورة أو ارفع صورتك.",newPuzzle:"بازل جديد",newText:"اختار الصعوبة وابدأ اللعب.",playPeople:"العب مع الناس",roomText:"اعمل روم أو ادخل روم.",continue:"استمرار",continueText:"واصل البازل المحفوظة.",resume:"مواصلة",delete:"حذف",noSaved:"ما عندك بازل محفوظة حالياً.",choosePhoto:"اختار صورة",pickText:"اختار الصورة البتريدها.",home:"الرئيسية",upload:"＋ ارفع صورة",more:"صور إضافية",noMore:"ما في صور إضافية",next:"التالي: الإعدادات ←",internet:"لو الصورة ما اتحمّلت بنستخدم صورة جاهزة. وتقدر ترفع صورتك.",createRoom:"إنشاء روم",yourName:"اسمك",createCode:"إنشاء كود الروم",joinRoom:"دخول روم",join:"دخول",chat:"شات الروم",send:"إرسال",onlineNotice:"الوضع التجريبي: الغرف والشات بين التبويبات في نفس الجهاز بس.",difficulty:"الصعوبة",normal:"🧩 عادي",hard:"🧩 صعب",mystery:"بازل غامض",createPuzzle:"ابدأ البازل",backPictures:"الرجوع للصور",viewPicture:"عرض الصورة",pieces:"قطعة",complete:"مكتمل",hintN:"لوحة فاضية وتركيب سهل.",hintH:"لوحة فاضية وتركيب دقيق وحد أقصى 225 قطعة.",mysteryOn:"أوقف البازل الغامض عشان تشوف الصورة.",finished:"خلّصتها في",room:"كود الروم",roomMade:"اتعمل الروم.",roomJoined:"دخلت الروم.",badCode:"اكتب كود روم صحيح.",confirmDel:"متأكد إنك داير تحذف البازل دي؟",full:"التخزين ممتلئ، ممكن التقدم ما يتحفظ.",loadFail:"ما قدرنا نحمّل الصورة. جرّب صورة تانية.",guideOn:"الدليل ظاهر",guideOff:"الدليل مخفي",edgesOn:"قطع الحواف بس",edgesOff:"كل القطع",soundOn:"الصوت شغال",soundOff:"الصوت مقفول",hardNoGuide:"الدليل معطّل في الوضع الصعب.",startRoom:"اختار صورة وابدأ",players:"اللاعبين",waitHost:"دخلت. ننتظر صاحب الروم يبدأ البازل…",demoNote:"وضع تجريبي (ما في إعداد Firebase): الروم شغال بين التبويبات في نفس الجهاز بس.",fbFail:"ما قدرنا نتصل بـ Firebase.",noCustom:"الصور المرفوعة ما بتشتغل في الرومات. اختار صورة من المعرض.",openPuzzle:"افتح بازل الروم",leaveRoom:"اخرج من الروم",pickForRoom:"اختار صورة للروم وبعدين اضغط التالي.",cancel:"إلغاء",noPuzzleYet:"ما في بازل اتبدأ في الروم ده لسه."},
 lt:{pictures:"Nuotraukos",new:"Naujas +",heroText:"Pasirink nuotrauką ir sudėk ją iš naujo.",choose:"Pasirink nuotrauką →",continue:"Tęsti",resume:"Tęsti",delete:"Ištrinti",home:"Pradžia",createPuzzle:"Kurti dėlionę",newPuzzle:"Nauja dėlionė",normal:"🧩 Įprastas",hard:"🧩 Sunkus",pieces:"detalės",complete:"baigta",backPictures:"Grįžti",viewPicture:"Rodyti nuotrauką",noSaved:"Išsaugotų dėlionių nėra."},
 ru:{pictures:"Фото",new:"Новая +",heroText:"Выбери фото и собери его заново.",choose:"Выбрать фото →",continue:"Продолжить",resume:"Продолжить",delete:"Удалить",home:"Главная",createPuzzle:"Создать пазл",newPuzzle:"Новый пазл",normal:"🧩 Обычная",hard:"🧩 Сложная",pieces:"деталей",complete:"готово",backPictures:"Назад",viewPicture:"Показать фото",noSaved:"Сохранённых пазлов нет."},
 uk:{pictures:"Фото",new:"Нова +",heroText:"Вибери фото та склади його знову.",choose:"Вибрати фото →",continue:"Продовжити",resume:"Продовжити",delete:"Видалити",home:"Головна",createPuzzle:"Створити пазл",newPuzzle:"Новий пазл",normal:"🧩 Звичайна",hard:"🧩 Складна",pieces:"деталей",complete:"готово",backPictures:"Назад",viewPicture:"Показати фото",noSaved:"Збережених пазлів немає."},
@@ -429,6 +432,7 @@ function setLanguage(l){
 }
 function page(id){
  document.querySelectorAll(".section").forEach(s=>s.classList.toggle("active",s.id===id));
+ $("roomBanner").classList.toggle("hidden",!(pendingRoom&&id==="gallery"));
  if(id==="gallery")renderGallery();
  if(id==="continue")showSavedGames();
  window.scrollTo(0,0);
@@ -544,7 +548,9 @@ async function resumePuzzle(id){
 }
 const probe=u=>new Promise(r=>{const i=new Image(),to=setTimeout(()=>r(false),6000);i.onload=()=>{clearTimeout(to);r(true)};i.onerror=()=>{clearTimeout(to);r(false)};i.src=u});
 async function createPuzzle(){
- closeSettings();let p=pic();
+ closeSettings();
+ if(pendingRoom&&custom){toast(t("noCustom"));custom=null;page("gallery");return}
+ let p=pic();
  if(!custom){
   const it=items[sel];
   if(!it.url){for(const u of remoteList(it)){if(await probe(u)){it.url=u;break}}}
@@ -768,10 +774,11 @@ function zoomBy(f){
 const resetView=()=>centerBoard();
 function fullscreen(){const e=$("gamePage");if(!document.fullscreenElement)e.requestFullscreen?.().catch(()=>{});else document.exitFullscreen?.()}
 function exitGame(){
+ const wasRoom=!!(game&&game.room);
  if(game){clearTimeout(scheduleSave.t);saveProgress()}
  roomJoining=false;clearInterval(timerI);if(game&&game.room){roomUnsubs.filter((f,i)=>i>=3).forEach(f=>{try{f()}catch(e){}});roomUnsubs=roomUnsubs.slice(0,3)}game=null;drag=null;
  $("gamePage").classList.add("hidden");$("homeWrap").classList.remove("hidden");$("top").classList.remove("hidden");
- $("referenceLayer").classList.remove("show");page("gallery");
+ $("referenceLayer").classList.remove("show");page(wasRoom?"rooms":"gallery");
 }
 
 /* pan + pinch zoom */
@@ -841,17 +848,26 @@ async function createRoom(){
  const c=Math.random().toString(36).slice(2,8).toUpperCase();
  const live=await enterRoom(c);
  $("roomCodeText").textContent=t("room")+": "+c;$("roomStatus").textContent=t(live?"roomMade":"demoNote");
- $("roomStart").classList.toggle("hidden",!live);addChat("JIGSAW WORLD",t("roomMade"));
+ setRoomUI(live);addChat("JIGSAW WORLD",t("roomMade"));
 }
 async function joinRoom(){
  const c=$("joinCode").value.trim().toUpperCase();
  if(c.length<4){$("roomStatus").textContent=t("badCode");return}
- const live=await enterRoom(c);$("roomCodeText").textContent=t("room")+": "+c;$("roomStart").classList.add("hidden");
+ const live=await enterRoom(c);$("roomCodeText").textContent=t("room")+": "+c;setRoomUI(live);
  $("roomStatus").textContent=t(live?"waitHost":"demoNote");addChat("JIGSAW WORLD",t("roomJoined"));
 }
-function roomStartPuzzle(){
- if(custom){toast(t("noCustom"));return}
- pendingRoom=true;openSettings();
+function setRoomUI(live){["roomStart","roomOpen"].forEach(id=>$(id).classList.toggle("hidden",!live));$("roomLeaveBtn").classList.remove("hidden")}
+function roomStartPuzzle(){custom=null;pendingRoom=true;page("gallery")}
+function cancelRoomPick(){pendingRoom=false;page("rooms")}
+async function roomOpenPuzzle(){
+ if(!fb||!roomCode)return;
+ const sn=await fb.D.get(rref("puzzle"));
+ if(sn.exists()){roomJoining=false;roomJoinPuzzle(sn.val())}else toast(t("noPuzzleYet"));
+}
+function roomLeaveUI(){
+ roomLeave();roomCode="";pendingRoom=false;
+ ["roomCodeText","roomPlayers","roomStatus"].forEach(id=>$(id).textContent="");$("chatMessages").innerHTML="";
+ ["roomStart","roomOpen","roomLeaveBtn"].forEach(id=>$(id).classList.add("hidden"));
 }
 /* host: publish the puzzle + all piece positions; everyone: listen for piece changes */
 async function roomAttach(publish){
