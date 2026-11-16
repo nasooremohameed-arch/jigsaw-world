@@ -489,6 +489,7 @@ function page(id){
 }
 let myPics=[];
 async function idbAllMy(){try{const d=await idb();return await new Promise(r=>{const out=[],q=d.transaction("img").objectStore("img").openCursor();q.onsuccess=e=>{const c=e.target.result;if(c){if(String(c.key).startsWith("my:"))out.push({id:c.key,...c.value});c.continue()}else r(out)};q.onerror=()=>r(out)})}catch(e){return[]}}
+function selectCard(b){document.querySelectorAll("#galleryGrid .photo").forEach(x=>x.classList.toggle("selected",x===b))}
 function renderGallery(){
  const g=$("galleryGrid");g.innerHTML="";
  myPics.forEach(it=>{
@@ -496,12 +497,12 @@ function renderGallery(){
   const img=new Image();img.src=it.url;img.alt=it.name;const l=document.createElement("span");l.textContent="📁 "+it.name;
   const x=document.createElement("i");x.className="del";x.textContent="×";
   x.onclick=ev=>{ev.stopPropagation();if(confirm(t("confirmDel"))){idbDel(it.id);myPics=myPics.filter(m=>m.id!==it.id);if(custom&&custom.id===it.id)custom=null;renderGallery()}};
-  b.append(img,l,x);b.onclick=()=>{custom=it;renderGallery();$("preview").src=it.url};g.append(b);
+  b.append(img,l,x);b.onclick=()=>{custom=it;selectCard(b);openSettings()};g.append(b);
  });
  items.forEach((it,i)=>{
   const b=document.createElement("button");b.type="button";b.className="photo"+(!custom&&i===sel?" selected":"");
   const l=document.createElement("span");l.textContent=it.name;b.append(mkImg(it),l);
-  b.onclick=()=>{sel=i;custom=null;renderGallery();$("preview").src=pic().url};g.append(b);
+  b.onclick=()=>{sel=i;custom=null;selectCard(b);openSettings()};g.append(b);
  });
 }
 const MORE=["lion","horse","deer","eagle","wolf","bear","river","waterfall","forest","mountain","lake","beach","flowers","sunset","tiger","whale","rabbit","canyon","meadow","dolphin","zebra","squirrel","island","autumn"];
