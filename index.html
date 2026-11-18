@@ -170,9 +170,28 @@ input[type=range]{flex:1}
 .card:active{transform:scale(.97)}
 @media(hover:hover){.card:hover{transform:translateY(-4px);border-color:var(--pink);box-shadow:0 14px 34px #0006}}
 @media(max-width:650px){.top [data-i="pictures"]{display:none}.hero{padding:34px 14px 140px;min-height:calc(100dvh - 110px)}.marquee img{width:128px;height:82px}}
+#splash{position:fixed;inset:0;z-index:200;background:radial-gradient(800px 500px at 80% 0,#ff4f9a44,transparent 60%),#120b1c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .5s}
+#splash.out{opacity:0;pointer-events:none}
+#splash .lg{font-size:44px;font-weight:950;letter-spacing:-1px;color:#fff;animation:rise .7s both}#splash .lg b{color:var(--pink)}
+#splash .bar{width:180px;height:5px;border-radius:5px;background:#ffffff22;overflow:hidden}
+#splash .bar i{display:block;height:100%;width:40%;border-radius:5px;background:linear-gradient(90deg,#ff82a5,#ffb86b);animation:load 1.1s ease-in-out infinite}
+@keyframes load{0%{transform:translateX(-100%)}100%{transform:translateX(260%)}}
+@keyframes fadein{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.section.active{animation:fadein .35s both}
+.piece{contain:layout style}.piece.placed path.edge{display:none}
+.deco{position:absolute;z-index:1;pointer-events:none;opacity:.8;animation:bob 6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-14px) rotate(8deg)}}
+@keyframes fall{from{transform:translateY(-10vh)}to{transform:translateY(110%)}}
+[data-season=ramadan]{--pink:#e8b64c}
+[data-season=ramadan] .hero{background:radial-gradient(1000px 500px at 85% -10%,#e8b64c55,transparent 60%),radial-gradient(900px 500px at -5% 110%,#2fa87a44,transparent 60%),linear-gradient(160deg,#10302a,#0a1512 72%)}
+[data-season=eid] .hero{background:radial-gradient(1000px 500px at 85% -10%,#ffd84a55,transparent 60%),radial-gradient(900px 500px at -5% 110%,#ff4f9a44,transparent 60%),linear-gradient(160deg,#2a1840,#120b1c 72%)}
+[data-season=winter] .hero{background:radial-gradient(1000px 500px at 85% -10%,#7ac8ff55,transparent 60%),linear-gradient(160deg,#14284a,#0a1224 72%)}
+.avrow{display:flex;gap:8px;align-items:center}.avrow select{font-size:20px}
+.lb div{display:flex;justify-content:space-between;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:10px;margin:6px 0}
 </style>
 </head>
 <body>
+<div id="splash"><div class="lg">🧩 <b>JIGSAW</b> WORLD</div><div class="bar"><i></i></div></div>
 
 <header class="top" id="top">
 <button class="logo" onclick="page('home')">🧩 <span>JIGSAW</span> WORLD</button>
@@ -229,7 +248,10 @@ input[type=range]{flex:1}
 
 <section id="stats" class="section">
 <div class="heading"><h2 data-i="stats">Stats</h2><button class="btn" onclick="page('home')" data-i="home">Home</button></div>
+<div class="block" id="accountBox"><div id="accountText" class="muted" style="margin-bottom:8px"></div><div class="row" style="margin:0"><button class="btn primary" id="signInBtn" onclick="signIn()" data-i="signIn">Sign in with Google</button><button class="btn hidden" id="signOutBtn" onclick="signOutUser()" data-i="signOut">Sign out</button></div></div>
 <div class="saved-grid" id="statsGrid"></div>
+<h3 data-i="lbToday">Today's leaderboard</h3>
+<div class="lb" id="lbList"></div>
 <h3 data-i="achievements">Achievements</h3>
 <div id="achList"></div>
 </section>
@@ -248,6 +270,7 @@ input[type=range]{flex:1}
 <h3 data-i="createRoom">Create a room</h3>
 <label data-i="yourName">Your name</label>
 <input id="playerName" placeholder="Puzzle player" maxlength="20" oninput="try{localStorage.setItem('jw_name',this.value)}catch(e){}">
+<div class="avrow"><span class="muted">Avatar</span><select id="avatarSel" onchange="saveAvatar()"></select></div>
 <button class="btn primary" onclick="createRoom()" data-i="createCode">Create room code</button>
 <p id="roomCodeText" class="muted"></p>
 <p id="roomPlayers" class="muted"></p>
@@ -261,6 +284,7 @@ input[type=range]{flex:1}
 <h3 data-i="joinRoom">Join a room</h3>
 <input id="joinCode" placeholder="Room code" maxlength="8">
 <button class="btn" onclick="joinRoom()" data-i="join">Join room</button>
+<label class="check"><input type="checkbox" id="spectChk"><span data-i="spectator">Join as spectator</span></label>
 <p id="roomStatus" class="muted"></p>
 <h3 data-i="chat">Room chat</h3>
 <div class="chat" id="chatMessages"></div>
@@ -312,6 +336,7 @@ input[type=range]{flex:1}
 <button class="tool" onclick="showTutorial()" title="Help">❓</button>
 <button class="tool" id="ghostBtn" onclick="toggleGhost()" title="Guide">👻</button>
 <button class="tool" id="edgeBtn" onclick="toggleEdges()" title="Edges">▣</button>
+<button class="tool" onclick="gatherEdges()" title="Gather edges">🧲</button>
 <button class="tool" id="soundBtn" onclick="toggleSound()" title="Sound">🔊</button>
 <button class="tool" id="musicBtn" onclick="toggleMusic()" title="Music">🎵</button>
 <button class="tool" onclick="$('reactBar').classList.toggle('hidden')" title="React">😀</button>
@@ -332,6 +357,7 @@ input[type=range]{flex:1}
 <h2>🎉</h2>
 <p id="winText"></p>
 <button class="btn" onclick="shareResult()" data-i="share">Share</button>
+<button class="btn hidden" id="againBtn" onclick="playAgain()" data-i="playAgain">Play again</button>
 <button class="btn primary" onclick="exitGame()" data-i="backPictures">Back to pictures</button>
 </div>
 <div class="bottom">
@@ -345,7 +371,7 @@ input[type=range]{flex:1}
 <script>
 window.addEventListener("error",e=>{try{toast("Error: "+(e.message||"script"))}catch(x){}});
 const $=id=>document.getElementById(id);
-const T={"en": {"tagline": "A WORLD MADE OF PIECES", "pictures": "Pictures", "new": "New +", "heroText": "Choose a photo, scatter the pieces, and put the picture back together.", "choose": "Choose a picture →", "explore": "Explore pictures", "exploreText": "Choose a picture or upload your own.", "newPuzzle": "New puzzle", "newText": "Choose difficulty and create a puzzle.", "playPeople": "Play with people", "roomText": "Create a room or join a room.", "continue": "Continue", "continueText": "Continue your saved puzzles.", "resume": "Resume", "delete": "Delete", "noSaved": "No saved puzzles yet.", "choosePhoto": "Choose a picture", "pickText": "Pick a photo for your puzzle.", "home": "Home", "upload": "＋ Upload picture", "more": "Load more photos", "noMore": "No more photos", "next": "Next: settings →", "internet": "If a photo can't load, a built-in picture is used. You can also upload your own.", "createRoom": "Create a room", "yourName": "Your name", "createCode": "Create room code", "joinRoom": "Join a room", "join": "Join room", "chat": "Room chat", "send": "Send", "onlineNotice": "Demo mode: rooms and chat work between tabs on this device only.", "difficulty": "Difficulty", "normal": "🧩 Normal", "hard": "🧩 Hard", "mystery": "Mystery puzzle", "createPuzzle": "Create puzzle", "backPictures": "Back to pictures", "viewPicture": "View picture", "pieces": "pieces", "complete": "complete", "hintN": "Empty board, relaxed snapping.", "hintH": "Empty board, tight snapping, up to 225 pieces.", "mysteryOn": "Turn off Mystery puzzle to view the picture.", "finished": "You finished in", "room": "Room code", "roomMade": "Room created.", "roomJoined": "Joined room.", "badCode": "Enter a valid room code.", "confirmDel": "Delete this puzzle?", "full": "Storage is full. Progress may not be saved.", "loadFail": "Could not load this picture. Try another one.", "guideOn": "Guide shown", "guideOff": "Guide hidden", "edgesOn": "Edge pieces only", "edgesOff": "All pieces", "soundOn": "Sound on", "soundOff": "Sound off", "hardNoGuide": "Guide is disabled in Hard mode.", "startRoom": "Choose picture & start", "players": "Players", "waitHost": "Joined. Waiting for the host to start the puzzle…", "demoNote": "Demo mode (no Firebase config): this room works only between tabs on this device.", "fbFail": "Could not connect to Firebase.", "noCustom": "Uploaded pictures can't be used in rooms. Pick a gallery picture.", "openPuzzle": "Open room puzzle", "leaveRoom": "Leave room", "pickForRoom": "Choose a picture for the room, then press Next.", "cancel": "Cancel", "noPuzzleYet": "No puzzle has been started in this room yet.", "hint": "Hint", "hintShown": "A piece and its spot are highlighted.", "tutTitle": "How to play", "tut1": "Drag a piece to move it.", "tut2": "Pieces that fit together snap and merge.", "tut3": "Pinch with two fingers to zoom. Drag the background to look around.", "tut4": "Tap 💡 for a hint.", "gotIt": "Got it", "best": "Best time", "newRecord": "New record!", "share": "Share", "shareFail": "Sharing isn't supported here.", "playerJoined": "joined the room", "playerLeft": "left the room", "daily": "Daily challenge", "dailyText": "The same puzzle for everyone, new every day.", "dailyDone": "Your best today", "stats": "Stats", "statsText": "Your progress and achievements.", "statsDone": "Puzzles completed", "statsPieces": "Pieces placed", "statsHard": "Hard puzzles", "statsStreak": "Daily streak (days)", "statsBest": "Fastest 36-piece puzzle", "achievements": "Achievements", "ach_first": "First puzzle", "ach_ten": "10 puzzles", "ach_hundred": "100 puzzles", "ach_speed": "Speedster: 36+ pieces in under 3 min", "ach_hard": "Hard mode finished", "ach_streak": "7-day streak", "ach_race": "Race winner", "ach_big": "Big puzzle: 100+ pieces", "achUnlocked": "Achievement unlocked:", "theme": "Theme", "music": "Music", "myPics": "My pictures", "race": "Race mode (everyone plays their own copy)", "raceRank": "Rank", "of": "of", "rejoin": "Rejoin room", "react": "Reactions", "reconnecting": "Connection lost. Reconnecting…", "connected": "Connected again.", "uploading": "Preparing picture…", "rect": "Match picture shape (rectangular puzzle)", "invite": "Share invite link", "linkCopied": "Link copied", "paused": "Paused", "tapResume": "Tap to continue", "wrongPw": "Wrong password.", "enterPw": "Room password:", "kicked": "You were removed from the room.", "timeLimit": "Time limit", "timeUp": "Time's up!", "volume": "Volume", "all": "All", "favorites": "Favorites", "animals": "Animals", "nature": "Nature", "cities": "Cities", "mineTab": "My pictures", "photosTab": "Photos", "chipPics": "🖼️ 20+ pictures", "chipFriends": "👥 Play with friends", "chipTimed": "🏁 Races & challenges"}, "ar": {"tagline": "عالم مصنوع من القطع", "pictures": "الصور", "new": "جديد +", "heroText": "اختار صورة وركّب قطعها من جديد.", "choose": "اختار صورة ←", "explore": "استكشف الصور", "exploreText": "اختار صورة أو ارفع صورتك.", "newPuzzle": "بازل جديد", "newText": "اختار الصعوبة وابدأ اللعب.", "playPeople": "العب مع الناس", "roomText": "اعمل روم أو ادخل روم.", "continue": "استمرار", "continueText": "واصل البازل المحفوظة.", "resume": "مواصلة", "delete": "حذف", "noSaved": "ما عندك بازل محفوظة حالياً.", "choosePhoto": "اختار صورة", "pickText": "اختار الصورة البتريدها.", "home": "الرئيسية", "upload": "＋ ارفع صورة", "more": "صور إضافية", "noMore": "ما في صور إضافية", "next": "التالي: الإعدادات ←", "internet": "لو الصورة ما اتحمّلت بنستخدم صورة جاهزة. وتقدر ترفع صورتك.", "createRoom": "إنشاء روم", "yourName": "اسمك", "createCode": "إنشاء كود الروم", "joinRoom": "دخول روم", "join": "دخول", "chat": "شات الروم", "send": "إرسال", "onlineNotice": "الوضع التجريبي: الغرف والشات بين التبويبات في نفس الجهاز بس.", "difficulty": "الصعوبة", "normal": "🧩 عادي", "hard": "🧩 صعب", "mystery": "بازل غامض", "createPuzzle": "ابدأ البازل", "backPictures": "الرجوع للصور", "viewPicture": "عرض الصورة", "pieces": "قطعة", "complete": "مكتمل", "hintN": "لوحة فاضية وتركيب سهل.", "hintH": "لوحة فاضية وتركيب دقيق وحد أقصى 225 قطعة.", "mysteryOn": "أوقف البازل الغامض عشان تشوف الصورة.", "finished": "خلّصتها في", "room": "كود الروم", "roomMade": "اتعمل الروم.", "roomJoined": "دخلت الروم.", "badCode": "اكتب كود روم صحيح.", "confirmDel": "متأكد إنك داير تحذف البازل دي؟", "full": "التخزين ممتلئ، ممكن التقدم ما يتحفظ.", "loadFail": "ما قدرنا نحمّل الصورة. جرّب صورة تانية.", "guideOn": "الدليل ظاهر", "guideOff": "الدليل مخفي", "edgesOn": "قطع الحواف بس", "edgesOff": "كل القطع", "soundOn": "الصوت شغال", "soundOff": "الصوت مقفول", "hardNoGuide": "الدليل معطّل في الوضع الصعب.", "startRoom": "اختار صورة وابدأ", "players": "اللاعبين", "waitHost": "دخلت. ننتظر صاحب الروم يبدأ البازل…", "demoNote": "وضع تجريبي (ما في إعداد Firebase): الروم شغال بين التبويبات في نفس الجهاز بس.", "fbFail": "ما قدرنا نتصل بـ Firebase.", "noCustom": "الصور المرفوعة ما بتشتغل في الرومات. اختار صورة من المعرض.", "openPuzzle": "افتح بازل الروم", "leaveRoom": "اخرج من الروم", "pickForRoom": "اختار صورة للروم وبعدين اضغط التالي.", "cancel": "إلغاء", "noPuzzleYet": "ما في بازل اتبدأ في الروم ده لسه.", "hint": "تلميح", "hintShown": "اتظللت قطعة ومكانها.", "tutTitle": "كيف تلعب", "tut1": "اسحب القطعة عشان تحرّكها.", "tut2": "القطع المتطابقة بتلصق وتتدمج.", "tut3": "قرّب إصبعين للتكبير، واسحب الخلفية عشان تتحرك.", "tut4": "اضغط 💡 للتلميح.", "gotIt": "تمام", "best": "أحسن وقت", "newRecord": "رقم قياسي جديد!", "share": "مشاركة", "shareFail": "المشاركة ما مدعومة هنا.", "playerJoined": "دخل الروم", "playerLeft": "طلع من الروم", "daily": "تحدي اليوم", "dailyText": "نفس البازل للجميع، وجديد كل يوم.", "dailyDone": "أحسن وقت ليك اليوم", "stats": "الإحصائيات", "statsText": "تقدّمك وإنجازاتك.", "statsDone": "بازل مكتملة", "statsPieces": "قطع اتركّبت", "statsHard": "بازل صعبة", "statsStreak": "أيام متتالية", "statsBest": "أسرع بازل 36 قطعة", "achievements": "الإنجازات", "ach_first": "أول بازل", "ach_ten": "10 بازل", "ach_hundred": "100 بازل", "ach_speed": "سريع: 36 قطعة فأكتر في أقل من 3 دقايق", "ach_hard": "خلّصت الوضع الصعب", "ach_streak": "7 أيام متتالية", "ach_race": "فائز في سباق", "ach_big": "بازل كبيرة: 100 قطعة فأكتر", "achUnlocked": "إنجاز جديد:", "theme": "المظهر", "music": "موسيقى", "myPics": "صوري", "race": "وضع السباق (كل واحد يلعب نسختو)", "raceRank": "الترتيب", "of": "من", "rejoin": "ارجع للروم", "react": "ردود فعل", "reconnecting": "الاتصال قطع. بنعيد المحاولة…", "connected": "رجع الاتصال.", "uploading": "بنجهّز الصورة…", "rect": "على شكل الصورة (بازل مستطيل)", "invite": "شارك رابط الدعوة", "linkCopied": "اتنسخ الرابط", "paused": "متوقف", "tapResume": "اضغط للمتابعة", "wrongPw": "كلمة السر غلط.", "enterPw": "كلمة سر الروم:", "kicked": "اتشلت من الروم.", "timeLimit": "الوقت المحدد", "timeUp": "الوقت خلص!", "volume": "الصوت", "all": "الكل", "favorites": "المفضلة", "animals": "حيوانات", "nature": "طبيعة", "cities": "مدن", "mineTab": "صوري", "photosTab": "الصور", "chipPics": "🖼️ أكتر من 20 صورة", "chipFriends": "👥 العب مع صحابك", "chipTimed": "🏁 سباقات وتحديات"}, "lt": {"tagline": "PASAULIS IŠ DETALIŲ", "pictures": "Nuotraukos", "new": "Naujas +", "heroText": "Pasirink nuotrauką, išbarstyk detales ir sudėk paveikslėlį iš naujo.", "choose": "Pasirink nuotrauką →", "explore": "Naršyti nuotraukas", "exploreText": "Pasirink nuotrauką arba įkelk savo.", "newPuzzle": "Nauja dėlionė", "newText": "Pasirink sudėtingumą ir pradėk.", "playPeople": "Žaisti su kitais", "roomText": "Sukurk kambarį arba prisijunk.", "continue": "Tęsti", "continueText": "Tęsk išsaugotas dėliones.", "resume": "Tęsti", "delete": "Ištrinti", "noSaved": "Išsaugotų dėlionių dar nėra.", "choosePhoto": "Pasirink nuotrauką", "pickText": "Pasirink nuotrauką dėlionei.", "home": "Pradžia", "upload": "＋ Įkelti nuotrauką", "more": "Daugiau nuotraukų", "noMore": "Daugiau nuotraukų nėra", "next": "Toliau: nustatymai →", "internet": "Jei nuotrauka neįsikelia, naudojamas įtaisytas paveikslėlis. Gali įkelti ir savo.", "createRoom": "Sukurti kambarį", "yourName": "Tavo vardas", "createCode": "Sukurti kambario kodą", "joinRoom": "Prisijungti prie kambario", "join": "Prisijungti", "chat": "Kambario pokalbis", "send": "Siųsti", "onlineNotice": "Pridėk Firebase nustatymus, kad žaistum su kitais įrenginiais. Be jų kambariai veikia tik tarp skirtukų šiame įrenginyje.", "difficulty": "Sudėtingumas", "normal": "🧩 Įprastas", "hard": "🧩 Sunkus", "mystery": "Paslėpti nuotrauką", "createPuzzle": "Kurti dėlionę", "backPictures": "Grįžti į nuotraukas", "viewPicture": "Rodyti nuotrauką", "pieces": "detalių", "complete": "baigta", "hintN": "Tuščia lenta, lengvas prilipimas.", "hintH": "Tuščia lenta, tikslus prilipimas, iki 225 detalių.", "mysteryOn": "Išjunk paslėptą dėlionę, kad matytum nuotrauką.", "finished": "Baigei per", "room": "Kambario kodas", "roomMade": "Kambarys sukurtas.", "roomJoined": "Prisijungta prie kambario.", "badCode": "Įvesk teisingą kambario kodą.", "confirmDel": "Ištrinti šią dėlionę?", "full": "Atmintis pilna. Pažanga gali neišsisaugoti.", "loadFail": "Nepavyko įkelti nuotraukos. Pabandyk kitą.", "guideOn": "Užuomina rodoma", "guideOff": "Užuomina paslėpta", "edgesOn": "Tik kraštinės detalės", "edgesOff": "Visos detalės", "soundOn": "Garsas įjungtas", "soundOff": "Garsas išjungtas", "hardNoGuide": "Sunkiame režime užuominos nėra.", "startRoom": "Pasirinkti nuotrauką ir pradėti", "players": "Žaidėjai", "waitHost": "Prisijungta. Laukiama, kol šeimininkas pradės dėlionę…", "demoNote": "Demo režimas (nėra Firebase nustatymų): kambarys veikia tik tarp skirtukų šiame įrenginyje.", "fbFail": "Nepavyko prisijungti prie Firebase.", "noCustom": "Įkeltų nuotraukų kambariuose naudoti negalima. Pasirink iš galerijos.", "openPuzzle": "Atidaryti kambario dėlionę", "leaveRoom": "Palikti kambarį", "pickForRoom": "Pasirink nuotrauką kambariui ir spausk Toliau.", "cancel": "Atšaukti", "noPuzzleYet": "Šiame kambaryje dėlionė dar nepradėta.", "hint": "Užuomina", "hintShown": "Paryškinta detalė ir jos vieta.", "tutTitle": "Kaip žaisti", "tut1": "Vilk detalę, kad ją perkeltum.", "tut2": "Tinkančios detalės prisiformuoja ir susijungia.", "tut3": "Dviem pirštais priartink. Vilk foną, kad apsidairytum.", "tut4": "Paspausk 💡 užuominai.", "gotIt": "Supratau", "best": "Geriausias laikas", "newRecord": "Naujas rekordas!", "share": "Dalintis", "shareFail": "Dalintis čia nepavyksta.", "playerJoined": "prisijungė prie kambario", "playerLeft": "išėjo iš kambario", "daily": "Dienos iššūkis", "dailyText": "Ta pati dėlionė visiems, nauja kasdien.", "dailyDone": "Tavo geriausias šiandien", "stats": "Statistika", "statsText": "Tavo pažanga ir pasiekimai.", "statsDone": "Baigtos dėlionės", "statsPieces": "Sudėtos detalės", "statsHard": "Sunkios dėlionės", "statsStreak": "Dienų serija", "statsBest": "Greičiausia 36 detalių dėlionė", "achievements": "Pasiekimai", "ach_first": "Pirma dėlionė", "ach_ten": "10 dėlionių", "ach_hundred": "100 dėlionių", "ach_speed": "Greitukas: 36+ detalių per 3 min.", "ach_hard": "Sunkus režimas baigtas", "ach_streak": "7 dienų serija", "ach_race": "Llenktynių nugalėtojas", "ach_big": "Didelė dėlionė: 100+ detalių", "achUnlocked": "Naujas pasiekimas:", "theme": "Tema", "music": "Muzika", "myPics": "Mano nuotraukos", "race": "Lenktynių režimas (kiekvienas žaidžia savo kopiją)", "raceRank": "Vieta", "of": "iš", "rejoin": "Grįžti į kambarį", "react": "Reakcijos", "reconnecting": "Ryšys nutrūko. Jungiamasi iš naujo…", "connected": "Ryšys atkurtas.", "uploading": "Ruošiama nuotrauka…"}, "ru": {"tagline": "МИР ИЗ ДЕТАЛЕЙ", "pictures": "Фото", "new": "Новая +", "heroText": "Выбери фото, рассыпь детали и собери картинку заново.", "choose": "Выбрать фото →", "explore": "Смотреть фото", "exploreText": "Выбери фото или загрузи своё.", "newPuzzle": "Новый пазл", "newText": "Выбери сложность и начни.", "playPeople": "Играть вместе", "roomText": "Создай комнату или войди в неё.", "continue": "Продолжить", "continueText": "Продолжи сохранённые пазлы.", "resume": "Продолжить", "delete": "Удалить", "noSaved": "Сохранённых пазлов пока нет.", "choosePhoto": "Выбери фото", "pickText": "Выбери фото для пазла.", "home": "Главная", "upload": "＋ Загрузить фото", "more": "Ещё фото", "noMore": "Больше фото нет", "next": "Далее: настройки →", "internet": "Если фото не загрузится, будет использована встроенная картинка. Можно загрузить своё.", "createRoom": "Создать комнату", "yourName": "Твоё имя", "createCode": "Создать код комнаты", "joinRoom": "Войти в комнату", "join": "Войти", "chat": "Чат комнаты", "send": "Отправить", "onlineNotice": "Добавь настройки Firebase, чтобы играть на других устройствах. Без них комнаты работают только между вкладками на этом устройстве.", "difficulty": "Сложность", "normal": "🧩 Обычная", "hard": "🧩 Сложная", "mystery": "Скрыть образец", "createPuzzle": "Создать пазл", "backPictures": "Назад к фото", "viewPicture": "Показать фото", "pieces": "деталей", "complete": "готово", "hintN": "Пустое поле, лёгкая фиксация.", "hintH": "Пустое поле, точная фиксация, до 225 деталей.", "mysteryOn": "Выключи скрытие образца, чтобы увидеть фото.", "finished": "Ты собрал за", "room": "Код комнаты", "roomMade": "Комната создана.", "roomJoined": "Ты вошёл в комнату.", "badCode": "Введи правильный код комнаты.", "confirmDel": "Удалить этот пазл?", "full": "Память заполнена. Прогресс может не сохраниться.", "loadFail": "Не удалось загрузить фото. Попробуй другое.", "guideOn": "Подсказка включена", "guideOff": "Подсказка скрыта", "edgesOn": "Только краевые детали", "edgesOff": "Все детали", "soundOn": "Звук включён", "soundOff": "Звук выключен", "hardNoGuide": "В сложном режиме подсказки нет.", "startRoom": "Выбрать фото и начать", "players": "Игроки", "waitHost": "Ты вошёл. Ждём, пока хозяин начнёт пазл…", "demoNote": "Демо-режим (нет настроек Firebase): комната работает только между вкладками на этом устройстве.", "fbFail": "Не удалось подключиться к Firebase.", "noCustom": "Загруженные фото нельзя использовать в комнатах. Выбери из галереи.", "openPuzzle": "Открыть пазл комнаты", "leaveRoom": "Выйти из комнаты", "pickForRoom": "Выбери фото для комнаты и нажми Далее.", "cancel": "Отмена", "noPuzzleYet": "В этой комнате пазл ещё не начат.", "hint": "Подсказка", "hintShown": "Подсвечены деталь и её место.", "tutTitle": "Как играть", "tut1": "Перетащи деталь, чтобы переместить её.", "tut2": "Подходящие детали примагничиваются и соединяются.", "tut3": "Разведи два пальца для масштаба. Тяни фон, чтобы осмотреться.", "tut4": "Нажми 💡 для подсказки.", "gotIt": "Понятно", "best": "Лучшее время", "newRecord": "Новый рекорд!", "share": "Поделиться", "shareFail": "Здесь нельзя поделиться.", "playerJoined": "вошёл в комнату", "playerLeft": "вышел из комнаты", "daily": "Задание дня", "dailyText": "Один пазл для всех, новый каждый день.", "dailyDone": "Твой лучший результат сегодня", "stats": "Статистика", "statsText": "Твой прогресс и достижения.", "statsDone": "Собрано пазлов", "statsPieces": "Собрано деталей", "statsHard": "Сложных пазлов", "statsStreak": "Серия дней", "statsBest": "Быстрейший пазл из 36 деталей", "achievements": "Достижения", "ach_first": "Первый пазл", "ach_ten": "10 пазлов", "ach_hundred": "100 пазлов", "ach_speed": "Скоростной: 36+ деталей быстрее 3 минут", "ach_hard": "Сложный режим пройден", "ach_streak": "Серия 7 дней", "ach_race": "Победитель гонки", "ach_big": "Большой пазл: 100+ деталей", "achUnlocked": "Новое достижение:", "theme": "Тема", "music": "Музыка", "myPics": "Мои фото", "race": "Режим гонки (каждый играет свою копию)", "raceRank": "Место", "of": "из", "rejoin": "Вернуться в комнату", "react": "Реакции", "reconnecting": "Связь потеряна. Переподключение…", "connected": "Связь восстановлена.", "uploading": "Готовим фото…"}, "uk": {"tagline": "СВІТ З ДЕТАЛЕЙ", "pictures": "Фото", "new": "Нова +", "heroText": "Вибери фото, розсип деталі та склади картинку знову.", "choose": "Вибрати фото →", "explore": "Дивитися фото", "exploreText": "Вибери фото або завантаж своє.", "newPuzzle": "Новий пазл", "newText": "Обери складність і почни.", "playPeople": "Грати разом", "roomText": "Створи кімнату або приєднайся.", "continue": "Продовжити", "continueText": "Продовжуй збережені пазли.", "resume": "Продовжити", "delete": "Видалити", "noSaved": "Збережених пазлів поки немає.", "choosePhoto": "Вибери фото", "pickText": "Вибери фото для пазла.", "home": "Головна", "upload": "＋ Завантажити фото", "more": "Ще фото", "noMore": "Більше фото немає", "next": "Далі: налаштування →", "internet": "Якщо фото не завантажиться, буде використано вбудовану картинку. Можна завантажити своє.", "createRoom": "Створити кімнату", "yourName": "Твоє ім'я", "createCode": "Створити код кімнати", "joinRoom": "Увійти в кімнату", "join": "Увійти", "chat": "Чат кімнати", "send": "Надіслати", "onlineNotice": "Додай налаштування Firebase, щоб грати на інших пристроях. Без них кімнати працюють лише між вкладками на цьому пристрої.", "difficulty": "Складність", "normal": "🧩 Звичайна", "hard": "🧩 Складна", "mystery": "Приховати зразок", "createPuzzle": "Створити пазл", "backPictures": "Назад до фото", "viewPicture": "Показати фото", "pieces": "деталей", "complete": "готово", "hintN": "Порожнє поле, легке прилипання.", "hintH": "Порожнє поле, точне прилипання, до 225 деталей.", "mysteryOn": "Вимкни приховання зразка, щоб побачити фото.", "finished": "Ти склав за", "room": "Код кімнати", "roomMade": "Кімнату створено.", "roomJoined": "Ти увійшов у кімнату.", "badCode": "Введи правильний код кімнати.", "confirmDel": "Видалити цей пазл?", "full": "Пам'ять заповнена. Прогрес може не зберегтися.", "loadFail": "Не вдалося завантажити фото. Спробуй інше.", "guideOn": "Підказку увімкнено", "guideOff": "Підказку приховано", "edgesOn": "Лише крайові деталі", "edgesOff": "Усі деталі", "soundOn": "Звук увімкнено", "soundOff": "Звук вимкнено", "hardNoGuide": "У складному режимі підказки немає.", "startRoom": "Обрати фото і почати", "players": "Гравці", "waitHost": "Ти увійшов. Чекаємо, поки господар почне пазл…", "demoNote": "Демо-режим (немає налаштувань Firebase): кімната працює лише між вкладками на цьому пристрої.", "fbFail": "Не вдалося підключитися до Firebase.", "noCustom": "Завантажені фото не можна використовувати в кімнатах. Обери з галереї.", "openPuzzle": "Відкрити пазл кімнати", "leaveRoom": "Вийти з кімнати", "pickForRoom": "Обери фото для кімнати й натисни Далі.", "cancel": "Скасувати", "noPuzzleYet": "У цій кімнаті пазл ще не розпочато.", "hint": "Підказка", "hintShown": "Підсвічено деталь і її місце.", "tutTitle": "Як грати", "tut1": "Перетягни деталь, щоб перемістити її.", "tut2": "Деталі, що підходять, прилипають і з'єднуються.", "tut3": "Розведи два пальці для масштабу. Тягни фон, щоб роззирнутися.", "tut4": "Натисни 💡 для підказки.", "gotIt": "Зрозуміло", "best": "Найкращий час", "newRecord": "Новий рекорд!", "share": "Поділитися", "shareFail": "Тут не можна поділитися.", "playerJoined": "увійшов у кімнату", "playerLeft": "вийшов із кімнати", "daily": "Завдання дня", "dailyText": "Один пазл для всіх, новий щодня.", "dailyDone": "Твій найкращий результат сьогодні", "stats": "Статистика", "statsText": "Твій прогрес і досягнення.", "statsDone": "Зібрано пазлів", "statsPieces": "Зібрано деталей", "statsHard": "Складних пазлів", "statsStreak": "Серія днів", "statsBest": "Найшвидший пазл із 36 деталей", "achievements": "Досягнення", "ach_first": "Перший пазл", "ach_ten": "10 пазлів", "ach_hundred": "100 пазлів", "ach_speed": "Швидкісний: 36+ деталей швидше 3 хвилин", "ach_hard": "Складний режим пройдено", "ach_streak": "Серія 7 днів", "ach_race": "Переможець перегонів", "ach_big": "Великий пазл: 100+ деталей", "achUnlocked": "Нове досягнення:", "theme": "Тема", "music": "Музика", "myPics": "Мої фото", "race": "Режим перегонів (кожен грає свою копію)", "raceRank": "Місце", "of": "з", "rejoin": "Повернутися до кімнати", "react": "Реакції", "reconnecting": "Зв'язок втрачено. Повторне підключення…", "connected": "Зв'язок відновлено.", "uploading": "Готуємо фото…"}, "pt": {"tagline": "UM MUNDO DE PEÇAS", "pictures": "Fotos", "new": "Novo +", "heroText": "Escolha uma foto, espalhe as peças e monte a imagem de novo.", "choose": "Escolher foto →", "explore": "Explorar fotos", "exploreText": "Escolha uma foto ou envie a sua.", "newPuzzle": "Novo quebra-cabeça", "newText": "Escolha a dificuldade e comece.", "playPeople": "Jogar com pessoas", "roomText": "Crie uma sala ou entre em uma.", "continue": "Continuar", "continueText": "Continue seus quebra-cabeças salvos.", "resume": "Continuar", "delete": "Excluir", "noSaved": "Nenhum quebra-cabeça salvo ainda.", "choosePhoto": "Escolha uma foto", "pickText": "Escolha uma foto para o quebra-cabeça.", "home": "Início", "upload": "＋ Enviar foto", "more": "Mais fotos", "noMore": "Sem mais fotos", "next": "Próximo: configurações →", "internet": "Se uma foto não carregar, uma imagem embutida será usada. Você também pode enviar a sua.", "createRoom": "Criar sala", "yourName": "Seu nome", "createCode": "Criar código da sala", "joinRoom": "Entrar em uma sala", "join": "Entrar", "chat": "Chat da sala", "send": "Enviar", "onlineNotice": "Adicione a configuração do Firebase para jogar em outros aparelhos. Sem ela, as salas funcionam só entre abas neste aparelho.", "difficulty": "Dificuldade", "normal": "🧩 Normal", "hard": "🧩 Difícil", "mystery": "Esconder imagem", "createPuzzle": "Criar quebra-cabeça", "backPictures": "Voltar às fotos", "viewPicture": "Ver imagem", "pieces": "peças", "complete": "completo", "hintN": "Tabuleiro vazio, encaixe fácil.", "hintH": "Tabuleiro vazio, encaixe preciso, até 225 peças.", "mysteryOn": "Desative o quebra-cabeça misterioso para ver a imagem.", "finished": "Você terminou em", "room": "Código da sala", "roomMade": "Sala criada.", "roomJoined": "Você entrou na sala.", "badCode": "Digite um código de sala válido.", "confirmDel": "Excluir este quebra-cabeça?", "full": "Armazenamento cheio. O progresso pode não ser salvo.", "loadFail": "Não foi possível carregar a foto. Tente outra.", "guideOn": "Guia visível", "guideOff": "Guia oculto", "edgesOn": "Só peças de borda", "edgesOff": "Todas as peças", "soundOn": "Som ligado", "soundOff": "Som desligado", "hardNoGuide": "O guia está desativado no modo difícil.", "startRoom": "Escolher foto e começar", "players": "Jogadores", "waitHost": "Você entrou. Aguardando o anfitrião iniciar…", "demoNote": "Modo demonstração (sem Firebase): a sala só funciona entre abas neste aparelho.", "fbFail": "Não foi possível conectar ao Firebase.", "noCustom": "Fotos enviadas não podem ser usadas em salas. Escolha da galeria.", "openPuzzle": "Abrir quebra-cabeça da sala", "leaveRoom": "Sair da sala", "pickForRoom": "Escolha uma foto para a sala e toque em Próximo.", "cancel": "Cancelar", "noPuzzleYet": "Nenhum quebra-cabeça iniciado nesta sala ainda.", "hint": "Dica", "hintShown": "Uma peça e seu lugar foram destacados.", "tutTitle": "Como jogar", "tut1": "Arraste uma peça para movê-la.", "tut2": "Peças que combinam se encaixam e se unem.", "tut3": "Use dois dedos para dar zoom. Arraste o fundo para olhar ao redor.", "tut4": "Toque em 💡 para uma dica.", "gotIt": "Entendi", "best": "Melhor tempo", "newRecord": "Novo recorde!", "share": "Compartilhar", "shareFail": "Compartilhar não é suportado aqui.", "playerJoined": "entrou na sala", "playerLeft": "saiu da sala", "daily": "Desafio diário", "dailyText": "O mesmo quebra-cabeça para todos, novo a cada dia.", "dailyDone": "Seu melhor hoje", "stats": "Estatísticas", "statsText": "Seu progresso e conquistas.", "statsDone": "Quebra-cabeças concluídos", "statsPieces": "Peças colocadas", "statsHard": "Quebra-cabeças difíceis", "statsStreak": "Sequência de dias", "statsBest": "Mais rápido de 36 peças", "achievements": "Conquistas", "ach_first": "Primeiro quebra-cabeça", "ach_ten": "10 quebra-cabeças", "ach_hundred": "100 quebra-cabeças", "ach_speed": "Veloz: 36+ peças em menos de 3 min", "ach_hard": "Modo difícil concluído", "ach_streak": "Sequência de 7 dias", "ach_race": "Vencedor da corrida", "ach_big": "Quebra-cabeça grande: 100+ peças", "achUnlocked": "Conquista desbloqueada:", "theme": "Tema", "music": "Música", "myPics": "Minhas fotos", "race": "Modo corrida (cada um joga sua cópia)", "raceRank": "Posição", "of": "de", "rejoin": "Voltar à sala", "react": "Reações", "reconnecting": "Conexão perdida. Reconectando…", "connected": "Conectado novamente.", "uploading": "Preparando a foto…"}};
+const T={"en": {"tagline": "A WORLD MADE OF PIECES", "pictures": "Pictures", "new": "New +", "heroText": "Choose a photo, scatter the pieces, and put the picture back together.", "choose": "Choose a picture →", "explore": "Explore pictures", "exploreText": "Choose a picture or upload your own.", "newPuzzle": "New puzzle", "newText": "Choose difficulty and create a puzzle.", "playPeople": "Play with people", "roomText": "Create a room or join a room.", "continue": "Continue", "continueText": "Continue your saved puzzles.", "resume": "Resume", "delete": "Delete", "noSaved": "No saved puzzles yet.", "choosePhoto": "Choose a picture", "pickText": "Pick a photo for your puzzle.", "home": "Home", "upload": "＋ Upload picture", "more": "Load more photos", "noMore": "No more photos", "next": "Next: settings →", "internet": "If a photo can't load, a built-in picture is used. You can also upload your own.", "createRoom": "Create a room", "yourName": "Your name", "createCode": "Create room code", "joinRoom": "Join a room", "join": "Join room", "chat": "Room chat", "send": "Send", "onlineNotice": "Demo mode: rooms and chat work between tabs on this device only.", "difficulty": "Difficulty", "normal": "🧩 Normal", "hard": "🧩 Hard", "mystery": "Mystery puzzle", "createPuzzle": "Create puzzle", "backPictures": "Back to pictures", "viewPicture": "View picture", "pieces": "pieces", "complete": "complete", "hintN": "Empty board, relaxed snapping.", "hintH": "Empty board, tight snapping, up to 225 pieces.", "mysteryOn": "Turn off Mystery puzzle to view the picture.", "finished": "You finished in", "room": "Room code", "roomMade": "Room created.", "roomJoined": "Joined room.", "badCode": "Enter a valid room code.", "confirmDel": "Delete this puzzle?", "full": "Storage is full. Progress may not be saved.", "loadFail": "Could not load this picture. Try another one.", "guideOn": "Guide shown", "guideOff": "Guide hidden", "edgesOn": "Edge pieces only", "edgesOff": "All pieces", "soundOn": "Sound on", "soundOff": "Sound off", "hardNoGuide": "Guide is disabled in Hard mode.", "startRoom": "Choose picture & start", "players": "Players", "waitHost": "Joined. Waiting for the host to start the puzzle…", "demoNote": "Demo mode (no Firebase config): this room works only between tabs on this device.", "fbFail": "Could not connect to Firebase.", "noCustom": "Uploaded pictures can't be used in rooms. Pick a gallery picture.", "openPuzzle": "Open room puzzle", "leaveRoom": "Leave room", "pickForRoom": "Choose a picture for the room, then press Next.", "cancel": "Cancel", "noPuzzleYet": "No puzzle has been started in this room yet.", "hint": "Hint", "hintShown": "A piece and its spot are highlighted.", "tutTitle": "How to play", "tut1": "Drag a piece to move it.", "tut2": "Pieces that fit together snap and merge.", "tut3": "Pinch with two fingers to zoom. Drag the background to look around.", "tut4": "Tap 💡 for a hint.", "gotIt": "Got it", "best": "Best time", "newRecord": "New record!", "share": "Share", "shareFail": "Sharing isn't supported here.", "playerJoined": "joined the room", "playerLeft": "left the room", "daily": "Daily challenge", "dailyText": "The same puzzle for everyone, new every day.", "dailyDone": "Your best today", "stats": "Stats", "statsText": "Your progress and achievements.", "statsDone": "Puzzles completed", "statsPieces": "Pieces placed", "statsHard": "Hard puzzles", "statsStreak": "Daily streak (days)", "statsBest": "Fastest 36-piece puzzle", "achievements": "Achievements", "ach_first": "First puzzle", "ach_ten": "10 puzzles", "ach_hundred": "100 puzzles", "ach_speed": "Speedster: 36+ pieces in under 3 min", "ach_hard": "Hard mode finished", "ach_streak": "7-day streak", "ach_race": "Race winner", "ach_big": "Big puzzle: 100+ pieces", "achUnlocked": "Achievement unlocked:", "theme": "Theme", "music": "Music", "myPics": "My pictures", "race": "Race mode (everyone plays their own copy)", "raceRank": "Rank", "of": "of", "rejoin": "Rejoin room", "react": "Reactions", "reconnecting": "Connection lost. Reconnecting…", "connected": "Connected again.", "uploading": "Preparing picture…", "rect": "Match picture shape (rectangular puzzle)", "invite": "Share invite link", "linkCopied": "Link copied", "paused": "Paused", "tapResume": "Tap to continue", "wrongPw": "Wrong password.", "enterPw": "Room password:", "kicked": "You were removed from the room.", "timeLimit": "Time limit", "timeUp": "Time's up!", "volume": "Volume", "all": "All", "favorites": "Favorites", "animals": "Animals", "nature": "Nature", "cities": "Cities", "mineTab": "My pictures", "photosTab": "Photos", "chipPics": "🖼️ 20+ pictures", "chipFriends": "👥 Play with friends", "chipTimed": "🏁 Races & challenges", "playAgain": "Play again", "newPuzzleStarted": "A new puzzle started in the room…", "lbToday": "Today's leaderboard", "lbRank": "Global rank", "lbEmpty": "No scores yet today.", "signIn": "Sign in with Google", "signOut": "Sign out", "signedAs": "Signed in as", "signHint": "Sign in to save your stats and favorites in the cloud.", "signFail": "Sign-in failed:", "spectator": "Join as spectator", "edgesGathered": "Edge pieces gathered above the board."}, "ar": {"tagline": "عالم مصنوع من القطع", "pictures": "الصور", "new": "جديد +", "heroText": "اختار صورة وركّب قطعها من جديد.", "choose": "اختار صورة ←", "explore": "استكشف الصور", "exploreText": "اختار صورة أو ارفع صورتك.", "newPuzzle": "بازل جديد", "newText": "اختار الصعوبة وابدأ اللعب.", "playPeople": "العب مع الناس", "roomText": "اعمل روم أو ادخل روم.", "continue": "استمرار", "continueText": "واصل البازل المحفوظة.", "resume": "مواصلة", "delete": "حذف", "noSaved": "ما عندك بازل محفوظة حالياً.", "choosePhoto": "اختار صورة", "pickText": "اختار الصورة البتريدها.", "home": "الرئيسية", "upload": "＋ ارفع صورة", "more": "صور إضافية", "noMore": "ما في صور إضافية", "next": "التالي: الإعدادات ←", "internet": "لو الصورة ما اتحمّلت بنستخدم صورة جاهزة. وتقدر ترفع صورتك.", "createRoom": "إنشاء روم", "yourName": "اسمك", "createCode": "إنشاء كود الروم", "joinRoom": "دخول روم", "join": "دخول", "chat": "شات الروم", "send": "إرسال", "onlineNotice": "الوضع التجريبي: الغرف والشات بين التبويبات في نفس الجهاز بس.", "difficulty": "الصعوبة", "normal": "🧩 عادي", "hard": "🧩 صعب", "mystery": "بازل غامض", "createPuzzle": "ابدأ البازل", "backPictures": "الرجوع للصور", "viewPicture": "عرض الصورة", "pieces": "قطعة", "complete": "مكتمل", "hintN": "لوحة فاضية وتركيب سهل.", "hintH": "لوحة فاضية وتركيب دقيق وحد أقصى 225 قطعة.", "mysteryOn": "أوقف البازل الغامض عشان تشوف الصورة.", "finished": "خلّصتها في", "room": "كود الروم", "roomMade": "اتعمل الروم.", "roomJoined": "دخلت الروم.", "badCode": "اكتب كود روم صحيح.", "confirmDel": "متأكد إنك داير تحذف البازل دي؟", "full": "التخزين ممتلئ، ممكن التقدم ما يتحفظ.", "loadFail": "ما قدرنا نحمّل الصورة. جرّب صورة تانية.", "guideOn": "الدليل ظاهر", "guideOff": "الدليل مخفي", "edgesOn": "قطع الحواف بس", "edgesOff": "كل القطع", "soundOn": "الصوت شغال", "soundOff": "الصوت مقفول", "hardNoGuide": "الدليل معطّل في الوضع الصعب.", "startRoom": "اختار صورة وابدأ", "players": "اللاعبين", "waitHost": "دخلت. ننتظر صاحب الروم يبدأ البازل…", "demoNote": "وضع تجريبي (ما في إعداد Firebase): الروم شغال بين التبويبات في نفس الجهاز بس.", "fbFail": "ما قدرنا نتصل بـ Firebase.", "noCustom": "الصور المرفوعة ما بتشتغل في الرومات. اختار صورة من المعرض.", "openPuzzle": "افتح بازل الروم", "leaveRoom": "اخرج من الروم", "pickForRoom": "اختار صورة للروم وبعدين اضغط التالي.", "cancel": "إلغاء", "noPuzzleYet": "ما في بازل اتبدأ في الروم ده لسه.", "hint": "تلميح", "hintShown": "اتظللت قطعة ومكانها.", "tutTitle": "كيف تلعب", "tut1": "اسحب القطعة عشان تحرّكها.", "tut2": "القطع المتطابقة بتلصق وتتدمج.", "tut3": "قرّب إصبعين للتكبير، واسحب الخلفية عشان تتحرك.", "tut4": "اضغط 💡 للتلميح.", "gotIt": "تمام", "best": "أحسن وقت", "newRecord": "رقم قياسي جديد!", "share": "مشاركة", "shareFail": "المشاركة ما مدعومة هنا.", "playerJoined": "دخل الروم", "playerLeft": "طلع من الروم", "daily": "تحدي اليوم", "dailyText": "نفس البازل للجميع، وجديد كل يوم.", "dailyDone": "أحسن وقت ليك اليوم", "stats": "الإحصائيات", "statsText": "تقدّمك وإنجازاتك.", "statsDone": "بازل مكتملة", "statsPieces": "قطع اتركّبت", "statsHard": "بازل صعبة", "statsStreak": "أيام متتالية", "statsBest": "أسرع بازل 36 قطعة", "achievements": "الإنجازات", "ach_first": "أول بازل", "ach_ten": "10 بازل", "ach_hundred": "100 بازل", "ach_speed": "سريع: 36 قطعة فأكتر في أقل من 3 دقايق", "ach_hard": "خلّصت الوضع الصعب", "ach_streak": "7 أيام متتالية", "ach_race": "فائز في سباق", "ach_big": "بازل كبيرة: 100 قطعة فأكتر", "achUnlocked": "إنجاز جديد:", "theme": "المظهر", "music": "موسيقى", "myPics": "صوري", "race": "وضع السباق (كل واحد يلعب نسختو)", "raceRank": "الترتيب", "of": "من", "rejoin": "ارجع للروم", "react": "ردود فعل", "reconnecting": "الاتصال قطع. بنعيد المحاولة…", "connected": "رجع الاتصال.", "uploading": "بنجهّز الصورة…", "rect": "على شكل الصورة (بازل مستطيل)", "invite": "شارك رابط الدعوة", "linkCopied": "اتنسخ الرابط", "paused": "متوقف", "tapResume": "اضغط للمتابعة", "wrongPw": "كلمة السر غلط.", "enterPw": "كلمة سر الروم:", "kicked": "اتشلت من الروم.", "timeLimit": "الوقت المحدد", "timeUp": "الوقت خلص!", "volume": "الصوت", "all": "الكل", "favorites": "المفضلة", "animals": "حيوانات", "nature": "طبيعة", "cities": "مدن", "mineTab": "صوري", "photosTab": "الصور", "chipPics": "🖼️ أكتر من 20 صورة", "chipFriends": "👥 العب مع صحابك", "chipTimed": "🏁 سباقات وتحديات", "playAgain": "العب تاني", "newPuzzleStarted": "بدأ بازل جديد في الروم…", "lbToday": "ترتيب اليوم", "lbRank": "ترتيبك العالمي", "lbEmpty": "ما في نتائج اليوم لسه.", "signIn": "سجّل دخول بـ Google", "signOut": "تسجيل خروج", "signedAs": "داخل بحساب", "signHint": "سجّل دخول عشان تحفظ إحصائياتك ومفضلتك في السحابة.", "signFail": "فشل تسجيل الدخول:", "spectator": "ادخل كمتفرج", "edgesGathered": "اتجمّعت قطع الحواف فوق اللوحة."}, "lt": {"tagline": "PASAULIS IŠ DETALIŲ", "pictures": "Nuotraukos", "new": "Naujas +", "heroText": "Pasirink nuotrauką, išbarstyk detales ir sudėk paveikslėlį iš naujo.", "choose": "Pasirink nuotrauką →", "explore": "Naršyti nuotraukas", "exploreText": "Pasirink nuotrauką arba įkelk savo.", "newPuzzle": "Nauja dėlionė", "newText": "Pasirink sudėtingumą ir pradėk.", "playPeople": "Žaisti su kitais", "roomText": "Sukurk kambarį arba prisijunk.", "continue": "Tęsti", "continueText": "Tęsk išsaugotas dėliones.", "resume": "Tęsti", "delete": "Ištrinti", "noSaved": "Išsaugotų dėlionių dar nėra.", "choosePhoto": "Pasirink nuotrauką", "pickText": "Pasirink nuotrauką dėlionei.", "home": "Pradžia", "upload": "＋ Įkelti nuotrauką", "more": "Daugiau nuotraukų", "noMore": "Daugiau nuotraukų nėra", "next": "Toliau: nustatymai →", "internet": "Jei nuotrauka neįsikelia, naudojamas įtaisytas paveikslėlis. Gali įkelti ir savo.", "createRoom": "Sukurti kambarį", "yourName": "Tavo vardas", "createCode": "Sukurti kambario kodą", "joinRoom": "Prisijungti prie kambario", "join": "Prisijungti", "chat": "Kambario pokalbis", "send": "Siųsti", "onlineNotice": "Pridėk Firebase nustatymus, kad žaistum su kitais įrenginiais. Be jų kambariai veikia tik tarp skirtukų šiame įrenginyje.", "difficulty": "Sudėtingumas", "normal": "🧩 Įprastas", "hard": "🧩 Sunkus", "mystery": "Paslėpti nuotrauką", "createPuzzle": "Kurti dėlionę", "backPictures": "Grįžti į nuotraukas", "viewPicture": "Rodyti nuotrauką", "pieces": "detalių", "complete": "baigta", "hintN": "Tuščia lenta, lengvas prilipimas.", "hintH": "Tuščia lenta, tikslus prilipimas, iki 225 detalių.", "mysteryOn": "Išjunk paslėptą dėlionę, kad matytum nuotrauką.", "finished": "Baigei per", "room": "Kambario kodas", "roomMade": "Kambarys sukurtas.", "roomJoined": "Prisijungta prie kambario.", "badCode": "Įvesk teisingą kambario kodą.", "confirmDel": "Ištrinti šią dėlionę?", "full": "Atmintis pilna. Pažanga gali neišsisaugoti.", "loadFail": "Nepavyko įkelti nuotraukos. Pabandyk kitą.", "guideOn": "Užuomina rodoma", "guideOff": "Užuomina paslėpta", "edgesOn": "Tik kraštinės detalės", "edgesOff": "Visos detalės", "soundOn": "Garsas įjungtas", "soundOff": "Garsas išjungtas", "hardNoGuide": "Sunkiame režime užuominos nėra.", "startRoom": "Pasirinkti nuotrauką ir pradėti", "players": "Žaidėjai", "waitHost": "Prisijungta. Laukiama, kol šeimininkas pradės dėlionę…", "demoNote": "Demo režimas (nėra Firebase nustatymų): kambarys veikia tik tarp skirtukų šiame įrenginyje.", "fbFail": "Nepavyko prisijungti prie Firebase.", "noCustom": "Įkeltų nuotraukų kambariuose naudoti negalima. Pasirink iš galerijos.", "openPuzzle": "Atidaryti kambario dėlionę", "leaveRoom": "Palikti kambarį", "pickForRoom": "Pasirink nuotrauką kambariui ir spausk Toliau.", "cancel": "Atšaukti", "noPuzzleYet": "Šiame kambaryje dėlionė dar nepradėta.", "hint": "Užuomina", "hintShown": "Paryškinta detalė ir jos vieta.", "tutTitle": "Kaip žaisti", "tut1": "Vilk detalę, kad ją perkeltum.", "tut2": "Tinkančios detalės prisiformuoja ir susijungia.", "tut3": "Dviem pirštais priartink. Vilk foną, kad apsidairytum.", "tut4": "Paspausk 💡 užuominai.", "gotIt": "Supratau", "best": "Geriausias laikas", "newRecord": "Naujas rekordas!", "share": "Dalintis", "shareFail": "Dalintis čia nepavyksta.", "playerJoined": "prisijungė prie kambario", "playerLeft": "išėjo iš kambario", "daily": "Dienos iššūkis", "dailyText": "Ta pati dėlionė visiems, nauja kasdien.", "dailyDone": "Tavo geriausias šiandien", "stats": "Statistika", "statsText": "Tavo pažanga ir pasiekimai.", "statsDone": "Baigtos dėlionės", "statsPieces": "Sudėtos detalės", "statsHard": "Sunkios dėlionės", "statsStreak": "Dienų serija", "statsBest": "Greičiausia 36 detalių dėlionė", "achievements": "Pasiekimai", "ach_first": "Pirma dėlionė", "ach_ten": "10 dėlionių", "ach_hundred": "100 dėlionių", "ach_speed": "Greitukas: 36+ detalių per 3 min.", "ach_hard": "Sunkus režimas baigtas", "ach_streak": "7 dienų serija", "ach_race": "Llenktynių nugalėtojas", "ach_big": "Didelė dėlionė: 100+ detalių", "achUnlocked": "Naujas pasiekimas:", "theme": "Tema", "music": "Muzika", "myPics": "Mano nuotraukos", "race": "Lenktynių režimas (kiekvienas žaidžia savo kopiją)", "raceRank": "Vieta", "of": "iš", "rejoin": "Grįžti į kambarį", "react": "Reakcijos", "reconnecting": "Ryšys nutrūko. Jungiamasi iš naujo…", "connected": "Ryšys atkurtas.", "uploading": "Ruošiama nuotrauka…"}, "ru": {"tagline": "МИР ИЗ ДЕТАЛЕЙ", "pictures": "Фото", "new": "Новая +", "heroText": "Выбери фото, рассыпь детали и собери картинку заново.", "choose": "Выбрать фото →", "explore": "Смотреть фото", "exploreText": "Выбери фото или загрузи своё.", "newPuzzle": "Новый пазл", "newText": "Выбери сложность и начни.", "playPeople": "Играть вместе", "roomText": "Создай комнату или войди в неё.", "continue": "Продолжить", "continueText": "Продолжи сохранённые пазлы.", "resume": "Продолжить", "delete": "Удалить", "noSaved": "Сохранённых пазлов пока нет.", "choosePhoto": "Выбери фото", "pickText": "Выбери фото для пазла.", "home": "Главная", "upload": "＋ Загрузить фото", "more": "Ещё фото", "noMore": "Больше фото нет", "next": "Далее: настройки →", "internet": "Если фото не загрузится, будет использована встроенная картинка. Можно загрузить своё.", "createRoom": "Создать комнату", "yourName": "Твоё имя", "createCode": "Создать код комнаты", "joinRoom": "Войти в комнату", "join": "Войти", "chat": "Чат комнаты", "send": "Отправить", "onlineNotice": "Добавь настройки Firebase, чтобы играть на других устройствах. Без них комнаты работают только между вкладками на этом устройстве.", "difficulty": "Сложность", "normal": "🧩 Обычная", "hard": "🧩 Сложная", "mystery": "Скрыть образец", "createPuzzle": "Создать пазл", "backPictures": "Назад к фото", "viewPicture": "Показать фото", "pieces": "деталей", "complete": "готово", "hintN": "Пустое поле, лёгкая фиксация.", "hintH": "Пустое поле, точная фиксация, до 225 деталей.", "mysteryOn": "Выключи скрытие образца, чтобы увидеть фото.", "finished": "Ты собрал за", "room": "Код комнаты", "roomMade": "Комната создана.", "roomJoined": "Ты вошёл в комнату.", "badCode": "Введи правильный код комнаты.", "confirmDel": "Удалить этот пазл?", "full": "Память заполнена. Прогресс может не сохраниться.", "loadFail": "Не удалось загрузить фото. Попробуй другое.", "guideOn": "Подсказка включена", "guideOff": "Подсказка скрыта", "edgesOn": "Только краевые детали", "edgesOff": "Все детали", "soundOn": "Звук включён", "soundOff": "Звук выключен", "hardNoGuide": "В сложном режиме подсказки нет.", "startRoom": "Выбрать фото и начать", "players": "Игроки", "waitHost": "Ты вошёл. Ждём, пока хозяин начнёт пазл…", "demoNote": "Демо-режим (нет настроек Firebase): комната работает только между вкладками на этом устройстве.", "fbFail": "Не удалось подключиться к Firebase.", "noCustom": "Загруженные фото нельзя использовать в комнатах. Выбери из галереи.", "openPuzzle": "Открыть пазл комнаты", "leaveRoom": "Выйти из комнаты", "pickForRoom": "Выбери фото для комнаты и нажми Далее.", "cancel": "Отмена", "noPuzzleYet": "В этой комнате пазл ещё не начат.", "hint": "Подсказка", "hintShown": "Подсвечены деталь и её место.", "tutTitle": "Как играть", "tut1": "Перетащи деталь, чтобы переместить её.", "tut2": "Подходящие детали примагничиваются и соединяются.", "tut3": "Разведи два пальца для масштаба. Тяни фон, чтобы осмотреться.", "tut4": "Нажми 💡 для подсказки.", "gotIt": "Понятно", "best": "Лучшее время", "newRecord": "Новый рекорд!", "share": "Поделиться", "shareFail": "Здесь нельзя поделиться.", "playerJoined": "вошёл в комнату", "playerLeft": "вышел из комнаты", "daily": "Задание дня", "dailyText": "Один пазл для всех, новый каждый день.", "dailyDone": "Твой лучший результат сегодня", "stats": "Статистика", "statsText": "Твой прогресс и достижения.", "statsDone": "Собрано пазлов", "statsPieces": "Собрано деталей", "statsHard": "Сложных пазлов", "statsStreak": "Серия дней", "statsBest": "Быстрейший пазл из 36 деталей", "achievements": "Достижения", "ach_first": "Первый пазл", "ach_ten": "10 пазлов", "ach_hundred": "100 пазлов", "ach_speed": "Скоростной: 36+ деталей быстрее 3 минут", "ach_hard": "Сложный режим пройден", "ach_streak": "Серия 7 дней", "ach_race": "Победитель гонки", "ach_big": "Большой пазл: 100+ деталей", "achUnlocked": "Новое достижение:", "theme": "Тема", "music": "Музыка", "myPics": "Мои фото", "race": "Режим гонки (каждый играет свою копию)", "raceRank": "Место", "of": "из", "rejoin": "Вернуться в комнату", "react": "Реакции", "reconnecting": "Связь потеряна. Переподключение…", "connected": "Связь восстановлена.", "uploading": "Готовим фото…"}, "uk": {"tagline": "СВІТ З ДЕТАЛЕЙ", "pictures": "Фото", "new": "Нова +", "heroText": "Вибери фото, розсип деталі та склади картинку знову.", "choose": "Вибрати фото →", "explore": "Дивитися фото", "exploreText": "Вибери фото або завантаж своє.", "newPuzzle": "Новий пазл", "newText": "Обери складність і почни.", "playPeople": "Грати разом", "roomText": "Створи кімнату або приєднайся.", "continue": "Продовжити", "continueText": "Продовжуй збережені пазли.", "resume": "Продовжити", "delete": "Видалити", "noSaved": "Збережених пазлів поки немає.", "choosePhoto": "Вибери фото", "pickText": "Вибери фото для пазла.", "home": "Головна", "upload": "＋ Завантажити фото", "more": "Ще фото", "noMore": "Більше фото немає", "next": "Далі: налаштування →", "internet": "Якщо фото не завантажиться, буде використано вбудовану картинку. Можна завантажити своє.", "createRoom": "Створити кімнату", "yourName": "Твоє ім'я", "createCode": "Створити код кімнати", "joinRoom": "Увійти в кімнату", "join": "Увійти", "chat": "Чат кімнати", "send": "Надіслати", "onlineNotice": "Додай налаштування Firebase, щоб грати на інших пристроях. Без них кімнати працюють лише між вкладками на цьому пристрої.", "difficulty": "Складність", "normal": "🧩 Звичайна", "hard": "🧩 Складна", "mystery": "Приховати зразок", "createPuzzle": "Створити пазл", "backPictures": "Назад до фото", "viewPicture": "Показати фото", "pieces": "деталей", "complete": "готово", "hintN": "Порожнє поле, легке прилипання.", "hintH": "Порожнє поле, точне прилипання, до 225 деталей.", "mysteryOn": "Вимкни приховання зразка, щоб побачити фото.", "finished": "Ти склав за", "room": "Код кімнати", "roomMade": "Кімнату створено.", "roomJoined": "Ти увійшов у кімнату.", "badCode": "Введи правильний код кімнати.", "confirmDel": "Видалити цей пазл?", "full": "Пам'ять заповнена. Прогрес може не зберегтися.", "loadFail": "Не вдалося завантажити фото. Спробуй інше.", "guideOn": "Підказку увімкнено", "guideOff": "Підказку приховано", "edgesOn": "Лише крайові деталі", "edgesOff": "Усі деталі", "soundOn": "Звук увімкнено", "soundOff": "Звук вимкнено", "hardNoGuide": "У складному режимі підказки немає.", "startRoom": "Обрати фото і почати", "players": "Гравці", "waitHost": "Ти увійшов. Чекаємо, поки господар почне пазл…", "demoNote": "Демо-режим (немає налаштувань Firebase): кімната працює лише між вкладками на цьому пристрої.", "fbFail": "Не вдалося підключитися до Firebase.", "noCustom": "Завантажені фото не можна використовувати в кімнатах. Обери з галереї.", "openPuzzle": "Відкрити пазл кімнати", "leaveRoom": "Вийти з кімнати", "pickForRoom": "Обери фото для кімнати й натисни Далі.", "cancel": "Скасувати", "noPuzzleYet": "У цій кімнаті пазл ще не розпочато.", "hint": "Підказка", "hintShown": "Підсвічено деталь і її місце.", "tutTitle": "Як грати", "tut1": "Перетягни деталь, щоб перемістити її.", "tut2": "Деталі, що підходять, прилипають і з'єднуються.", "tut3": "Розведи два пальці для масштабу. Тягни фон, щоб роззирнутися.", "tut4": "Натисни 💡 для підказки.", "gotIt": "Зрозуміло", "best": "Найкращий час", "newRecord": "Новий рекорд!", "share": "Поділитися", "shareFail": "Тут не можна поділитися.", "playerJoined": "увійшов у кімнату", "playerLeft": "вийшов із кімнати", "daily": "Завдання дня", "dailyText": "Один пазл для всіх, новий щодня.", "dailyDone": "Твій найкращий результат сьогодні", "stats": "Статистика", "statsText": "Твій прогрес і досягнення.", "statsDone": "Зібрано пазлів", "statsPieces": "Зібрано деталей", "statsHard": "Складних пазлів", "statsStreak": "Серія днів", "statsBest": "Найшвидший пазл із 36 деталей", "achievements": "Досягнення", "ach_first": "Перший пазл", "ach_ten": "10 пазлів", "ach_hundred": "100 пазлів", "ach_speed": "Швидкісний: 36+ деталей швидше 3 хвилин", "ach_hard": "Складний режим пройдено", "ach_streak": "Серія 7 днів", "ach_race": "Переможець перегонів", "ach_big": "Великий пазл: 100+ деталей", "achUnlocked": "Нове досягнення:", "theme": "Тема", "music": "Музика", "myPics": "Мої фото", "race": "Режим перегонів (кожен грає свою копію)", "raceRank": "Місце", "of": "з", "rejoin": "Повернутися до кімнати", "react": "Реакції", "reconnecting": "Зв'язок втрачено. Повторне підключення…", "connected": "Зв'язок відновлено.", "uploading": "Готуємо фото…"}, "pt": {"tagline": "UM MUNDO DE PEÇAS", "pictures": "Fotos", "new": "Novo +", "heroText": "Escolha uma foto, espalhe as peças e monte a imagem de novo.", "choose": "Escolher foto →", "explore": "Explorar fotos", "exploreText": "Escolha uma foto ou envie a sua.", "newPuzzle": "Novo quebra-cabeça", "newText": "Escolha a dificuldade e comece.", "playPeople": "Jogar com pessoas", "roomText": "Crie uma sala ou entre em uma.", "continue": "Continuar", "continueText": "Continue seus quebra-cabeças salvos.", "resume": "Continuar", "delete": "Excluir", "noSaved": "Nenhum quebra-cabeça salvo ainda.", "choosePhoto": "Escolha uma foto", "pickText": "Escolha uma foto para o quebra-cabeça.", "home": "Início", "upload": "＋ Enviar foto", "more": "Mais fotos", "noMore": "Sem mais fotos", "next": "Próximo: configurações →", "internet": "Se uma foto não carregar, uma imagem embutida será usada. Você também pode enviar a sua.", "createRoom": "Criar sala", "yourName": "Seu nome", "createCode": "Criar código da sala", "joinRoom": "Entrar em uma sala", "join": "Entrar", "chat": "Chat da sala", "send": "Enviar", "onlineNotice": "Adicione a configuração do Firebase para jogar em outros aparelhos. Sem ela, as salas funcionam só entre abas neste aparelho.", "difficulty": "Dificuldade", "normal": "🧩 Normal", "hard": "🧩 Difícil", "mystery": "Esconder imagem", "createPuzzle": "Criar quebra-cabeça", "backPictures": "Voltar às fotos", "viewPicture": "Ver imagem", "pieces": "peças", "complete": "completo", "hintN": "Tabuleiro vazio, encaixe fácil.", "hintH": "Tabuleiro vazio, encaixe preciso, até 225 peças.", "mysteryOn": "Desative o quebra-cabeça misterioso para ver a imagem.", "finished": "Você terminou em", "room": "Código da sala", "roomMade": "Sala criada.", "roomJoined": "Você entrou na sala.", "badCode": "Digite um código de sala válido.", "confirmDel": "Excluir este quebra-cabeça?", "full": "Armazenamento cheio. O progresso pode não ser salvo.", "loadFail": "Não foi possível carregar a foto. Tente outra.", "guideOn": "Guia visível", "guideOff": "Guia oculto", "edgesOn": "Só peças de borda", "edgesOff": "Todas as peças", "soundOn": "Som ligado", "soundOff": "Som desligado", "hardNoGuide": "O guia está desativado no modo difícil.", "startRoom": "Escolher foto e começar", "players": "Jogadores", "waitHost": "Você entrou. Aguardando o anfitrião iniciar…", "demoNote": "Modo demonstração (sem Firebase): a sala só funciona entre abas neste aparelho.", "fbFail": "Não foi possível conectar ao Firebase.", "noCustom": "Fotos enviadas não podem ser usadas em salas. Escolha da galeria.", "openPuzzle": "Abrir quebra-cabeça da sala", "leaveRoom": "Sair da sala", "pickForRoom": "Escolha uma foto para a sala e toque em Próximo.", "cancel": "Cancelar", "noPuzzleYet": "Nenhum quebra-cabeça iniciado nesta sala ainda.", "hint": "Dica", "hintShown": "Uma peça e seu lugar foram destacados.", "tutTitle": "Como jogar", "tut1": "Arraste uma peça para movê-la.", "tut2": "Peças que combinam se encaixam e se unem.", "tut3": "Use dois dedos para dar zoom. Arraste o fundo para olhar ao redor.", "tut4": "Toque em 💡 para uma dica.", "gotIt": "Entendi", "best": "Melhor tempo", "newRecord": "Novo recorde!", "share": "Compartilhar", "shareFail": "Compartilhar não é suportado aqui.", "playerJoined": "entrou na sala", "playerLeft": "saiu da sala", "daily": "Desafio diário", "dailyText": "O mesmo quebra-cabeça para todos, novo a cada dia.", "dailyDone": "Seu melhor hoje", "stats": "Estatísticas", "statsText": "Seu progresso e conquistas.", "statsDone": "Quebra-cabeças concluídos", "statsPieces": "Peças colocadas", "statsHard": "Quebra-cabeças difíceis", "statsStreak": "Sequência de dias", "statsBest": "Mais rápido de 36 peças", "achievements": "Conquistas", "ach_first": "Primeiro quebra-cabeça", "ach_ten": "10 quebra-cabeças", "ach_hundred": "100 quebra-cabeças", "ach_speed": "Veloz: 36+ peças em menos de 3 min", "ach_hard": "Modo difícil concluído", "ach_streak": "Sequência de 7 dias", "ach_race": "Vencedor da corrida", "ach_big": "Quebra-cabeça grande: 100+ peças", "achUnlocked": "Conquista desbloqueada:", "theme": "Tema", "music": "Música", "myPics": "Minhas fotos", "race": "Modo corrida (cada um joga sua cópia)", "raceRank": "Posição", "of": "de", "rejoin": "Voltar à sala", "react": "Reações", "reconnecting": "Conexão perdida. Reconectando…", "connected": "Conectado novamente.", "uploading": "Preparando a foto…"}};
 
 let lang="en";
 const t=k=>(T[lang]&&T[lang][k])||T.en[k]||k;
@@ -543,6 +569,7 @@ function toggleFav(k){const f=favGet(),i=f.indexOf(k);if(i>=0)f.splice(i,1);else
 function renderTabs(){
  const bar=$("galTabs");if(!bar)return;bar.innerHTML="";
  CATS.forEach(c=>{const b=document.createElement("button");b.type="button";b.className="tab"+(galCat===c[0]?" on":"");b.textContent=t(c[1]);b.onclick=()=>{galCat=c[0];renderGallery()};bar.append(b)});
+ [...new Set(items.filter(i=>i.pack).map(i=>i.pack))].forEach(n=>{const b=document.createElement("button");b.type="button";b.className="tab"+(galCat==="pack:"+n?" on":"");b.textContent="📦 "+n;b.onclick=()=>{galCat="pack:"+n;renderGallery()};bar.append(b)});
 }
 function starBtn(k){
  const x=document.createElement("i");x.className="star";x.textContent=isFav(k)?"★":"☆";
@@ -560,7 +587,7 @@ function renderGallery(){
   b.append(img,l,x,starBtn(it.id));b.onclick=()=>{custom=it;selectCard(b);openSettings()};g.append(b);
  });
  items.forEach((it,i)=>{
-  const show=galCat==="all"||(galCat==="fav"?isFav(it.name):galCat==="photos"?it.repo:galCat===it.cat);
+  const show=galCat==="all"||(galCat==="fav"?isFav(it.name):galCat==="photos"?(it.repo&&!it.pack):galCat.startsWith("pack:")?it.pack===galCat.slice(5):galCat===it.cat);
   if(!show)return;
   const b=document.createElement("button");b.type="button";b.className="photo"+(!custom&&i===sel?" selected":"");
   const l=document.createElement("span");l.textContent=it.name;b.append(mkImg(it),l,starBtn(it.name));
@@ -577,16 +604,17 @@ async function loadRepoPhotos(){
  }
  if(!files.length){
   try{const m=location.hostname.match(/^(.+)\.github\.io$/),repo=location.pathname.split("/")[1];
-   if(m&&repo){const r=await fetch("https://api.github.com/repos/"+m[1]+"/contents/photos");if(r.ok){const a=await r.json();files=a.filter(x=>x.type==="file").map(x=>x.name)}}}catch(e){}
+   if(m&&repo){const r=await fetch("https://api.github.com/repos/"+m[1]+"/contents/photos");if(r.ok){const a=await r.json();files=a.filter(x=>x.type==="file").map(x=>x.name);
+    for(const dd of a.filter(x=>x.type==="dir").slice(0,8)){try{const r2=await fetch("https://api.github.com/repos/"+m[1]+"/contents/photos/"+encodeURIComponent(dd.name));if(r2.ok){(await r2.json()).filter(x=>x.type==="file").forEach(x=>files.push(dd.name+"/"+x.name))}}catch(e){}}}}}catch(e){}
  }
  files=files.filter(f=>/\.(jpe?g|png|webp|avif)$/i.test(f));
  if(!files.length)return;
  try{localStorage.setItem("jw_repo",JSON.stringify({t:Date.now(),f:files}))}catch(e){}
  const add=files.map((f,i)=>{
-  let base=f.replace(/\.[^.]+$/,""),cat="photos";const m=base.match(/^(animals|nature|cities)[_-](.+)$/i);
+  const segs=f.split("/"),pack=segs.length>1?segs[0]:"";let base=segs[segs.length-1].replace(/\.[^.]+$/,""),cat="photos";const m=base.match(/^(animals|nature|cities)[_-](.+)$/i);
   if(m){cat=m[1].toLowerCase();base=m[2]}
   const name=base.replace(/[_-]+/g," ").replace(/^./,x=>x.toUpperCase());
-  return{name,id:"",kw:"",n:900+i,seed:300+i,url:"photos/"+encodeURIComponent(f),cat,repo:true};
+  return{name,id:"",kw:"",n:900+i,seed:300+i,url:"photos/"+segs.map(encodeURIComponent).join("/"),cat,repo:true,pack};
  });
  items.unshift(...add);sel+=add.length;renderGallery();
 }
@@ -753,7 +781,7 @@ async function buildPuzzle(saved,photo){
  const n=saved?+saved.n:+$("pieceRange").value;
  const id=saved?saved.id:makeId();
  const ph=saved?saved.photo:(photo||pic());
- game={id,n,limit:saved?(saved.limit||0):(+$("limitSel").value||0),rect:saved?!!saved.rect:$("rectChk").checked,total:n*n,pieces:[],placed:new Set(saved?.placed||[]),photo:ph,mystery:saved?!!saved.mystery:$("mystery").checked,hard:saved?!!saved.hard:hard,
+ game={id,n,startedAt:Date.now(),limit:saved?(saved.limit||0):(+$("limitSel").value||0),rect:saved?!!saved.rect:$("rectChk").checked,total:n*n,pieces:[],placed:new Set(saved?.placed||[]),photo:ph,mystery:saved?!!saved.mystery:$("mystery").checked,hard:saved?!!saved.hard:hard,
   elapsed:saved?.elapsed||0,t0:0,done:false,stored:!!saved?.photo?.key,room:saved?.room||(pendingRoom?roomCode:"")};
  game.race=saved?!!saved.race:!!(pendingRoom&&$("raceChk").checked);
  game.ss=saved?(saved.ss||0):(pendingDaily?pendingDaily.seed:(Math.random()*1e9|0));game.daily=saved?(saved.daily||""):(pendingDaily?pendingDaily.date:"");pendingDaily=null;shapeSeed=game.ss;
@@ -829,7 +857,7 @@ const L=p=>parseFloat(p.el.style.left)||0,Tp=p=>parseFloat(p.el.style.top)||0;
 
 function applyRot(p){p.el.style.transform=p.rot?`rotate(${p.rot*90}deg)`:""}
 function startPieceDrag(e){
- if(!game||(e.pointerType==="mouse"&&e.button>0))return;
+ if(!game||(game.room&&roomSpectator)||(e.pointerType==="mouse"&&e.button>0))return;
  const p=game.pieces.find(q=>q.el===e.currentTarget);if(!p||p.placed||drag)return;
  e.preventDefault();e.stopPropagation();
  const pt=arenaPoint(e.clientX,e.clientY);
@@ -888,7 +916,7 @@ function endPieceDrag(){
  members(p.group).forEach(q=>q.el.classList.remove("dragging"));
  p.el.onpointermove=p.el.onpointerup=p.el.onpointercancel=null;
  const m=snapNeighbors(p),b=snapBoard(p);
- drag=null;if(b)beep(660,.12);else if(m)beep(440,.07);
+ drag=null;if(b){beep(660,.12);buzz(25)}else if(m){beep(440,.07);buzz(12)}
 roomPushPieces(game.pieces.filter(q=>q.group===p.group));
  updateProgress();saveProgress();
 }
@@ -902,8 +930,8 @@ function updateProgress(){
   {const k=bestKey(game.photo.name,game.n+(game.rect?"r":""),game.hard),b=getBest(k);
    if(!b||s<b){try{localStorage.setItem(k,String(Math.round(s)))}catch(e){}msg+="\n"+t("newRecord")}else msg+="\n"+t("best")+": "+fmt(b)}
   if(game.daily){const d=(loadStats().daily||{})[game.daily];if(d)msg+="\n"+t("dailyDone")+": "+fmt(d)}
-  $("winText").style.whiteSpace="pre-line";$("winText").textContent=msg;$("win").classList.add("show");recordWin(s);if(game.race)raceFinish(s);
-  [523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.18),i*140));
+  $("winText").style.whiteSpace="pre-line";$("winText").textContent=msg;$("win").classList.add("show");$("againBtn").classList.toggle("hidden",!game.room);recordWin(s);if(game.daily)dailySubmit(s);if(game.race)raceFinish(s);
+  winFanfare();
   removeSaved(game.id);
  }
  if(game.race&&!game.done)roomPushProgress();
@@ -927,9 +955,65 @@ function recordWin(sec){
  if(game.total>=36&&sec<180)st.f.speed=1;if(game.total>=100)st.f.big=1;
  if(game.total===36&&!game.hard&&(!st.fast36||sec<st.fast36))st.fast36=Math.round(sec);
  if(game.daily){const b=st.daily[game.daily];if(!b||sec<b)st.daily[game.daily]=Math.round(sec)}
- st.streak=streakOf(st.daily);checkAch(st);
+ st.streak=streakOf(st.daily);checkAch(st);cloudPushSoon();
 }
+async function dailySubmit(sec){
+ try{
+  const f=await fbInit(true);if(!f)return;const D=f.D,d=game&&game.daily;if(!d)return;
+  const r=D.ref(f.db,"daily/"+d+"/"+uid),old=await D.get(r),best=Math.round(sec);
+  if(!old.exists()||old.val().t>best)await D.set(r,{n:pname().slice(0,20),a:myAvatar(),t:best});
+  const sn=await D.get(D.ref(f.db,"daily/"+d)),all=Object.values(sn.val()||{}),mine=Math.min(best,old.exists()?old.val().t:best);
+  const rank=all.filter(x=>x.t<mine).length+1;
+  if($("win").classList.contains("show"))$("winText").textContent+="\n"+t("lbRank")+" "+rank+" "+t("of")+" "+all.length;
+ }catch(e){}
+}
+async function renderLeaderboard(){
+ const box=$("lbList");box.innerHTML="";
+ try{
+  const f=await fbInit(true);if(!f){box.textContent=t("lbEmpty");return}
+  const sn=await f.D.get(f.D.ref(f.db,"daily/"+dayInfo().date)),a=Object.values(sn.val()||{}).sort((x,y)=>x.t-y.t).slice(0,10);
+  if(!a.length){box.innerHTML="<span class='muted'></span>";box.firstChild.textContent=t("lbEmpty");return}
+  a.forEach((x,i)=>{const d=document.createElement("div");d.innerHTML="<span></span><b></b>";d.firstChild.textContent=(i+1)+". "+(x.a||"")+" "+x.n;d.lastChild.textContent=fmt(x.t);box.append(d)});
+ }catch(e){box.textContent=t("lbEmpty")}
+}
+let fbUser=null;
+async function fbAuthInit(quiet){
+ const f=await fbInit(quiet);if(!f)return null;if(f.A)return f;
+ f.A=await import(`https://www.gstatic.com/firebasejs/${FB_V}/firebase-auth.js`);f.auth=f.A.getAuth(f.app);
+ f.A.onAuthStateChanged(f.auth,u=>{fbUser=u;renderAccount();if(u){try{localStorage.setItem("jw_signed","1")}catch(e){}cloudPull()}});return f;
+}
+async function signIn(){
+ try{const f=await fbAuthInit();if(!f)return;const pr=new f.A.GoogleAuthProvider();
+  try{await f.A.signInWithPopup(f.auth,pr)}catch(e){if(e&&(e.code==="auth/popup-blocked"||e.code==="auth/operation-not-supported-in-this-environment"))await f.A.signInWithRedirect(f.auth,pr);else throw e}
+ }catch(e){toast(t("signFail")+" "+((e&&e.code)||""))}
+}
+async function signOutUser(){try{const f=await fbAuthInit(true);await f.A.signOut(f.auth);try{localStorage.removeItem("jw_signed")}catch(e){}}catch(e){}}
+function renderAccount(){
+ const on=!!fbUser;$("signInBtn").classList.toggle("hidden",on);$("signOutBtn").classList.toggle("hidden",!on);
+ $("accountText").textContent=on?t("signedAs")+" "+(fbUser.displayName||fbUser.email||""):t("signHint");
+}
+function mergeStats(a,b){
+ const o={...a};["done","pieces","hardDone"].forEach(k=>{o[k]=Math.max(a[k]||0,b[k]||0)});
+ o.fast36=[a.fast36,b.fast36].filter(Boolean).sort((x,y)=>x-y)[0]||0;o.ach={...(a.ach||{}),...(b.ach||{})};o.f={...(a.f||{}),...(b.f||{})};
+ o.daily={...(a.daily||{})};Object.entries(b.daily||{}).forEach(([k,v])=>{if(!o.daily[k]||v<o.daily[k])o.daily[k]=v});o.streak=streakOf(o.daily);return o;
+}
+const localBests=()=>{const o={};try{for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith("jw_best_"))o[k]=+localStorage.getItem(k)}}catch(e){}return o};
+async function cloudPull(){
+ try{const f=fb;if(!f||!fbUser)return;const sn=await f.D.get(f.D.ref(f.db,"users/"+fbUser.uid)),c=sn.val()||{};
+  saveStats(mergeStats(loadStats(),c.stats||{}));
+  const fav=[...new Set([...favGet(),...(c.fav||[])])];try{localStorage.setItem("jw_fav",JSON.stringify(fav))}catch(e){}
+  Object.entries(c.best||{}).forEach(([k,v])=>{const l=getBest(k);if(!l||v<l)try{localStorage.setItem(k,String(v))}catch(e){}});
+  if(c.avatar)try{localStorage.setItem("jw_avatar",c.avatar);$("avatarSel").value=c.avatar}catch(e){}
+  if(c.name&&!$("playerName").value){$("playerName").value=c.name;try{localStorage.setItem("jw_name",c.name)}catch(e){}}
+  await cloudPush();if($("stats").classList.contains("active"))renderStats();
+ }catch(e){}
+}
+async function cloudPush(){
+ try{const f=fb;if(!f||!fbUser)return;await f.D.set(f.D.ref(f.db,"users/"+fbUser.uid),{stats:loadStats(),fav:favGet(),best:localBests(),avatar:myAvatar(),name:pname(),t:Date.now()})}catch(e){}
+}
+let cpT;const cloudPushSoon=()=>{clearTimeout(cpT);cpT=setTimeout(cloudPush,2000)};
 function renderStats(){
+ renderAccount();renderLeaderboard();
  const st=loadStats(),g=$("statsGrid");g.innerHTML="";
  [["statsDone",st.done||0],["statsPieces",st.pieces||0],["statsHard",st.hardDone||0],["statsStreak",streakOf(st.daily||{})],["statsBest",st.fast36?fmt(st.fast36):"—"]].forEach(r=>{const d=document.createElement("div");d.className="stat";d.innerHTML="<b></b><span class='muted'></span>";d.querySelector("b").textContent=r[1];d.querySelector("span").textContent=t(r[0]);g.append(d)});
  const l=$("achList");l.innerHTML="";
@@ -976,6 +1060,24 @@ function setMusic(on){
 function toggleMusic(){setMusic(!musicOn);toast(t("music")+": "+(musicOn?"ON":"OFF"));try{localStorage.setItem("jw_music",musicOn?"1":"0")}catch(e){}}
 function unlockAudio(){try{if(audio&&audio.state==="suspended")audio.resume()}catch(e){}if(audio&&audio.state==="running"){["pointerdown","touchend","keydown","click"].forEach(ev=>removeEventListener(ev,unlockAudio))}}
 ["pointerdown","touchend","keydown","click"].forEach(ev=>addEventListener(ev,unlockAudio,{passive:true}));
+function timeUp(){
+ game.done=true;clearInterval(timerI);game.t0=0;
+ $("winText").style.whiteSpace="pre-line";$("winText").textContent=t("timeUp")+"\n"+game.placed.size+" / "+game.total;$("win").classList.add("show");beep(220,.4);
+ if(!game.room)removeSaved(game.id);
+}
+function togglePause(force){
+ if(!game||game.done)return;const on=force!==undefined?force:!game.paused;if(on===!!game.paused)return;
+ if(on){game.elapsed=elapsed();game.t0=0;game.paused=true}else{game.paused=false;game.t0=Date.now()}
+ $("pauseLayer").classList.toggle("show",on);$("pauseBtn").classList.toggle("on",on);
+}
+function gatherEdges(){
+ if(!game||(game.room&&roomSpectator))return;
+ const ps=game.pieces.filter(p=>p.isEdge&&!p.placed&&members(p.group).length===1);if(!ps.length)return;
+ const gap=game.cellW*.3,maxX=game.bx+game.bw+game.cellW;let x=game.bx-game.cellW,y=game.by-game.cellH*2.6;
+ ps.forEach(p=>{if(x+p.w>maxX){x=game.bx-game.cellW;y-=game.cellH+gap}
+  p.el.style.left=x+"px";p.el.style.top=Math.max(20,y)+"px";x+=p.w*.85});
+ roomPushPieces(ps);saveProgress();toast(t("edgesGathered"));
+}
 function hint(){
  if(!game)return;const c=game.pieces.filter(p=>!p.placed);if(!c.length)return;
  const p=c[Math.floor(Math.random()*c.length)],tp=targetPos(p),b=document.createElement("div");
@@ -1025,14 +1127,14 @@ function toggleEdges(){edgesOnly=!edgesOnly;applyEdges();toast(t(edgesOnly?"edge
 function toggleSound(){soundOn=!soundOn;$("soundBtn").textContent=soundOn?"🔊":"🔇";toast(t(soundOn?"soundOn":"soundOff"))}
 let vol=.8;try{const v=localStorage.getItem("jw_vol");if(v!==null&&v!=="")vol=+v}catch(e){}
 function setVol(v){vol=v/100;try{localStorage.setItem("jw_vol",String(vol))}catch(e){}if(master)master.gain.value=.55*vol}
+const buzz=ms=>{try{navigator.vibrate&&navigator.vibrate(ms)}catch(e){}};
 function beep(f,d){
  if(!soundOn)return;
- try{
-  audio=audio||new (window.AudioContext||window.webkitAudioContext)();
-  const o=audio.createOscillator(),g=audio.createGain();o.type="sine";o.frequency.value=f;
-  g.gain.setValueAtTime(.15*vol+.0001,audio.currentTime);g.gain.exponentialRampToValueAtTime(.001,audio.currentTime+d+.08);
-  o.connect(g);g.connect(audio.destination);o.start();o.stop(audio.currentTime+d+.1);
- }catch(e){}
+ try{mAudio();if(audio.state==="suspended")audio.resume();const t0=audio.currentTime;mTone("triangle",f,t0,d+.12,.32,3200);mTone("sine",f*2,t0,d*.7,.1);mNoise(t0,.03,.12,"highpass",3000)}catch(e){}
+}
+function winFanfare(){
+ const ch=[523,659,784,1047];ch.forEach((f,i)=>setTimeout(()=>beep(f,.2),i*120));
+ setTimeout(()=>ch.forEach(f=>beep(f,.8)),560);buzz([30,60,30,60,160]);
 }
 function zoomBy(f){
  const x=$("arenaWrap").clientWidth/2,y=$("arenaWrap").clientHeight/2,wx=(x-pan.x)/zoom,wy=(y-pan.y)/zoom;
@@ -1089,14 +1191,17 @@ const FIREBASE_CONFIG={
  appId:"1:533796266106:web:6918db8784ddd8098fdbc3"
 };
 const FB_V="10.12.2";
-let roomCode="",bc=null,fb=null,pendingRoom=false,roomUnsubs=[],pid=(()=>{try{let v=sessionStorage.getItem("jw_pid");if(!v){v=Math.random().toString(36).slice(2,9);sessionStorage.setItem("jw_pid",v)}return v}catch(e){return Math.random().toString(36).slice(2,9)}})(),roomJoining=false,roomOwner=false;
+const APPCHECK_SITE_KEY=""; /* optional: reCAPTCHA v3 site key for Firebase App Check */
+let roomCode="",bc=null,fb=null,pendingRoom=false,roomUnsubs=[],pid=(()=>{try{let v=sessionStorage.getItem("jw_pid");if(!v){v=Math.random().toString(36).slice(2,9);sessionStorage.setItem("jw_pid",v)}return v}catch(e){return Math.random().toString(36).slice(2,9)}})(),roomJoining=false,roomOwner=false,roomSpectator=false;
 const safe=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-async function fbInit(){
+async function fbInit(quiet){
  if(fb)return fb;if(!FIREBASE_CONFIG.databaseURL)return null;
  try{
   const A=await import(`https://www.gstatic.com/firebasejs/${FB_V}/firebase-app.js`),D=await import(`https://www.gstatic.com/firebasejs/${FB_V}/firebase-database.js`);
-  fb={D,db:D.getDatabase(A.initializeApp(FIREBASE_CONFIG))};return fb;
- }catch(e){toast(t("fbFail"));return null}
+  const app=A.initializeApp(FIREBASE_CONFIG);
+  if(APPCHECK_SITE_KEY){try{const AC=await import(`https://www.gstatic.com/firebasejs/${FB_V}/firebase-app-check.js`);AC.initializeAppCheck(app,{provider:new AC.ReCaptchaV3Provider(APPCHECK_SITE_KEY),isTokenAutoRefreshEnabled:true})}catch(e){}}
+  fb={D,db:D.getDatabase(app),app};return fb;
+ }catch(e){if(!quiet)toast(t("fbFail"));return null}
 }
 const rref=path=>fb.D.ref(fb.db,"rooms/"+roomCode+(path?"/"+path:""));
 const pname=()=>$("playerName").value.trim()||"Player";
@@ -1130,37 +1235,46 @@ async function enterRoom(code,create){
   }catch(e){}
  }
  try{const old=await D.get(rref("puzzle"));if(old.exists()&&Date.now()-(old.val().t||0)>864e5)await D.remove(rref(""))}catch(e){}
- await D.set(rref("players/"+pid),{n:pname(),t:Date.now()});D.onDisconnect(rref("players/"+pid)).remove();
+ await D.set(rref("players/"+pid),{n:pname(),a:myAvatar(),s:roomSpectator?1:0,t:Date.now()});D.onDisconnect(rref("players/"+pid)).remove();
  try{localStorage.setItem("jw_room",code)}catch(e){}
  {let was=false,off=false;roomUnsubs.push(D.onValue(D.ref(fb.db,".info/connected"),sn=>{
-  if(sn.val()===true){if(off){off=false;toast(t("connected"));D.set(rref("players/"+pid),{n:pname(),t:Date.now()});D.onDisconnect(rref("players/"+pid)).remove()}was=true}
+  if(sn.val()===true){if(off){off=false;toast(t("connected"));D.set(rref("players/"+pid),{n:pname(),a:myAvatar(),s:roomSpectator?1:0,t:Date.now()});D.onDisconnect(rref("players/"+pid)).remove()}was=true}
   else if(was){off=true;toast(t("reconnecting"))}}))}
  roomUnsubs.push(D.onValue(rref("players"),sn=>{
   const v=sn.val()||{},names=Object.values(v).map(x=>x.n);setPlayers(names.length);
-  $("roomPlayers").innerHTML=t("players")+" ("+names.length+"): "+Object.entries(v).map(([k,x])=>safe(x.n)+(roomOwner&&k!==pid?' <a href="#" onclick="kick(\''+k+'\');return false" style="color:var(--pink)">✕</a>':"")).join(", ");
+  $("roomPlayers").innerHTML=t("players")+" ("+names.length+"): "+Object.entries(v).map(([k,x])=>(x.a?x.a+" ":"")+safe(x.n)+(x.s?" 👁":"")+(roomOwner&&k!==pid?' <a href="#" onclick="kick(\''+k+'\');return false" style="color:var(--pink)">✕</a>':"")).join(", ");
   if(prevPlayers){Object.keys(v).forEach(k=>{if(!prevPlayers[k]&&k!==pid)toast(v[k].n+" "+t("playerJoined"))});Object.keys(prevPlayers).forEach(k=>{if(!v[k]&&k!==pid)toast(prevPlayers[k].n+" "+t("playerLeft"))})}
   prevPlayers=v;
  }));
  roomUnsubs.push(D.onValue(rref("kick/"+pid),sn=>{if(sn.val()){D.remove(rref("kick/"+pid));toast(t("kicked"));if(game)exitGame();roomLeaveUI()}}));
- roomUnsubs.push(D.onChildAdded(D.query(rref("chat"),D.limitToLast(60)),sn=>{const v=sn.val();addChat(v.n,v.m)}));
- roomUnsubs.push(D.onValue(rref("puzzle"),sn=>{if(sn.exists()&&!game&&!roomJoining)roomJoinPuzzle(sn.val())}));
+ roomUnsubs.push(D.onChildAdded(D.query(rref("chat"),D.limitToLast(60)),sn=>{const v=sn.val();addChat(v.n,v.m,v.a)}));
+ roomUnsubs.push(D.onValue(rref("puzzle"),sn=>{
+  if(!sn.exists())return;const v=sn.val();
+  if(!game&&!roomJoining)roomJoinPuzzle(v);
+  else if(game&&game.done&&game.room&&v.by_!==pid&&(v.t||0)>(game.startedAt||0)){toast(t("newPuzzleStarted"));setTimeout(()=>{if(game&&game.done){exitGame();roomJoining=false;roomJoinPuzzle(v)}},1800)}
+ }));
  return true;
 }
 async function createRoom(){
  const c=Math.random().toString(36).slice(2,8).toUpperCase();
- const live=await enterRoom(c,true);
+ roomSpectator=false;const live=await enterRoom(c,true);
  $("roomCodeText").textContent=t("room")+": "+c;$("roomStatus").textContent=t(live?"roomMade":"demoNote");
  setRoomUI(live);addChat("JIGSAW WORLD",t("roomMade"));
 }
 async function joinRoom(){
  const c=$("joinCode").value.trim().toUpperCase();
  if(c.length<4){$("roomStatus").textContent=t("badCode");return}
+ roomSpectator=$("spectChk").checked;
  const live=await enterRoom(c);
  if(live==="denied"){$("roomStatus").textContent=t("wrongPw");return}
  $("roomCodeText").textContent=t("room")+": "+c;setRoomUI(live);
  $("roomStatus").textContent=t(live?"waitHost":"demoNote");addChat("JIGSAW WORLD",t("roomJoined"));
 }
 function shrink(url,max=1000,q=.72){return new Promise(res=>{const im=new Image();im.onload=()=>{const k=Math.min(1,max/im.width,max/im.height),w=Math.round(im.width*k),h=Math.round(im.height*k),c=document.createElement("canvas");c.width=w;c.height=h;c.getContext("2d").drawImage(im,0,0,w,h);let o=c.toDataURL("image/jpeg",q);if(o.length>1200000)o=c.toDataURL("image/jpeg",.5);res(o)};im.onerror=()=>res(url);im.src=url})}
+const AVATARS=["🦊","🐱","🐼","🦁","🐸","🐵","🦄","🐙","🐯","🐨","🐧","🦉"];
+function myAvatar(){try{return localStorage.getItem("jw_avatar")||AVATARS[0]}catch(e){return AVATARS[0]}}
+function saveAvatar(){try{localStorage.setItem("jw_avatar",$("avatarSel").value)}catch(e){}}
+const uid=(()=>{try{let v=localStorage.getItem("jw_uid");if(!v){v=Math.random().toString(36).slice(2,10);localStorage.setItem("jw_uid",v)}return v}catch(e){return pid}})();
 const curColor=k=>{let h=0;for(const ch of k)h=(h*31+ch.charCodeAt(0))%360;return"hsl("+h+",80%,65%)"};
 function renderCursors(v){
  document.querySelectorAll("#arena .cur").forEach(x=>x.remove());const now=Date.now();
@@ -1170,11 +1284,11 @@ function renderCursors(v){
 }
 let curT=0;
 $("arenaWrap").addEventListener("pointermove",e=>{
- if(!fb||!game||!game.room||game.race)return;const n=Date.now();if(n-curT<250)return;curT=n;
- const pt=arenaPoint(e.clientX,e.clientY);fb.D.set(rref("cur/"+pid),{x:Math.round(pt.x),y:Math.round(pt.y),n:pname().slice(0,12),t:n}).catch(()=>{});
+ if(!fb||!game||!game.room||game.race||roomSpectator)return;const n=Date.now();if(n-curT<250)return;curT=n;
+ const pt=arenaPoint(e.clientX,e.clientY);fb.D.set(rref("cur/"+pid),{x:Math.round(pt.x),y:Math.round(pt.y),n:(myAvatar()+pname()).slice(0,14),t:n}).catch(()=>{});
 });
 function roomPushProgress(fin){
- if(!fb||!game||!game.race)return;
+ if(!fb||!game||!game.race||roomSpectator)return;
  fb.D.set(rref("race/"+pid),{n:pname().slice(0,20),p:game.placed.size,t:game.total,f:fin?Math.round(fin):0}).catch(()=>{});
 }
 function renderRace(v){
@@ -1210,8 +1324,9 @@ async function roomOpenPuzzle(){
  const sn=await fb.D.get(rref("puzzle"));
  if(sn.exists()){roomJoining=false;roomJoinPuzzle(sn.val())}else toast(t("noPuzzleYet"));
 }
+function playAgain(){exitGame();roomStartPuzzle()}
 function roomLeaveUI(){
- roomLeave();roomCode="";pendingRoom=false;
+ roomLeave();roomCode="";roomSpectator=false;pendingRoom=false;
  ["roomCodeText","roomPlayers","roomStatus"].forEach(id=>$(id).textContent="");$("chatMessages").innerHTML="";
  ["roomStart","roomOpen","roomShare","roomLeaveBtn"].forEach(id=>$(id).classList.add("hidden"));
  try{localStorage.removeItem("jw_room")}catch(e){}
@@ -1240,8 +1355,8 @@ async function roomAttach(publish){
  }));
 }
 function roomPushPieces(list){
- if(!fb||!game||!game.room||game.race||!list.length)return;
- const u={};list.forEach(q=>{u[q.idx]={x:Math.round(L(q)),y:Math.round(Tp(q)),g:q.group,p:q.placed?1:0,r:q.rot||0,u:pid,b:pname().slice(0,20)}});
+ if(!fb||!game||!game.room||game.race||roomSpectator||!list.length)return;
+ const u={};list.forEach(q=>{u[q.idx]={x:Math.round(L(q)),y:Math.round(Tp(q)),g:q.group,p:q.placed?1:0,r:q.rot||0,u:pid,b:(myAvatar()+" "+pname()).slice(0,22)}});
  fb.D.update(rref("pieces"),u).catch(()=>{});
 }
 async function roomJoinPuzzle(m){
@@ -1255,13 +1370,13 @@ async function roomJoinPuzzle(m){
  startGame({id:"room-"+roomCode,room:roomCode,n:m.n,limit:m.limit||0,rows:m.rows||m.n,cols:m.cols||m.n,rect:!!m.rect,mystery:!!m.mystery,hard:!!m.hard,bw:m.bw,bh:m.bh,cellW:m.cellW,cellH:m.cellH,tab:m.tab,bx:m.bx,by:m.by,worldW:m.worldW,worldH:m.worldH,
   ss:m.ss||0,race:!!m.race,photo:{name:m.photo.name,url,fallback:m.photo.custom?undefined:m.photo.seed},pieces,placed:pieces.filter(q=>q.placed).map(q=>q.idx),elapsed:0});
 }
-function addChat(n,m){
- const d=document.createElement("div");d.className="msg";d.innerHTML="<b>"+safe(n)+":</b> "+safe(m);
+function addChat(n,m,a){
+ const d=document.createElement("div");d.className="msg";d.innerHTML=(a?safe(a)+" ":"")+"<b>"+safe(n)+":</b> "+safe(m);
  $("chatMessages").append(d);$("chatMessages").scrollTop=1e9;
 }
 function sendChat(){
  const i=$("chatInput"),m=i.value.trim();if(!m)return;const n=pname();
- if(fb&&roomCode)fb.D.push(rref("chat"),{n,m,t:Date.now()});
+ if(fb&&roomCode)fb.D.push(rref("chat"),{n,m,a:myAvatar(),t:Date.now()});
  else{addChat(n,m);if(bc)bc.postMessage({n,m})}
  i.value="";
 }
@@ -1284,11 +1399,20 @@ if("serviceWorker" in navigator&&/^https?:/.test(location.protocol))navigator.se
 $("reactBar").innerHTML=EMOJIS.map(e=>`<span onclick="sendReact('${e}')" style="cursor:pointer">${e}</span>`).join("");
 idbAllMy().then(a=>{myPics=a.sort((x,y)=>(y.ts||0)-(x.ts||0));renderGallery()});
 try{const v=localStorage.getItem("jw_vol");if(v!==null&&v!=="")$("volRange").value=Math.round(+v*100)}catch(e){}
+const SEASON=(function(){
+ try{const f=new Intl.DateTimeFormat("en-u-ca-islamic-umalqura",{month:"numeric",day:"numeric"}).formatToParts(new Date()),m=+f.find(x=>x.type==="month").value,d=+f.find(x=>x.type==="day").value;
+  if(m===9)return"ramadan";if((m===10&&d<=4)||(m===12&&d>=8&&d<=13))return"eid"}catch(e){}
+ const mo=new Date().getMonth();return mo===11||mo===0?"winter":"";
+})();
+function seasonGreet(){return SEASON==="ramadan"?(lang==="ar"?"رمضان كريم 🌙":"RAMADAN KAREEM 🌙"):SEASON==="eid"?(lang==="ar"?"عيد مبارك 🎉":"EID MUBARAK 🎉"):SEASON==="winter"?"HAPPY HOLIDAYS ❄️":""}
+function applySeasonText(){const g=seasonGreet();if(g){const sp=document.querySelector(".badge span");sp.removeAttribute("data-i");sp.textContent=g}}
+if(SEASON)document.documentElement.dataset.season=SEASON;
+const HUES=SEASON==="ramadan"?[45,160,38,190]:SEASON==="eid"?[45,330,160,280]:SEASON==="winter"?[200,210,190,230]:[335,350,20,265,215];
 (function hero(){
  const cv=$("heroCanvas"),ctx=cv.getContext("2d"),box=$("hero");let W=0,H=0,P=[],mx=0,my=0,sx=0,sy=0,t0=0;
  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
  function size(){const r=box.getBoundingClientRect(),d=Math.min(2,window.devicePixelRatio||1);W=r.width;H=r.height;cv.width=Math.round(W*d);cv.height=Math.round(H*d);ctx.setTransform(d,0,0,d,0,0);
-  P=[];const n=W<600?16:28;for(let i=0;i<n;i++){const z=Math.random();P.push({x:Math.random()*W,y:Math.random()*H,s:26+z*74,z,r:Math.random()*6.28,vr:(Math.random()-.5)*.006,vx:(Math.random()-.5)*.12,vy:-.08-Math.random()*.22,h:[335,350,20,265,215][i%5],a:.1+z*.2,k:i})}}
+  P=[];const n=W<600?16:28;for(let i=0;i<n;i++){const z=Math.random();P.push({x:Math.random()*W,y:Math.random()*H,s:26+z*74,z,r:Math.random()*6.28,vr:(Math.random()-.5)*.006,vx:(Math.random()-.5)*.12,vy:-.08-Math.random()*.22,h:HUES[i%HUES.length],a:.1+z*.2,k:i})}}
  function edge(x1,y1,x2,y2,sg,b){
   const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),nx=dy/L*sg,ny=-dx/L*sg,X=(t,o)=>x1+dx*t+nx*o,Y=(t,o)=>y1+dy*t+ny*o;
   ctx.lineTo(X(.42,0),Y(.42,0));
@@ -1311,13 +1435,19 @@ try{const v=localStorage.getItem("jw_vol");if(v!==null&&v!=="")$("volRange").val
  new ResizeObserver(size).observe(box);size();
  box.addEventListener("pointermove",e=>{const r=box.getBoundingClientRect();mx=(e.clientX-r.left)/r.width-.5;my=(e.clientY-r.top)/r.height-.5});
  requestAnimationFrame(draw);
+ {const em=SEASON==="ramadan"?["🌙","⭐","🏮","✨"]:SEASON==="eid"?["🎉","🎈","✨","🎁"]:SEASON==="winter"?["❄️","❄️","⛄","✨"]:[];
+  em.concat(em).forEach((e,i)=>{const d=document.createElement("span");d.className="deco";d.textContent=e;d.style.cssText=`left:${6+Math.random()*88}%;top:${6+Math.random()*70}%;font-size:${18+Math.random()*20}px;animation-delay:${-Math.random()*6}s`;box.append(d)})}
  /* picture marquee (HD generated art) */
  const tr=$("heroTrack"),seeds=[0,1,2,3,4,5,6,7,9,10,12,15];let i=0;
  (function next(){if(i>=seeds.length){[...tr.children].forEach(c=>tr.append(c.cloneNode(true)));return}const im=new Image();im.alt="";im.src=art(seeds[i++]);tr.append(im);setTimeout(next,40)})();
 })();
 renderGallery();$("preview").src=pic().url;setLanguage("en");setMode(false);
-{const _sl=setLanguage;setLanguage=function(l){_sl(l);renderTabs()}}
+{const _sl=setLanguage;setLanguage=function(l){_sl(l);renderTabs();applySeasonText()}}
 loadRepoPhotos();
+$("avatarSel").innerHTML=AVATARS.map(a=>"<option>"+a+"</option>").join("");$("avatarSel").value=myAvatar();
+try{if(localStorage.getItem("jw_signed")==="1")setTimeout(()=>fbAuthInit(true),1500)}catch(e){}
+applySeasonText();renderAccount();
+setTimeout(()=>{const sp=$("splash");if(sp){sp.classList.add("out");setTimeout(()=>sp.remove(),600)}},1000);
 {const inv=(new URLSearchParams(location.search).get("room")||"").trim().toUpperCase();if(inv.length>=4){$("joinCode").value=inv;page("rooms");setTimeout(()=>joinRoom(),400)}}
 </script>
 </body>
