@@ -1,6 +1,6 @@
 {
-  "name": "Jigsaw World",
-  "short_name": "Jigsaw",
+  "name": "Puzzle Pieces",
+  "short_name": "Puzzle Pieces",
   "description": "Free online jigsaw puzzles: play with friends, earn coins, unlock pictures.",
   "start_url": "./",
   "scope": "./",
